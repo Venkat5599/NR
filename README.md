@@ -1,6 +1,6 @@
 <div align="center">
 
-# STRONGROOM
+# LUNAR
 
 ### Under any threat, the most anyone can take from you today is your daily limit, and anyone can check that.
 
@@ -15,7 +15,7 @@
 
 > **Status: design stage. No code, contract or deployment exists yet.** Every row below says what is missing. Nothing in this file is a shipped claim.
 
-People are being beaten, kidnapped and held at gunpoint until they send their crypto. It works for one reason: crypto moves instantly and can never be pulled back. Strongroom takes that reason away. Your coins sit in a NEAR contract that has no key at all, and that contract controls your real Bitcoin, Ethereum, Base and NEAR addresses through Chain Signatures. Your phone can spend a small daily amount across every chain combined. Anything bigger waits 72 hours, can only go to an address you saved a week earlier, and any one of your guardians can stop it. A robber can check all of this on his own phone, so hurting you buys him nothing.
+People are being beaten, kidnapped and held at gunpoint until they send their crypto. It works for one reason: crypto moves instantly and can never be pulled back. Lunar takes that reason away. Your coins sit in a NEAR contract that has no key at all, and that contract controls your real Bitcoin, Ethereum, Base and NEAR addresses through Chain Signatures. Your phone can spend a small daily amount across every chain combined. Anything bigger waits 72 hours, can only go to an address you saved a week earlier, and any one of your guardians can stop it. A robber can check all of this on his own phone, so hurting you buys him nothing.
 
 ```
 MAX EXTRACTABLE VALUE UNDER COERCION  =  TODAY'S DAILY LIMIT
@@ -37,13 +37,13 @@ MAX EXTRACTABLE VALUE UNDER COERCION  =  TODAY'S DAILY LIMIT
 
 Violent attacks on crypto holders hit a record in 2025 and 2026 is running ahead of it. Almost every attack ends within 24 hours. The fix has been known since 2014: a time-delay vault, the same idea as the shop safe the cashier cannot open. Bitcoin still cannot do it. Its vault proposal was withdrawn, no covenant opcode is active, and the only working versions today rely on a company holding a key or running a server.
 
-**Strongroom does it now, on native Bitcoin, with no company in the middle.** The contract builds every Bitcoin transaction itself and checks the real recipient and amount before the NEAR MPC network signs. A phone key can ask for money and nothing else. One limit covers every chain, so there is no weak chain to pick on.
+**Lunar does it now, on native Bitcoin, with no company in the middle.** The contract builds every Bitcoin transaction itself and checks the real recipient and amount before the NEAR MPC network signs. A phone key can ask for money and nothing else. One limit covers every chain, so there is no weak chain to pick on.
 
 ## Table of contents
 
 - [Live status](#live-status)
 - [The 20-second pitch](#the-20-second-pitch)
-- [What Strongroom is NOT](#what-strongroom-is-not)
+- [What Lunar is NOT](#what-lunar-is-not)
 - [The problem I set out to solve](#the-problem-i-set-out-to-solve)
 - [What I am building](#what-i-am-building)
 - [Architecture](#architecture)
@@ -59,7 +59,7 @@ Violent attacks on crypto holders hit a record in 2025 and 2026 is running ahead
 - [Build plan](#build-plan)
 - [License](#license)
 
-## What Strongroom is NOT
+## What Lunar is NOT
 
 - **Not a decoy wallet.** It never asks you to lie about your balance under stress. The app tells the robber the truth, and the truth is "you can have $200".
 - **Not a new idea in Bitcoin.** Time-delay vaults with a recovery path have been discussed since 2014 and specified as a soft fork. What is new is running that design today, on native Bitcoin, enforced by a public contract and a decentralized signer instead of an opcode that has not activated or a company key.

@@ -1,4 +1,4 @@
-# Strongroom: the full technical pitch
+# Lunar: the full technical pitch
 
 > Status: design stage. Nothing here is built yet. See the [honesty table](../README.md#whats-real-vs-pending--the-honesty-table).
 
@@ -81,7 +81,7 @@ Remove NEAR and the guarantee becomes false.
 
 ## Who pays
 
-- **Individuals.** People already pay $250 to $7,500 a year for company-held-key Bitcoin custody. Strongroom sells the same peace of mind without the company key.
+- **Individuals.** People already pay $250 to $7,500 a year for company-held-key Bitcoin custody. Lunar sells the same peace of mind without the company key.
 - **Teams.** Industry coercion guidance covers founders, funds, DAOs and exchanges, not just individuals. The same vault protects people who sign for a treasury.
 
 ## Score against the judging criteria (fully built)
