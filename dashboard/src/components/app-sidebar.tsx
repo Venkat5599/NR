@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Gauge, ArrowUpRight, ShieldCheck, BookmarkCheck, Timer, Eye, Snowflake } from "lucide-react"
-import { Link } from "react-router-dom"
 import { Logo } from "@/components/logo"
 import { NavMain } from "@/components/nav-main"
 import {
@@ -40,7 +39,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link to="/overview" />}>
+            <SidebarMenuButton size="lg" render={<a href="/" title="Back to the Lunar site" />}>
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <Logo size={18} />
               </div>
