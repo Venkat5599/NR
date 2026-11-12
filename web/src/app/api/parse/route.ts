@@ -15,3 +15,14 @@ export async function POST(request: Request): Promise<Response> {
     return fail(error);
   }
 }
+
+/** A browser visit gets the contract of this route instead of an empty 405. */
+export function GET(): Response {
+  return ok({
+    route: "POST /api/parse",
+    body: { sentence: "pay lunar-69787.testnet two and a half near for lunch" },
+    returns: "{ isPayment, payee, amount, token, memo, model } or { isPayment: false, reason }",
+    note: "Reads one sentence with a model on NEAR AI Cloud. Only full NEAR names the user typed can become a payee. Try it on /demo.",
+    model: modelConfig(process.env).model,
+  });
+}
