@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="app.lunar.keyboard.setup.SetupActivity"
+    android:supportsSwitchingToNextInputMethod="true">
+    <subtype
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeLocale="en_US"
+        android:isAsciiCapable="true"
+        android:label="@string/subtype_en" />
+</input-method>

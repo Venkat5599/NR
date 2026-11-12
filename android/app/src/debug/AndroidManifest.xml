@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug builds only. Lets the end-to-end test put text on the clipboard, which adb can't do. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <receiver android:name=".debug.SetClipReceiver" android:exported="true" />
+    </application>
+</manifest>

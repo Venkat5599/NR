@@ -2,42 +2,58 @@
 
 # LUNAR
 
-### Under any threat, the most anyone can take from you today is your daily limit, and anyone can check that.
+### The AI keyboard that won't let you send money to the wrong place.
 
-[![Status](https://img.shields.io/badge/status-design%20stage-orange)](#live-status)
-[![Chain](https://img.shields.io/badge/NEAR-Chain%20Signatures-000000)](docs/PITCH.md#how-it-works)
-[![Bitcoin](https://img.shields.io/badge/Bitcoin-native%2C%20no%20soft%20fork-f7931a)](docs/PITCH.md#why-bitcoin-cannot-do-this-today)
+[![Status](https://img.shields.io/badge/status-keyboard%20built%20%C2%B7%20payments%20pending-orange)](#live-status)
+[![Download APK](https://img.shields.io/badge/Download-Android%20APK-3ddc84?logo=android&logoColor=white)](https://github.com/Venkat5599/NR/releases/latest/download/lunar.apk)
+[![Chain](https://img.shields.io/badge/NEAR-Chain%20Signatures%20%C2%B7%20Intents-000000)](#architecture)
+[![Platform](https://img.shields.io/badge/Android-keyboard-3ddc84)](#the-app)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
 
-**[ Full pitch ↗ ](docs/PITCH.md)** · **[ Evidence ↗ ](docs/EVIDENCE.md)** · **[ Honesty table ↓ ](#whats-real-vs-pending--the-honesty-table)** · **[ Build plan ↓ ](#build-plan)**
+**[ Honesty table ↓ ](#whats-real-vs-pending--the-honesty-table)** · **[ Attack → test ↓ ](#attack--test)** · **[ Build plan ↓ ](#build-plan)** · **[ Evidence ↗ ](docs/EVIDENCE.md)**
 
 </div>
 
-> **Status: design stage. No code, contract or deployment exists yet.** Every row below says what is missing. Nothing in this file is a shipped claim.
+> **Status: the Android keyboard and the landing page are built. No contract or deployment exists yet, so no payment can be sent.** Every row below says what is missing.
 
-People are being beaten, kidnapped and held at gunpoint until they send their crypto. It works for one reason: crypto moves instantly and can never be pulled back. Lunar takes that reason away. Your coins sit in a NEAR contract that has no key at all, and that contract controls your real Bitcoin, Ethereum, Base and NEAR addresses through Chain Signatures. Your phone can spend a small daily amount across every chain combined. Anything bigger waits 72 hours, can only go to an address you saved a week earlier, and any one of your guardians can stop it. A robber can check all of this on his own phone, so hurting you buys him nothing.
+Lunar is an AI keyboard for Android. You type `pay bob.near 20 for dinner` in any chat (WhatsApp, Telegram, X, SMS) and the keyboard turns it into a payment card. Bob gets USDC on the chain he chose. You never paste an address, never pick a network, and the keyboard itself can never drain you. If someone sends Bob money on the wrong network anyway, from any wallet or exchange, it comes back on its own. The AI reads only the sentence you hand it, and it runs inside a NEAR AI Cloud enclave, so the words you type never reach a server anyone can read.
 
 ```
-MAX EXTRACTABLE VALUE UNDER COERCION  =  TODAY'S DAILY LIMIT
+WRONG ADDRESS  +  WRONG NETWORK  +  STOLEN KEYBOARD  =  $0 LOST
 ```
+
+## Download
+
+**[⬇ Download the Android APK](https://github.com/Venkat5599/NR/releases/latest/download/lunar.apk)** (Android 8.0 or newer) · [all releases](https://github.com/Venkat5599/NR/releases)
+
+1. Open the APK on your phone and allow installs from that app when Android asks.
+2. Open **Lunar**, tap **Open keyboard settings** and turn Lunar on, then tap **Choose keyboard**.
+3. In any chat, type `pay near 2` and tap **Pay**. The card checks the name on NEAR.
+
+Payments are not sent yet: the Pay button says so. Typing, the Pay card, the live NEAR name check and the paste check all work. Build it yourself from [`android/`](android/README.md).
 
 ## Live status
 
 | Surface | Status | The evidence |
 | --- | --- | --- |
-| Vault contract (NEAR testnet) | Not built | — |
-| Bitcoin testnet withdrawal through Chain Signatures | Not built | — |
-| EVM (Base Sepolia) withdrawal | Not built | — |
-| Public "Max Extractable Value" proof page | Not built | — |
-| Guardian cancel / freeze | Not built | — |
-| Confidential top-up of the spending wallet | Not built, mainnet only | — |
+| Payments contract with a capped keyboard key (NEAR testnet) | Not built | — |
+| Pay-by-name, settled on the receiver's chain through NEAR Intents | Not built | — |
+| Wrong-network recovery for one chain pair (Base Sepolia ↔ BNB testnet) | Not built | — |
+| Paste check: lookalike detection against people you paid | Built, tested on an Android 15 emulator | [android/e2e/paste_e2e.py](android/e2e/paste_e2e.py) |
+| Name-changed-hands warning | Not built | — |
+| Private sentence parsing on NEAR AI Cloud | Not built | — |
+| Android keyboard (APK): typing, Pay key, payment card, live NEAR name check | Built, 30 unit + 18 end-to-end checks pass | [android/README.md](android/README.md) |
+| Web demo of the keyboard, wired to testnet | Not built | — |
+| Landing page with App Store / Android "coming soon" and an email waitlist | Built, runs locally | [site/index.html](site/index.html) |
+| Waitlist email delivery | Wired to a form service; not activated until the first submission is confirmed by the owner | [site/index.html](site/index.html) |
+| Public record of saves | Not built | — |
 | Problem evidence | Collected | [docs/EVIDENCE.md](docs/EVIDENCE.md) |
 
 ## The 20-second pitch
 
-Violent attacks on crypto holders hit a record in 2025 and 2026 is running ahead of it. Almost every attack ends within 24 hours. The fix has been known since 2014: a time-delay vault, the same idea as the shop safe the cashier cannot open. Bitcoin still cannot do it. Its vault proposal was withdrawn, no covenant opcode is active, and the only working versions today rely on a company holding a key or running a server.
+People lose money in crypto in three boring ways. They send on the wrong network, and the money confirms but never shows up. They paste a lookalike address that a scammer planted in their history. Or the app holding their key gets compromised and drained. All three happen at the same place: the moment you type or paste where the money goes.
 
-**Lunar does it now, on native Bitcoin, with no company in the middle.** The contract builds every Bitcoin transaction itself and checks the real recipient and amount before the NEAR MPC network signs. A phone key can ask for money and nothing else. One limit covers every chain, so there is no weak chain to pick on.
+The keyboard is that place. Lunar is an AI keyboard that pays people by name, checks every pasted address, brings back money sent on the wrong network, and holds a key that NEAR itself limits to a small daily amount. Paying gets faster, but that's not the point. The point is that from this keyboard, a mistake costs nothing.
 
 ## Table of contents
 
@@ -47,12 +63,15 @@ Violent attacks on crypto holders hit a record in 2025 and 2026 is running ahead
 - [The problem I set out to solve](#the-problem-i-set-out-to-solve)
 - [What I am building](#what-i-am-building)
 - [Architecture](#architecture)
-- [The withdrawal loop, step by step](#the-withdrawal-loop-step-by-step)
+- [The payment loop, step by step](#the-payment-loop-step-by-step)
+- [The recovery loop, step by step](#the-recovery-loop-step-by-step)
 - [Where the guarantee is enforced](#where-the-guarantee-is-enforced)
+- [Where the model sits](#where-the-model-sits)
 - [Who approves what](#who-approves-what)
 - [Engineering decisions & the traps I expect](#engineering-decisions--the-traps-i-expect)
 - [What's real vs pending — the honesty table](#whats-real-vs-pending--the-honesty-table)
 - [Attack → test](#attack--test)
+- [The app](#the-app)
 - [Limitations](#limitations)
 - [Security](#security)
 - [Tech stack](#tech-stack)
@@ -61,154 +80,156 @@ Violent attacks on crypto holders hit a record in 2025 and 2026 is running ahead
 
 ## What Lunar is NOT
 
-- **Not a decoy wallet.** It never asks you to lie about your balance under stress. The app tells the robber the truth, and the truth is "you can have $200".
-- **Not a new idea in Bitcoin.** Time-delay vaults with a recovery path have been discussed since 2014 and specified as a soft fork. What is new is running that design today, on native Bitcoin, enforced by a public contract and a decentralized signer instead of an opcode that has not activated or a company key.
-- **Not custody.** Nobody holds your coins. The contract has no access keys, so no person, including me, can move them outside the rules.
-- **Not a spending limit for AI agents.** The user is a human who may be under physical threat. Every rule is shaped by how coercion actually plays out.
+- **Not a wallet.** Your real wallet keeps your real key. The keyboard holds a separate NEAR key that can call one contract and spend a small daily amount. Anything bigger opens your wallet for approval.
+- **Not a trading terminal.** No swaps, charts or orders. Every extra feature is another way to send money somewhere you didn't mean to.
+- **Not a chatbot that reads your chats.** The AI sees one sentence, only when you tap the Lunar key, and it runs in an enclave.
+- **Not new as an idea outside crypto.** Banks already check the payee's name before a transfer, and card payments can be reversed. What's new is doing it with no bank in the middle: the name check, the spending cap and the refund are enforced by a NEAR contract with no admin key.
 
 ## The problem I set out to solve
 
-- More than $30M was taken by force in the first half of 2026, against a record $58M for all of 2025.
-- 52 verified attacks in H1 2026, up 33% on the year before. Money at stake rose about 12× to $124M, and home invasions went from 1 to 20.
-- 127 attacks logged in 2026 up to 24 October, after 134 in 2025 and 87 in 2024.
-- Almost every recorded attack resolves in under a day.
+Exchanges publish help pages for one mistake: money sent on a network they don't watch. One regulated exchange calls it "a permanent loss of funds," says recovery "can take a significant amount of time," and charges **$200 or $500** when it works. Others run recovery-request forms for the same thing. A 2025 study of 681 accidental transfers counted **$5.5M lost, about $8,000 each**. On NEAR itself, a user reported a **~$193K** swap stuck as FAILED with zero refund, while the docs say failed deposits "are currently handled manually." Every figure and its link is in [docs/EVIDENCE.md](docs/EVIDENCE.md).
 
-The root cause is speed. A bank vault on a timer and a reversible wire transfer make robbery pointless. A seed phrase and an instant, final transfer make it pay. Sources for every figure: [docs/EVIDENCE.md](docs/EVIDENCE.md).
+The common thread: the money arrived somewhere real, the system didn't handle it, and nobody owns getting it back. The fix today is a person with a private key and a support queue.
 
 ## What I am building
 
-1. **A keyless vault contract on NEAR.** All access keys are deleted after deploy. Through Chain Signatures it derives and controls the user's Bitcoin, EVM and NEAR addresses.
-2. **Transactions built on chain.** The contract assembles each Bitcoin and EVM transaction from its fields (inputs, recipient, amount, change) and computes the signing hash itself, so the rules see exactly what will be signed.
-3. **One daily limit across all chains**, valued in USD.
-4. **A delayed path for anything bigger**: 72 hours, saved destinations only, cancellable by any guardian.
-5. **Slow rule changes**: raising a limit, shortening a delay, saving a new address or removing a guardian all take 7 days. Changes that make you safer apply immediately.
-6. **A duress PIN** that freezes the vault quietly. The screen then shows "pending, 72h", which is true.
-7. **A public proof page** that reads the limit, the queue and the countdowns straight from contract state.
-8. **A confidential top-up** of the daily spending wallet through NEAR Confidential Intents, so that wallet cannot be linked to the vault (mainnet only).
+1. **Pay by name.** `pay bob.near 20` resolves to Bob's chosen chain and token. You never see or paste an address. Settlement runs through NEAR Intents, so you can pay from whatever you hold.
+2. **A receive address that can't lose money.** Bob's address is controlled by a keyless NEAR contract through Chain Signatures and is the same on every supported EVM chain. Anyone, from any wallet or exchange, can pay it. If money lands on a chain Bob doesn't use, NEAR's signer network proves the transfer, and the contract routes it to Bob's chain or refunds the sender.
+3. **A paste check.** When an address is pasted in a payment, the keyboard flags it if it matches a past payee only on the first and last characters, and harder if that address has sent you a dust or zero-value transfer. That pair is the address-poisoning pattern.
+4. **A name-changed-hands warning.** Before paying a name, the keyboard checks NEAR's top-level-account registry for a recent reclaim or new lease, and the account for a recent full-access key change. If either happened: "this name changed owner 3 days ago. Still pay?"
+5. **A keyboard key that can't drain you.** The keyboard holds a NEAR function-call key that can call only the Lunar payments contract. The contract enforces a daily amount per key. Above it, the keyboard hands off to your wallet.
+6. **No gas.** Payments go as NEAR meta-transactions, so neither side needs NEAR for fees.
+7. **Private AI.** The sentence you hand the keyboard is parsed by a model on NEAR AI Cloud, inside an enclave, with an on-device rule parser as the fallback.
+8. **A public record of saves.** One page listing every blocked lookalike, every recovered wrong-network transfer and every refused over-cap attempt, each with its transaction link. Real events only.
 
 ## Architecture
 
-```
- phone (function-call key: spend_daily, request_withdrawal only)
-        │
-        ▼
- ┌──────────────────────────── vault.<user> (no access keys) ───────────────────────────┐
- │  policy: daily_limit_usd · delay=72h · rule_change_delay=7d · saved_destinations     │
- │  queue:  pending withdrawals with unlock time                                        │
- │  guardians: cancel(id) · freeze() · unfreeze() needs majority                        │
- │  builder: BTC / EVM tx from fields → signing hash computed here                      │
- └───────────────────────────────┬──────────────────────────────────────────────────────┘
-                                 │ sign(payload, path, domain)   (yield / resume)
-                                 ▼
-                     NEAR MPC network (Chain Signatures)
-                                 │ signature
-                                 ▼
-               relayer broadcasts to Bitcoin / EVM  ──►  explorer link
-```
+| Component | Where it runs | What it does |
+| --- | --- | --- |
+| Android keyboard | The phone | Input method; payment cards; paste check; holds the capped NEAR key |
+| Rule parser | The phone | Turns `pay <name> <amount>` into a payment intent without any network call |
+| Private parser | NEAR AI Cloud (enclave) | Handles free-form sentences when you tap the Lunar key |
+| Payments contract | NEAR | Per-key daily cap; payee resolution; meta-transaction entry point |
+| Receive contract | NEAR | Owns each receiver's address on every chain via Chain Signatures; credits, routes or refunds |
+| Recovery watcher | Server, no keys | Spots transfers to receive addresses on other chains and asks NEAR's signer to verify them |
+| Relayer | Server, no custody | Pays gas for meta-transactions |
+| Name check | Reads NEAR | Registry lease and reclaim status, recent access-key changes |
+| Record page | Web | Lists saves with transaction links |
+| Web demo | Web | The same keyboard on screen, wired to testnet, so judges can try it without installing anything |
 
-| Component | Job |
-| --- | --- |
-| Vault contract (Rust, near-sdk) | Holds the policy, the queue and the guardians; the only caller allowed to request signatures for the user's derived addresses |
-| Transaction builder | Builds Bitcoin and EVM transactions inside the contract so the signed bytes match the checked fields |
-| Relayer | Broadcasts signed transactions; holds no authority, can only publish what the contract already approved |
-| Proof page | Read-only view of limit, spent-today, queue and countdowns, straight from contract state |
-| Phone app | Holds one function-call key; duress PIN; guardian notifications |
+## The payment loop, step by step
 
-## The withdrawal loop, step by step
+1. You type `pay bob.near 20 for dinner` and tap the Lunar key.
+2. The rule parser reads it on the phone. If it can't, the sentence alone goes to the private parser.
+3. The keyboard resolves `bob.near`: his chosen chain and token, plus the name check.
+4. A payment card shows the name, the amount, where it lands, and any warning.
+5. You tap Pay. Under the daily cap, the keyboard signs with its capped key and the relayer submits it gaslessly. Over the cap, your wallet opens.
+6. The payments contract checks the cap and routes the payment through NEAR Intents to Bob's chain.
+7. The card updates with both explorer links.
 
-1. The phone calls `request_withdrawal(chain, to, amount)`.
-2. If `amount` fits today's remaining limit across all chains, the contract builds the transaction and requests a signature at once.
-3. Otherwise `to` must be a saved destination older than 7 days, or the call is refused.
-4. The request enters the queue with `unlock_at = now + 72h`. Guardians are notified.
-5. Any guardian may `cancel(id)` or `freeze()` during the window.
-6. After `unlock_at`, anyone may call `execute(id)`. The contract builds the transaction, requests the signature, and the relayer broadcasts it.
+## The recovery loop, step by step
+
+1. Someone sends USDC to Bob's receive address on a chain Bob doesn't use.
+2. The recovery watcher sees the transfer and calls NEAR's signer to verify that transaction's `Transfer` log on that chain.
+3. NEAR's signer network queries its RPC providers, extracts the log and signs the result.
+4. The receive contract checks the signature and decodes sender, token and amount.
+5. The contract has Chain Signatures sign a transaction on that chain: forward to Bob's chain through NEAR Intents, or refund the sender.
+6. The save is written to the public record with every link.
+
+The watcher holds no key and decides nothing. If it stops, anyone can submit the same verification call.
 
 ## Where the guarantee is enforced
 
-| Guarantee | Where it lives | Test |
+| Guarantee | Where | Test |
 | --- | --- | --- |
-| No key can move funds outside the rules | Vault account has zero access keys after deploy | planned |
-| The signed bytes match the checked recipient and amount | On-chain transaction builder computes the signing hash | planned |
-| Instant spending never exceeds the daily limit, summed across chains | `spend_daily` accounting | planned |
-| Large withdrawals wait 72h and go only to 7-day-old saved destinations | `request_withdrawal` / `execute` | planned |
-| Rule changes that weaken protection wait 7 days | `propose_policy` / `apply_policy` | planned |
-| One guardian can stop a withdrawal | `cancel` / `freeze` | planned |
-| The phone key cannot touch policy | Function-call key scoped to two methods | planned |
+| The keyboard key can't spend above the daily cap | Payments contract | planned |
+| The keyboard key can't call any other contract | NEAR protocol: function-call key scope | planned |
+| Nobody can move a receiver's funds except to the receiver's chain or back to the sender | Receive contract (no admin key) | planned |
+| A recovery only happens for a transfer NEAR's signer actually verified | Receive contract checks the signer's response | planned |
+| A forged or replayed proof is refused | Receive contract binds each proof to one transaction and records it as used | planned |
+| A lookalike paste is flagged before signing | Keyboard paste check | planned |
+| A name that changed hands is flagged before signing | Keyboard name check | planned |
+
+## Where the model sits
+
+The model only turns a sentence into a payment intent: who, how much, what for. It never holds a key, never signs, and never sees an address you didn't paste. Every intent becomes a card you confirm, and the contract checks the cap regardless of what the model said. If the model is wrong, the worst case is a card you decline.
 
 ## Who approves what
 
-| Action | Phone | One guardian | Guardian majority | Wait |
-| --- | --- | --- | --- | --- |
-| Spend within today's limit | yes | — | — | none |
-| Withdraw above the limit to a saved address | yes | can cancel | — | 72h |
-| Save a new destination | yes | can cancel | — | 7 days |
-| Raise limit / shorten delay / remove guardian | yes | can cancel | — | 7 days |
-| Lower limit / add guardian / freeze | yes | yes (freeze) | — | none |
-| Unfreeze | — | — | yes | none |
+| Action | Who approves |
+| --- | --- |
+| A payment under the daily cap | You, by tapping Pay on the card |
+| A payment over the cap | You, in your own wallet |
+| Changing the cap | You, in your own wallet (never from the keyboard key) |
+| Choosing your receive chain and token | You, in your own wallet |
+| A wrong-network recovery | Nobody. The contract does it once NEAR's signer verifies the transfer |
 
 ## Engineering decisions & the traps I expect
 
-- **A policy over a hash is not a policy.** If the contract signs a 32-byte payload built somewhere else, a limit cannot see where the money goes. The contract therefore builds the transaction itself. For Bitcoin segwit inputs the signed hash commits to each input's amount, so a caller who lies about inputs only produces an invalid signature.
-- **Change must come home.** Every Bitcoin transaction's change output is forced back to the vault's own derived address, or the "amount" check means nothing.
-- **One limit, every chain.** A per-chain limit lets an attacker shop for the weakest chain. The limit is summed in USD.
-- **No instant escape route.** No address, including a recovery address, skips the delay.
-- **Gas.** Building a Bitcoin signing hash on chain has to fit NEAR's gas limit; this is the first thing to measure.
+- **A NEAR function-call key limits gas, not value.** The daily amount has to live in the contract, not in the key's allowance. Getting this wrong is the obvious way to ship a keyboard that can drain you.
+- **NEAR's foreign-transaction check doesn't cover Ethereum mainnet or Tron today.** The recovery path starts with the EVM chains it does cover, and the record says which chains are protected.
+- **Refunding to the `from` address can be wrong.** If the sender was an exchange's hot wallet, the refund lands at the exchange. Default to forwarding to the receiver, and refund only when forwarding isn't possible.
+- **Clipboard access is limited on Android.** The default input method can read the clipboard. That has to be confirmed on current Android before the paste check is promised.
+- **A keyboard with network access can read everything typed.** The keyboard sends nothing except the one sentence you hand it. That claim has to be checkable from the code.
 
 ## What's real vs pending — the honesty table
 
-| Claim | State |
+| Claim | Status |
 | --- | --- |
-| Problem figures | Real, sourced in [docs/EVIDENCE.md](docs/EVIDENCE.md) |
-| Bitcoin has no active covenant opcode for vaults | Real, sourced |
-| NEAR Chain Signatures can sign Bitcoin transactions | Real per NEAR docs; not yet exercised by this repo |
-| Keyless vault contract | Pending: not written |
-| On-chain Bitcoin transaction builder within gas | Pending: unmeasured |
-| Cross-chain USD limit | Pending: needs a price source on chain |
-| Proof page | Pending |
-| Confidential top-up | Pending, mainnet only |
-| Any test | None exist yet |
+| Payments contract with a per-key daily cap | Pending: not written |
+| Pay-by-name through NEAR Intents | Pending: not written |
+| Wrong-network recovery | Pending: the foreign-transaction check and its chain list are read from NEAR's mainnet signer; nothing built on it yet |
+| Paste check | Real: lookalike warning against saved payees; poisoning from on-chain history not written |
+| Name-changed-hands warning | Pending: the registry contracts were read; no code yet |
+| Private parsing in an enclave | Pending: not written |
+| Android keyboard | Real: installs, types, reads `pay bob.near 20`, checks the name on NEAR; cannot send yet |
+| Web demo | Pending: not written |
+| Landing page and waitlist form | Real: in `site/`, runs locally; the waitlist needs its one-time activation |
+| Problem evidence | Collected with links in [docs/EVIDENCE.md](docs/EVIDENCE.md) |
 
 ## Attack → test
 
-| The abuse | The test that will answer it |
+| The abuse | The test that answers it |
 | --- | --- |
-| "Send everything to me, now" | planned: transfer above the daily limit is queued, not signed |
-| "Send it to my address" | planned: unsaved destination is refused |
-| "Save my address, then send" | planned: new destination is unusable for 7 days |
-| "Raise your limit" | planned: raise is delayed 7 days |
-| "Remove your guardians" | planned: removal is delayed 7 days and cancellable |
-| "Use the phone key directly on the contract" | planned: the key cannot call any policy method |
-| "Spend the limit on every chain" | planned: the limit is shared across chains |
-| "Hand me a signed blob to broadcast" | planned: the contract never signs a payload it did not build |
-| "Take the phone and wait out the timer" | planned: guardian cancel; withdrawal only to saved addresses |
+| A stolen phone spends the keyboard key past the cap | planned: the contract refuses the second payment that crosses the cap |
+| The keyboard key calls a different contract | planned: NEAR rejects the call outside the key's scope |
+| Someone submits a fake "it arrived" proof | planned: the receive contract refuses a response the signer didn't produce |
+| The same real proof is replayed twice | planned: the second recovery for one transaction is refused |
+| A scammer plants a lookalike address in your history | planned: the paste check flags it and shows the real past payee |
+| A rented name is reclaimed and re-rented by a stranger | planned: the name check warns before paying |
+| A prompt in the chat tells the AI to pay someone else | planned: the card shows the real payee; the cap still applies; nothing signs without your tap |
+
+## The app
+
+Android first, as an input method you switch to from any chat, then the App Store. A web page will show the same keyboard on screen, wired to the same testnet contracts, so anyone can try every step without installing anything.
+
+The landing page in `site/` is a static export: open it with any static server (`cd site && python3 -m http.server 4173`, then http://localhost:4173). Its waitlist form posts each email to the project owner through a form service; nothing is stored in this repository.
 
 ## Limitations
 
-- You trust the NEAR MPC network (threshold signers in secure hardware) instead of one company.
-- The daily limit can be taken under threat. That is the design: it is the price of being able to buy groceries.
-- A robber who holds someone longer than the delay is answered by the saved-address rule and the guardians, not by the delay alone.
-- The vault's Bitcoin address is public on the Bitcoin chain. Only the spending wallet's link to it can be hidden.
-- Guardians must be people the attacker cannot reach.
+- Recovery covers only chains NEAR's signer can verify. Today that excludes Ethereum mainnet and Tron.
+- Senders who don't use Lunar are protected only when they pay a Lunar receive address. A raw address they copied from somewhere else is outside it.
+- The paste check flags patterns. It can't prove an address is safe.
+- Trust moves from a company to NEAR's signer network. That's a threshold of independent operators, not nobody.
+- The daily cap is the price of convenience: that amount can still be lost from a compromised keyboard.
 
 ## Security
 
-No keys or secrets belong in this repository. Contract deployment keys are deleted from the vault account after deploy. Report issues privately to the repository owner.
+No keys or secrets belong in this repository. Contracts are deployed without an admin key. Report issues privately to the repository owner.
 
 ## Tech stack
 
-Planned: Rust + near-sdk (vault contract), NEAR Chain Signatures (`v1.signer`), on-chain transaction building for Bitcoin and EVM, TypeScript relayer, Next.js proof page, NEAR Confidential Intents (mainnet top-up).
+Rust + near-sdk (contracts) · NEAR Chain Signatures and foreign-transaction verification (`v1.signer-prod.testnet`) · NEAR Intents · NEAR meta-transactions · NEAR AI Cloud · Kotlin (Android input method) · TypeScript (watcher, relayer, web demo).
 
 ## Build plan
 
-1. Probe: a contract-owned derived Bitcoin testnet address, signed through Chain Signatures, broadcast and confirmed.
-2. Measure gas for building a Bitcoin signing hash on chain.
-3. Vault contract: limit, queue, saved destinations, rule-change delays, guardians, freeze.
-4. EVM path on Base Sepolia.
-5. Proof page reading contract state.
-6. Phone flow with the function-call key and duress PIN.
-7. Tests for every row of [Attack → test](#attack--test).
-8. Confidential top-up on mainnet with a tiny amount.
+1. Payments contract: per-key daily cap, payee resolution, meta-transaction entry. Tests for the cap and the key scope. Testnet deploy.
+2. Pay-by-name through NEAR Intents, with a real testnet payment landing on another chain.
+3. Receive contract and recovery for one chain pair: verify a real testnet transfer's log through NEAR's signer, then forward or refund it. Tests for forged and replayed proofs.
+4. Android keyboard: rule parser, payment card, capped key, paste check, name check.
+5. Private parser on NEAR AI Cloud.
+6. Web demo, public record page, README with "do X, see Y" steps and every transaction link.
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
