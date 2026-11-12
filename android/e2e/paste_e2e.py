@@ -24,12 +24,26 @@ def bounds(xml, text):
 
 
 def tap_text(text):
-    xml = k.ui()
-    c = bounds(xml, text)
+    c = None
+    for _ in range(8):
+        c = bounds(k.ui(), text)
+        if c and 150 < c[1] < 1300:
+            break
+        k.adb("shell", "input", "swipe", "540", "1600", "540", "900", "300")
+        time.sleep(0.6)
     if c is None:
         raise RuntimeError(f"not on screen: {text}")
     k.tap(*c)
     time.sleep(0.6)
+
+
+def bounds_any(text):
+    for _ in range(4):
+        if text in k.ui():
+            return True
+        k.adb("shell", "input", "swipe", "540", "1600", "540", "1000", "300")
+        time.sleep(0.5)
+    return False
 
 
 def set_clip(text):
@@ -57,18 +71,19 @@ def main():
     time.sleep(2.5)
 
     # save bob.near with his address, through the app's own form, typing with Lunar
-    tap_text("name, e.g. bob.near")
+    tap_text("name, e.g. bob.testnet")
     k.adb("shell", "input", "text", "bob.near")
     k.press("LETTERS", "⏎")          # the field asks for "Next": Lunar's enter key moves to the address box
     time.sleep(0.5)
     k.adb("shell", "input", "text", BOB)
     k.press("LETTERS", "⏎")          # "Done" closes the keyboard
     time.sleep(0.8)
-    tap_text("Save")
-    xml = k.ui()
-    k.expect_true("enter key moved to the next box and Save stored the payee", "bob.near   0x9f3a…b21c" in xml)
+    tap_text("Save payee")
+    k.expect_true("enter key moved to the next box and Save stored the payee", bounds_any("bob.near   0x9f3a…b21c"))
 
     # open the keyboard in the Try box so the strip is on screen
+    k.adb("shell", "input", "swipe", "540", "500", "540", "2000", "200")
+    k.adb("shell", "input", "swipe", "540", "500", "540", "2000", "200")
     tap_text("Type here")
     time.sleep(0.8)
 

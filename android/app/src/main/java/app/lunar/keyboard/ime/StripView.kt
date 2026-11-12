@@ -36,7 +36,7 @@ class StripView(context: Context) : LinearLayout(context) {
 
         val texts = LinearLayout(context).apply { orientation = VERTICAL }
         title.apply { textSize = 14f; setTextColor(0xFF111111.toInt()); maxLines = 1; ellipsize = TextUtils.TruncateAt.END }
-        detail.apply { textSize = 11.5f; setTextColor(0x99111111.toInt()); maxLines = 1; ellipsize = TextUtils.TruncateAt.END }
+        detail.apply { textSize = 11.5f; setTextColor(0x99111111.toInt()); maxLines = 3; ellipsize = TextUtils.TruncateAt.END }
         texts.addView(title)
         texts.addView(detail)
         addView(texts, LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f))
@@ -108,7 +108,12 @@ class StripView(context: Context) : LinearLayout(context) {
     /** Debug builds only: the end-to-end test reads the strip from logcat (tag LunarStrip). */
     private fun logForTests() {
         if (context.applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE == 0) return
-        android.util.Log.d("LunarStrip", "${title.text} || ${detail.text}")
+        android.util.Log.d("LunarStrip", "${title.text} || ${detail.text.toString().replace("\n", " / ")}")
+        if (primary.visibility == VISIBLE) primary.post {
+            val loc = IntArray(2)
+            primary.getLocationOnScreen(loc)
+            android.util.Log.d("LunarStripAction", "${primary.text}|${loc[0] + primary.width / 2}|${loc[1] + primary.height / 2}")
+        }
     }
 
     companion object {

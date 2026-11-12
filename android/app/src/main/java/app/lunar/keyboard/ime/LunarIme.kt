@@ -2,7 +2,6 @@ package app.lunar.keyboard.ime
 
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.os.Handler
 import android.os.Looper
@@ -17,12 +16,11 @@ import app.lunar.keyboard.core.KeyType
 import app.lunar.keyboard.core.Page
 import app.lunar.keyboard.core.PasteCheck
 import app.lunar.keyboard.core.PasteVerdict
-import app.lunar.keyboard.core.PayIntent
 import app.lunar.keyboard.core.PayParser
 import app.lunar.keyboard.core.ShiftState
-import app.lunar.keyboard.data.NearRpc
 import app.lunar.keyboard.data.PayeeStore
-import app.lunar.keyboard.setup.SetupActivity
+import app.lunar.keyboard.data.AiParser
+import app.lunar.keyboard.BuildConfig
 import java.util.concurrent.Executors
 
 class LunarIme : InputMethodService(), KeyboardView.Listener, ClipboardManager.OnPrimaryClipChangedListener {
@@ -30,12 +28,13 @@ class LunarIme : InputMethodService(), KeyboardView.Listener, ClipboardManager.O
     private lateinit var keyboard: KeyboardView
     private lateinit var strip: StripView
     private lateinit var payees: PayeeStore
+    private lateinit var payCard: PayCard
+    private val ai = AiParser(BuildConfig.API_BASE)
     private val shift = ShiftState()
     private val io = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
     private var clipboard: ClipboardManager? = null
     private var lastSpaceAt = 0L
-    private var lookupToken = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -47,12 +46,14 @@ class LunarIme : InputMethodService(), KeyboardView.Listener, ClipboardManager.O
     override fun onDestroy() {
         clipboard?.removePrimaryClipChangedListener(this)
         io.shutdownNow()
+        if (::payCard.isInitialized) payCard.close()
         super.onDestroy()
     }
 
     override fun onCreateInputView(): View {
         strip = StripView(this)
         keyboard = KeyboardView(this, this)
+        payCard = PayCard(this, strip, io) { showIdle() }
         return LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundColor(0xFFE9EBEF.toInt())
@@ -88,7 +89,7 @@ class LunarIme : InputMethodService(), KeyboardView.Listener, ClipboardManager.O
 
     override fun onFinishInputView(finishingInput: Boolean) {
         super.onFinishInputView(finishingInput)
-        lookupToken++
+        if (::payCard.isInitialized) payCard.cancel()
     }
 
     /** The cursor moved or the app changed the text (tap elsewhere, cleared box): recheck the auto-capital. */
@@ -188,54 +189,36 @@ class LunarIme : InputMethodService(), KeyboardView.Listener, ClipboardManager.O
     private fun onPay() {
         val before = currentInputConnection?.getTextBeforeCursor(200, 0)
         val intent = PayParser.parse(before)
-        if (intent == null) {
-            strip.show("Type who and how much, then tap Pay", "e.g.  pay bob.near 20 for dinner", onClose = { showIdle() })
+        if (intent != null) { payCard.show(intent); return }
+        val sentence = lastSentence(before)
+        if (sentence.isBlank() || !ai.enabled) {
+            strip.show("Type who and how much, then tap Pay", "e.g.  pay bob.testnet 0.5 for dinner", onClose = { showIdle() })
             return
         }
-        showCard(intent)
-    }
-
-    private fun showCard(p: PayIntent) {
-        val amount = p.amount.toPlainString()
-        val memo = p.memo?.let { " · for $it" } ?: ""
-        strip.show(
-            title = "Pay ${p.payee} · $amount ${p.token}",
-            detail = "Checking the name on NEAR…$memo",
-            action = "Pay",
-            onAction = { openSetup(p) },
-            onClose = { showIdle() },
-        )
-        val token = ++lookupToken
+        strip.show("Reading “${sentence.take(40)}”", "Only this sentence goes to the AI on NEAR AI Cloud", onClose = { showIdle() })
         io.execute {
-            val res = NearRpc.viewAccount(p.payee)
+            val r = ai.parse(sentence)
             main.post {
-                if (token != lookupToken) return@post
-                when (res) {
-                    is NearRpc.Account.Found -> strip.updateDetail(
-                        "${p.payee} exists on NEAR ${res.network.name.lowercase()}$memo", StripView.Tone.OK)
-                    is NearRpc.Account.Missing -> strip.updateDetail(
-                        "No account called ${p.payee} on NEAR ${res.network.name.lowercase()}", StripView.Tone.WARN)
-                    is NearRpc.Account.Failed -> strip.updateDetail(
-                        "Couldn't reach NEAR to check the name", StripView.Tone.WARN)
+                when (r) {
+                    is AiParser.Result.Parsed -> payCard.show(r.intent)
+                    is AiParser.Result.NotAPayment -> strip.show("That doesn't read as a payment", r.reason, StripView.Tone.WARN, onClose = { showIdle() })
+                    is AiParser.Result.Unavailable -> strip.show("The AI couldn't be reached", r.reason.take(80), StripView.Tone.WARN, onClose = { showIdle() })
                 }
             }
         }
     }
 
-    /** Payments are not wired yet: Pay opens the app, which says so, instead of pretending to send. */
-    private fun openSetup(p: PayIntent) {
-        startActivity(Intent(this, SetupActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra(SetupActivity.EXTRA_PAYEE, p.payee)
-            putExtra(SetupActivity.EXTRA_AMOUNT, p.amount.toPlainString())
-            putExtra(SetupActivity.EXTRA_TOKEN, p.token)
-        })
+    /** The text after the last line break or sentence end, which is what the user means by "this". */
+    private fun lastSentence(text: CharSequence?): String {
+        val t = text?.toString() ?: return ""
+        val cut = maxOf(t.lastIndexOf('\n'), t.lastIndexOf(". "), t.lastIndexOf("! "), t.lastIndexOf("? "))
+        return t.substring(if (cut < 0) 0 else cut + 1).trim()
     }
 
     private fun showIdle() {
         if (!::strip.isInitialized) return
-        lookupToken++
-        strip.show("Lunar", "Type  pay bob.near 20  and tap Pay")
+        payCard.cancel()
+        strip.show("Lunar", "Type  pay bob.testnet 0.5  and tap Pay")
     }
 
     // ---------------------------------------------------------------- paste check

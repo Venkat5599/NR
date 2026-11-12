@@ -195,13 +195,13 @@ def main():
     press("LETTERS", "Pay")
     time.sleep(0.5)
     texts = strip_text()
-    expect_true("Pay shows the payment card", any(t.startswith("Pay near · 2 USDC") for t in texts), texts)
+    expect_true("Pay shows the payment card", any(t.startswith("Pay near · 2 NEAR") for t in texts), texts)
     for _ in range(20):
         texts = strip_text()
-        if any("exists on NEAR mainnet" in t or "Couldn't reach" in t or "No account" in t for t in texts):
+        if any("near ✓" in t or "Couldn't reach" in t or "No account" in t for t in texts):
             break
         time.sleep(0.5)
-    expect_true("Pay looked the name up on NEAR mainnet", any("near exists on NEAR mainnet" in t for t in texts), texts)
+    expect_true("Pay checked the name on NEAR mainnet (exists, account age)", any(t.startswith("near ✓") for t in texts), texts)
 
     # 7. a name that does not exist is flagged
     clear_field(fb)

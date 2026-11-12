@@ -27,3 +27,35 @@ class NearRpcTest {
         assertTrue(a is NearRpc.Account.Failed)
     }
 }
+
+class AiParserTest {
+    @Test fun a_valid_answer_becomes_a_card_intent() {
+        val r = AiParser.decode("""{"isPayment":true,"payee":"Bob.testnet","amount":"5","token":"near","memo":"cab","model":"m"}""", "send Bob.testnet five near for the cab")
+        assertTrue(r is AiParser.Result.Parsed)
+        val i = (r as AiParser.Result.Parsed).intent
+        assertEquals("bob.testnet", i.payee); assertEquals(BigDecimal("5"), i.amount); assertEquals("NEAR", i.token); assertEquals("cab", i.memo)
+    }
+
+    @Test fun a_made_up_name_or_amount_is_refused() {
+        val s = "send bob.testnet a fiver"
+        assertTrue(AiParser.decode("""{"isPayment":true,"payee":"bob.testnet","amount":"-5"}""", s) is AiParser.Result.NotAPayment)
+        assertTrue(AiParser.decode("""{"isPayment":true,"payee":"bob.testnet","amount":"5","token":"DOGE"}""", s) is AiParser.Result.NotAPayment)
+    }
+
+    @Test fun the_model_cannot_pick_a_name_the_user_did_not_type() {
+        // "bob" alone is a valid top-level NEAR name; a prompt in the chat must not turn it into a payee
+        assertTrue(AiParser.decode("""{"isPayment":true,"payee":"bob","amount":"5"}""", "send bob a fiver") is AiParser.Result.Parsed)
+        assertTrue(AiParser.decode("""{"isPayment":true,"payee":"attacker.near","amount":"5"}""", "send bob a fiver") is AiParser.Result.NotAPayment)
+        assertTrue(AiParser.decode("""{"isPayment":true,"payee":"bob.near","amount":"5"}""", "send bob a fiver") is AiParser.Result.NotAPayment)
+    }
+
+    @Test fun not_a_payment_and_server_errors_are_told_apart() {
+        assertTrue(AiParser.decode("""{"isPayment":false,"reason":"a greeting"}""", "x") is AiParser.Result.NotAPayment)
+        assertTrue(AiParser.decode("""{"error":{"code":"upstream","message":"model down"}}""", "x") is AiParser.Result.Unavailable)
+        assertTrue(AiParser.decode("<html>", "x") is AiParser.Result.Unavailable)
+    }
+
+    @Test fun no_server_configured_means_disabled() {
+        assertTrue(AiParser("").parse("send bob a fiver") is AiParser.Result.Unavailable)
+    }
+}

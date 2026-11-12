@@ -32,6 +32,20 @@ class SetupActivity : Activity() {
     private lateinit var enableStatus: TextView
     private lateinit var chooseStatus: TextView
     private lateinit var payeeList: LinearLayout
+    private var wallet: WalletSection? = null
+
+    private val uiBridge = object : WalletSection.Ui {
+        override fun text(s: String, size: Float, bold: Boolean, muted: Boolean) = this@SetupActivity.text(s, size, bold, muted)
+        override fun section(s: String) = this@SetupActivity.section(s)
+        override fun button(label: String, onClick: () -> Unit) = this@SetupActivity.button(label, onClick)
+        override fun card(body: LinearLayout.() -> Unit) = this@SetupActivity.card(body)
+        override fun px(v: Int) = this@SetupActivity.px(v)
+    }
+
+    override fun onDestroy() {
+        wallet?.close()
+        super.onDestroy()
+    }
     private val dp by lazy { resources.displayMetrics.density }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,16 +80,6 @@ class SetupActivity : Activity() {
         root.addView(text("Lunar", 30f, bold = true))
         root.addView(text("The AI keyboard that won't let you send money to the wrong place.", 15f, muted = true).also { pad(it, 4, 22) })
 
-        intent?.getStringExtra(EXTRA_PAYEE)?.let { payee ->
-            val amount = intent.getStringExtra(EXTRA_AMOUNT) ?: ""
-            val token = intent.getStringExtra(EXTRA_TOKEN) ?: ""
-            root.addView(card {
-                addView(text("Payment to $payee · $amount $token", 16f, bold = true))
-                addView(text("Nothing was sent. Lunar can't send payments yet: its payments contract is not deployed. " +
-                        "When it is, this button will pay through your NEAR account.", 14f, muted = true).also { pad(it, 6, 0) })
-            })
-        }
-
         root.addView(section("1 · Turn on the keyboard"))
         enableStatus = text("", 14f, muted = true)
         root.addView(enableStatus)
@@ -87,7 +91,7 @@ class SetupActivity : Activity() {
         root.addView(button("Choose keyboard") { imm().showInputMethodPicker() })
 
         root.addView(section("3 · Try it"))
-        root.addView(text("Type “pay bob.near 20 for dinner”, then tap Pay.", 14f, muted = true))
+        root.addView(text("Type “pay bob.testnet 0.5 for dinner”, then tap Pay.", 14f, muted = true))
         root.addView(EditText(this).apply {
             hint = "Type here"
             tag = "try"
@@ -95,17 +99,23 @@ class SetupActivity : Activity() {
             minLines = 2
         }.also { pad(it, 8, 0) })
 
+        val request = intent?.getStringExtra(EXTRA_PAYEE)?.let { payee ->
+            intent.getStringExtra(EXTRA_AMOUNT)?.toBigDecimalOrNull()?.let { WalletSection.PaymentRequest(payee, it, intent.getStringExtra(EXTRA_MEMO)) }
+        }
+        wallet?.close()
+        wallet = WalletSection(this, uiBridge).also { it.build(root, request) }
+
         root.addView(section("People you pay"))
         root.addView(text("Lunar warns you when a copied address looks like one of these but isn't.", 14f, muted = true))
         payeeList = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         root.addView(payeeList)
-        val name = EditText(this).apply { hint = "name, e.g. bob.near"; tag = "payee_name"; isSingleLine = true
+        val name = EditText(this).apply { hint = "name, e.g. bob.testnet"; tag = "payee_name"; isSingleLine = true
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS; imeOptions = EditorInfo.IME_ACTION_NEXT }
         val addr = EditText(this).apply { hint = "address, 0x…"; tag = "payee_address"; isSingleLine = true
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS; imeOptions = EditorInfo.IME_ACTION_DONE }
         val error = text("", 13f, muted = true)
         root.addView(name); root.addView(addr); root.addView(error)
-        root.addView(button("Save") {
+        root.addView(button("Save payee") {
             val n = name.text.toString().trim().lowercase()
             val a = PasteCheck.extract(addr.text)
             when {
@@ -179,6 +189,6 @@ class SetupActivity : Activity() {
     companion object {
         const val EXTRA_PAYEE = "payee"
         const val EXTRA_AMOUNT = "amount"
-        const val EXTRA_TOKEN = "token"
+        const val EXTRA_MEMO = "memo"
     }
 }

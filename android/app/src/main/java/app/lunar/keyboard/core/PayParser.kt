@@ -17,8 +17,8 @@ object NearName {
     fun network(id: String): Network = if (id.endsWith(".testnet")) Network.TESTNET else Network.MAINNET
 
     enum class Network(val rpc: String) {
-        MAINNET("https://rpc.mainnet.near.org"),
-        TESTNET("https://rpc.testnet.near.org"),
+        MAINNET("https://free.rpc.fastnear.com"),
+        TESTNET("https://rpc.testnet.fastnear.com"),
     }
 }
 
@@ -73,10 +73,12 @@ object PayParser {
         if (!NearName.isValid(name)) return null
         val amount = rawAmount.replace(',', '.').toBigDecimalOrNull() ?: return null
         if (amount.signum() <= 0) return null
+        val dollarSign = text.substring(start).contains('$')
         val token = when (rawToken.lowercase()) {
-            "", "usd", "dollar", "dollars", "usdc" -> "USDC"
-            "usdt" -> "USDT"
+            "" -> if (dollarSign) "USDC" else "NEAR"
             "near" -> "NEAR"
+            "usd", "dollar", "dollars", "usdc" -> "USDC"
+            "usdt" -> "USDT"
             else -> return null
         }
         // the match may start on the whitespace before "pay"; the span is what the sentence itself took

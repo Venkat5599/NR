@@ -16,7 +16,7 @@ class PayParserTest {
         val r = p("pay bob.near 20")!!
         assertEquals("bob.near", r.payee)
         assertEquals(BigDecimal("20"), r.amount)
-        assertEquals("USDC", r.token)
+        assertEquals("NEAR", r.token)
         assertNull(r.memo)
     }
 
@@ -32,7 +32,7 @@ class PayParserTest {
         val r = p("send \$5 to alice.testnet")!!
         assertEquals("alice.testnet", r.payee)
         assertEquals(BigDecimal("5"), r.amount)
-        assertEquals("USDC", r.token)
+        assertEquals("USDC", r.token)   // "$" means dollars
     }
 
     @Test fun reads_near_token_and_comma_decimal() {
