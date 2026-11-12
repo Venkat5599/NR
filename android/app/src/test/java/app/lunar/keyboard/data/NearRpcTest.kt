@@ -43,8 +43,8 @@ class AiParserTest {
     }
 
     @Test fun the_model_cannot_pick_a_name_the_user_did_not_type() {
-        // "bob" alone is a valid top-level NEAR name; a prompt in the chat must not turn it into a payee
-        assertTrue(AiParser.decode("""{"isPayment":true,"payee":"bob","amount":"5"}""", "send bob a fiver") is AiParser.Result.Parsed)
+        // "bob" alone is a valid top-level NEAR name, but in a chat it's a first name: never a payee
+        assertTrue(AiParser.decode("""{"isPayment":true,"payee":"bob","amount":"5"}""", "send bob a fiver") is AiParser.Result.NotAPayment)
         assertTrue(AiParser.decode("""{"isPayment":true,"payee":"attacker.near","amount":"5"}""", "send bob a fiver") is AiParser.Result.NotAPayment)
         assertTrue(AiParser.decode("""{"isPayment":true,"payee":"bob.near","amount":"5"}""", "send bob a fiver") is AiParser.Result.NotAPayment)
     }

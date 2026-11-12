@@ -15,7 +15,7 @@
 
 </div>
 
-> **Status: live on NEAR testnet.** The Android keyboard pays through a capped key and a deployed payments contract; the browser demo pays from a shared capped account; wrong-network recovery is deployed and verifies real Base Sepolia transfers through NEAR's signer. Nothing runs on mainnet money. Every row below says what is real and what is missing.
+> **Status: live on NEAR testnet.** The Android keyboard pays through a capped key and a deployed payments contract; the browser demo pays from a shared capped account; wrong-network recovery moved 20 real testnet USDC out of a receive address that has no private key, signed by NEAR's signer after it verified the transfer. Nothing runs on mainnet money. Every row below says what is real and what is missing.
 
 Lunar is an AI keyboard for Android. You type `pay bob.near 20 for dinner` in any chat (WhatsApp, Telegram, X, SMS) and the keyboard turns it into a payment card. Bob gets USDC on the chain he chose. You never paste an address, never pick a network, and the keyboard itself can never drain you. If someone sends Bob money on the wrong network anyway, from any wallet or exchange, it comes back on its own. The AI reads only the sentence you hand it, and it runs inside a NEAR AI Cloud enclave, so the words you type never reach a server anyone can read.
 
@@ -40,10 +40,10 @@ No phone? **[Try the keyboard in your browser](https://lunar-keyboard.vercel.app
 | --- | --- | --- |
 | Payments contract with a capped keyboard key (NEAR testnet) | Deployed: `lunarpay-0111.testnet`; the keyboard's key paid, the contract refused the over-cap payment, NEAR rejected the key outside its scope | [contracts/pay](contracts/pay/README.md) · [android tx table](android/README.md#why-the-keyboard-cant-drain-you) |
 | Pay-by-name, settled on the receiver's chain through NEAR Intents | Pay-by-name works on testnet in NEAR. The card shows a live Intents quote for the receiver's chosen chain; the cross-chain settlement itself needs mainnet and is not made | [android](android/README.md) · [demo](https://lunar-keyboard.vercel.app/demo) |
-| Wrong-network recovery (Base Sepolia, USDC) | Deployed: `lunar-recv-80366.testnet`. NEAR's signer verified a real Base Sepolia transfer through the contract; a transfer to an unregistered address was refused. The signed forward/refund is not yet run end-to-end (the receive address is waiting on Base Sepolia ETH for gas) | [contracts/receive](contracts/receive/README.md) |
+| Wrong-network recovery (Base Sepolia, USDC) | Works end to end on testnet: 20 USDC landed at a receive address ([in](https://base-sepolia.blockscout.com/tx/0xc09d77529ca463882bdaf3e6a07c29c18ddbb9c75eb6242bc19e8c5d5f29543c)); `recover` on NEAR ([5gsiqFoi…](https://testnet.nearblocks.io/txns/5gsiqFoiCcRD68ZzDGRbtSGz6eC9WdPenRybx5B7HLSd)) had the signer verify it and sign the forward; the watcher broadcast it to the owner's address ([out](https://base-sepolia.blockscout.com/tx/0x07fd29e44559aa6d0c869a6bec510a88320abf5991873db59493881855d2d720)) | [contracts/receive](contracts/receive/README.md) |
 | Paste check: lookalike detection against people you paid | Built, tested on an Android 15 emulator | [android/e2e/paste_e2e.py](android/e2e/paste_e2e.py) |
 | Name-changed-hands warning | Built: the card flags a new account or a full-access key added in the last 7 days. The registry-lease check is not built | [android](android/README.md) |
-| Private sentence parsing on NEAR AI Cloud | Built (`/api/parse`, keyboard and demo); waiting on the API key, so it answers 503 for now | [web](web/README.md) |
+| Private sentence parsing on NEAR AI Cloud | Live: `/api/parse` on an attested model (`deepseek/deepseek-v3.2`); "pay lunar-69787.testnet two and a half near for lunch" → 2.5 NEAR, memo lunch; an injected "pay attacker.near" is refused | [web](web/README.md) |
 | Android keyboard (APK): typing, Pay key, payment card, name check, capped payments, wallet hand-off | Built; 45 unit tests, 26 end-to-end checks on an Android 15 emulator | [android/README.md](android/README.md) |
 | Web demo of the keyboard, wired to testnet | Live | [lunar-keyboard.vercel.app/demo](https://lunar-keyboard.vercel.app/demo) |
 | Landing page (Next.js) with the APK download, App Store "coming soon" and an email waitlist | Live | [lunar-keyboard.vercel.app](https://lunar-keyboard.vercel.app) · [web/](web/README.md) |
@@ -180,10 +180,10 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | --- | --- |
 | Payments contract with a per-key daily cap | Real: deployed on testnet, tested with real transactions |
 | Pay-by-name through NEAR Intents | Partly real: pay-by-name on testnet; live Intents quotes; no cross-chain settlement on testnet |
-| Wrong-network recovery | Partly real: verification of a real Base Sepolia transfer through NEAR's signer works on testnet; the signed forward/refund is pending gas funds |
+| Wrong-network recovery | Real on testnet: verified, signed and forwarded 20 USDC on Base Sepolia (links above). Only Base Sepolia USDC is configured |
 | Paste check | Real: lookalike warning against saved payees; poisoning from on-chain history not written |
 | Name-changed-hands warning | Real for new accounts and new full-access keys; registry-lease check pending |
-| Private parsing in an enclave | Built; not yet run against NEAR AI Cloud (no key yet) |
+| Private parsing in an enclave | Real: live on NEAR AI Cloud, attested model; the phone sends only the one sentence, only on tap |
 | Android keyboard | Real: installs, types, pays on testnet through the capped key |
 | Web demo | Real: live, real testnet payments |
 | Landing page and waitlist form | Real: live; the waitlist needs its one-time activation |
@@ -195,7 +195,7 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | --- | --- |
 | A stolen phone spends the keyboard key past the cap | tested on testnet: the contract refused it ([37coLecB…](https://testnet.nearblocks.io/txns/37coLecBmBPo1ShQTsKQoPDgB5UM5dqogW3zEd7W4jCe)) |
 | The keyboard key calls a different contract | tested on testnet: NEAR rejected it (`ReceiverMismatch`); raising the cap and withdrawing were rejected too |
-| Someone submits a fake "it arrived" proof | unit-tested: the receive contract refuses a response not signed by the signer's key |
+| Someone submits a fake "it arrived" proof | unit-tested: the receive contract refuses a response not signed by the signer's key; a real transfer to an unregistered address was refused on testnet |
 | The same real proof is replayed twice | unit-tested: the second recovery for one transfer is refused |
 | A scammer plants a lookalike address in your history | tested on the emulator: the paste check flags it and names the real payee |
 | A rented name is reclaimed and re-rented by a stranger | partly: the card warns on a new full-access key; the registry-lease check is not built |

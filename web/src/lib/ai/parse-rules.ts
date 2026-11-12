@@ -35,6 +35,14 @@ function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+/**
+ * A bare word like "bob" is a valid top-level NEAR name, but in a chat it is someone's first
+ * name. Free-form sentences only pay full accounts: a name with a suffix, or an implicit address.
+ */
+export function isFullAccount(payee: string): boolean {
+  return payee.includes(".") || /^[0-9a-f]{64}$/.test(payee) || /^0x[0-9a-f]{40}$/.test(payee);
+}
+
 /** The model may only pick a name the user typed as a whole word; it never invents or completes one. */
 export function typedInSentence(payee: string, sentence: string): boolean {
   const boundary = "[^a-z0-9._-]";
@@ -65,6 +73,7 @@ export function interpretModelReply(reply: unknown, sentence: string): ParseOutc
   }
   const payee = typeof reply["payee"] === "string" ? reply["payee"].trim().toLowerCase().replace(/^@/, "") : "";
   if (!isValidNearName(payee)) return { isPayment: false, reason: "no valid NEAR name in the sentence" };
+  if (!isFullAccount(payee)) return { isPayment: false, reason: "type the full NEAR name, e.g. bob.testnet" };
   if (!typedInSentence(payee, sentence)) return { isPayment: false, reason: "type the full NEAR name, e.g. bob.testnet" };
   const amount = amountOf(reply["amount"]);
   if (!amount) return { isPayment: false, reason: "no amount in the sentence" };

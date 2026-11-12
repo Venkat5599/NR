@@ -1,0 +1,7 @@
+android
+contracts
+services
+docs
+**/node_modules
+**/.next
+**/target

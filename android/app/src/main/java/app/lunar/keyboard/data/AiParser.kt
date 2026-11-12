@@ -40,6 +40,9 @@ class AiParser(private val apiBase: String) {
             if (!o.optBoolean("isPayment", false)) return Result.NotAPayment(o.optString("reason", "not a payment"))
             val payee = o.optString("payee").lowercase().removePrefix("@")
             if (!NearName.isValid(payee)) return Result.NotAPayment("no valid NEAR name in the sentence")
+            // a bare word like "bob" is a valid top-level name but in a chat it's a first name: only full accounts
+            val fullAccount = payee.contains('.') || Regex("^[0-9a-f]{64}$").matches(payee) || Regex("^0x[0-9a-f]{40}$").matches(payee)
+            if (!fullAccount) return Result.NotAPayment("type the full NEAR name, e.g. bob.testnet")
             // the model may only pick a name the user actually typed; it never invents or completes one
             if (!Regex("(^|[^a-z0-9._-])@?${Regex.escape(payee)}($|[^a-z0-9._-])").containsMatchIn(sentence.lowercase()))
                 return Result.NotAPayment("type the full NEAR name, e.g. bob.testnet")

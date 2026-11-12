@@ -45,12 +45,13 @@ There are no owner or admin methods.
 | Receive address derivation | works: contract, signer `derived_public_key` and the watcher's off-chain derivation agree |
 | Signer verification through the contract | works: `check_transfer` on a real transfer returned `verified: true` |
 | Refusal of a transfer not sent to a receive address | works on testnet |
-| Signer `sign` of the forward transaction, broadcast, arrival | not run yet: needs a real transfer to a receive address and gas on it |
+| Signer `sign` of the forward transaction, broadcast, arrival | works on testnet: 20 USDC recovered and forwarded (below) |
 
 Deployed: `lunar-recv-80366.testnet`, registered receiver
 `lunar-user-80366.testnet` with receive address
-`0xa8871e9879d17e229d73c5faeff677d5a8cd2bd2` on Base Sepolia (no `forward_to`,
-so a recovered transfer is refunded to its sender).
+`0xa8871e9879d17e229d73c5faeff677d5a8cd2bd2` on Base Sepolia, forwarding to
+`0xd74d0a875c8b3c9d5ad723b76a0ac40d8dca3345` (re-registered with `forward_to`:
+https://testnet.nearblocks.io/txns/DragbX3pNuxD7TTh8hjVVU1NRHaZCUdvpzVzqiUDamzS).
 
 Testnet transactions:
 
@@ -60,7 +61,18 @@ Testnet transactions:
 - `check_transfer` (verified through the contract): https://testnet.nearblocks.io/txns/5nG628mr1C9vWM9UWNqxgSGyA6pGdmmvwpwxVEAcFoUG
 - `recover` refused, "recipient is not a registered receive address": https://testnet.nearblocks.io/txns/EkFC7jLr23579T33Sd5MLRqWpvwvcf7DHx8rW9knyKjY
 
-The transfer used is Base Sepolia tx
+Full recovery, end to end:
+
+1. 20 USDC sent to the receive address on Base Sepolia:
+   https://base-sepolia.blockscout.com/tx/0xc09d77529ca463882bdaf3e6a07c29c18ddbb9c75eb6242bc19e8c5d5f29543c
+2. The watcher called `recover`; the signer verified the transfer and signed the
+   forward (`get_transfer` status `Signed`):
+   https://testnet.nearblocks.io/txns/5gsiqFoiCcRD68ZzDGRbtSGz6eC9WdPenRybx5B7HLSd
+3. The watcher broadcast the signed transaction; 20 USDC left the receive address
+   for the owner's address:
+   https://base-sepolia.blockscout.com/tx/0x07fd29e44559aa6d0c869a6bec510a88320abf5991873db59493881855d2d720
+
+The transfer used for the verification-only runs is Base Sepolia tx
 `0xd3482e4e0cd1d42c0d94835447224ff08ef420dc1cfdccb49ccc512d5e04b0d0`, log 3
 (`fixtures/base-sepolia-usdc-transfer-log.json`).
 
