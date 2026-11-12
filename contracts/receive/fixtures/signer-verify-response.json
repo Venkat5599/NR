@@ -1,0 +1,15 @@
+{
+  "payload_hash": "a35a3e5bfbcbc404635570bf6a47e29daee916fc7e3ba45881cbe41ef4ea6b07",
+  "signature": {
+    "big_r": {
+      "affine_point": "0214245ad9675cbaa259c40c04aecaa8495132273ef5e065e9a47d00bdf04a4528"
+    },
+    "recovery_id": 1,
+    "s": {
+      "scalar": "02390b4bf4d0dec5b0b340f3de2bd936f8a445137ffd95854c435e1a193df1e3"
+    },
+    "scheme": "Secp256k1"
+  }
+}
+
+

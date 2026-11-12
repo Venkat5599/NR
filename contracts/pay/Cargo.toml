@@ -1,0 +1,24 @@
+[package]
+name = "lunar-pay"
+version = "0.1.0"
+edition = "2021"
+description = "Lunar payments: a keyboard key that can only pay small amounts per day"
+license = "MIT"
+repository = "https://github.com/Venkat5599/NR"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = "5.7"
+
+[dev-dependencies]
+near-sdk = { version = "5.7", features = ["unit-testing"] }
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+overflow-checks = true
