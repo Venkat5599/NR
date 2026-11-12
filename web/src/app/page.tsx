@@ -7,7 +7,7 @@ import { PageLoader } from "@/components/loader/PageLoader";
 import { PartsSection } from "@/components/parts/PartsSection";
 import { RulesSection } from "@/components/rules/RulesSection";
 import { SigningSection } from "@/components/signing/SigningSection";
-import { WaitlistSection } from "@/components/waitlist/WaitlistSection";
+import { DownloadSection } from "@/components/download/DownloadSection";
 
 export default function HomePage() {
   return (
@@ -20,7 +20,7 @@ export default function HomePage() {
       <GuaranteeSection />
       <PartsSection />
       <ApproversSection />
-      <WaitlistSection />
+      <DownloadSection />
       <SiteFooter />
     </>
   );

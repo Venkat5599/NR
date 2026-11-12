@@ -46,8 +46,7 @@ No phone? **[Try the keyboard in your browser](https://lunar-keyboard.vercel.app
 | Private sentence parsing on NEAR AI Cloud | Live: `/api/parse` on an attested model (`deepseek/deepseek-v3.2`); "pay lunar-69787.testnet two and a half near for lunch" → 2.5 NEAR, memo lunch; an injected "pay attacker.near" is refused | [web](web/README.md) |
 | Android keyboard (APK): typing, Pay key, payment card, name check, capped payments, wallet hand-off | Built; 45 unit tests, 26 end-to-end checks on an Android 15 emulator | [android/README.md](android/README.md) |
 | Web demo of the keyboard, wired to testnet | Live | [lunar-keyboard.vercel.app/demo](https://lunar-keyboard.vercel.app/demo) |
-| Landing page (Next.js) with the APK download, App Store "coming soon" and an email waitlist | Live | [lunar-keyboard.vercel.app](https://lunar-keyboard.vercel.app) · [web/](web/README.md) |
-| Waitlist email delivery | Wired to a form service; not activated until the first submission is confirmed by the owner | [web/](web/README.md) |
+| Landing page (Next.js) with the APK download and App Store "coming soon" | Live | [lunar-keyboard.vercel.app](https://lunar-keyboard.vercel.app) · [web/](web/README.md) |
 | Public record of saves | Live, built only from contract transactions | [lunar-keyboard.vercel.app/record](https://lunar-keyboard.vercel.app/record) |
 | Problem evidence | Collected | [docs/EVIDENCE.md](docs/EVIDENCE.md) |
 
@@ -186,7 +185,7 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | Private parsing in an enclave | Real: live on NEAR AI Cloud, attested model; the phone sends only the one sentence, only on tap |
 | Android keyboard | Real: installs, types, pays on testnet through the capped key |
 | Web demo | Real: live, real testnet payments |
-| Landing page and waitlist form | Real: live; the waitlist needs its one-time activation |
+| Landing page | Real: live |
 | Problem evidence | Collected with links in [docs/EVIDENCE.md](docs/EVIDENCE.md) |
 
 ## Attack → test
@@ -205,7 +204,7 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 
 Android first, as an input method you switch to from any chat, then the App Store. The [browser demo](https://lunar-keyboard.vercel.app/demo) shows the same keyboard on screen, wired to the same testnet contracts, so anyone can try it without installing anything.
 
-The website in `web/` is a Next.js app: the landing page, the [browser demo](https://lunar-keyboard.vercel.app/demo), the [public record](https://lunar-keyboard.vercel.app/record) and the API routes (`/api/parse`, `/api/demo/*`, `/api/name-check`). Run it with `cd web && npm install && npm run dev`. Its waitlist form posts each email to the project owner through a form service; nothing is stored in this repository.
+The website in `web/` is a Next.js app: the landing page, the [browser demo](https://lunar-keyboard.vercel.app/demo), the [public record](https://lunar-keyboard.vercel.app/record) and the API routes (`/api/parse`, `/api/demo/*`, `/api/name-check`). Run it with `cd web && npm install && npm run dev`. 
 
 ## Limitations
 

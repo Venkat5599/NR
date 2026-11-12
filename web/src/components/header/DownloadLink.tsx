@@ -2,6 +2,7 @@
 
 import { AnimatePresence, animate, motion } from "motion/react";
 import Link from "next/link";
+import { APK_URL } from "@/lib/content";
 import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { FadeInItem } from "./FadeInItem";
@@ -10,15 +11,15 @@ import { ThemedButtonOverlay } from "./ThemedButtonOverlay";
 
 const ENTRANCE = { delay: 0.1, type: "spring", stiffness: 60, damping: 10, filter: { ease: "easeInOut", duration: 0.4 } } as const;
 
-/** "Join waitlist": a glass pill over the hero, a regular button once the page has scrolled. */
-export function JoinWaitlistLink() {
+/** "Download APK": a glass pill over the hero, a regular button once the page has scrolled. */
+export function DownloadLink() {
   const { isHome, isScrolled, isReady } = useHeaderState();
   const pill = useRef<HTMLButtonElement>(null);
   const overHero = isHome && !isScrolled;
   return (
     <AnimatePresence mode="popLayout">
       <motion.div key={overHero ? "hero" : "not-hero"}>
-        <Link className="contents" href="/#waitlist">
+        <Link className="contents" download href={APK_URL}>
           {overHero ? (
             <FadeInItem delay={0.1}>
               <motion.button
@@ -36,7 +37,7 @@ export function JoinWaitlistLink() {
                 transition={{ type: "spring", stiffness: 120, damping: 10, filter: { ease: "easeInOut", duration: 0.2 } }}
               >
                 <ThemedButtonOverlay />
-                Join waitlist
+                Download APK
               </motion.button>
             </FadeInItem>
           ) : (
@@ -47,7 +48,7 @@ export function JoinWaitlistLink() {
               size="medium"
               transition={ENTRANCE}
             >
-              Join waitlist
+              Download APK
             </Button>
           )}
         </Link>

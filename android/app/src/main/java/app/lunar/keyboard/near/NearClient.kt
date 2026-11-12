@@ -37,7 +37,7 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
     /** Calls a view method and returns its raw JSON result text. */
     fun view(contract: String, method: String, args: JSONObject = JSONObject()): String {
         val r = call("query", JSONObject()
-            .put("request_type", "call_function").put("finality", "final")
+            .put("request_type", "call_function").put("finality", "optimistic")
             .put("account_id", contract).put("method_name", method)
             .put("args_base64", Base64.getEncoder().encodeToString(args.toString().toByteArray())))
         val arr = r.getJSONArray("result")
@@ -46,9 +46,9 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
 
     /** Current nonce of an access key, or null if the key isn't on the account. */
     fun accessKeyNonce(account: String, publicKey: String): Long? = try {
-        call("query", JSONObject()
-            .put("request_type", "view_access_key").put("finality", "final")
-            .put("account_id", account).put("public_key", publicKey)).getLong("nonce")
+        parseAccessKeyNonce(call("query", JSONObject()
+            .put("request_type", "view_access_key").put("finality", "optimistic")
+            .put("account_id", account).put("public_key", publicKey)))
     } catch (e: RpcException) {
         if (e.message?.contains("UNKNOWN_ACCESS_KEY") == true || e.message?.contains("does not exist") == true) null else throw e
     }
@@ -63,9 +63,17 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
         if (e.message?.contains("UNKNOWN_ACCOUNT") == true) null else throw e
     }
 
+    private fun nextNonce(publicKey: String, onChain: Long): Long = synchronized(lastNonce) {
+        val next = maxOf(onChain, lastNonce[publicKey] ?: 0L) + 1
+        lastNonce[publicKey] = next
+        next
+    }
+
     /** Builds, signs and sends a transaction, waiting until it is executed. */
     fun send(signer: String, key: KeyPair, receiver: String, actions: List<Action>): TxOutcome {
-        val nonce = (accessKeyNonce(signer, key.publicKeyString) ?: throw RpcException("this key is not on $signer")) + 1
+        val onChain = accessKeyNonce(signer, key.publicKeyString) ?: throw RpcException("this key is not on $signer")
+        // two transactions in a row from one key: the RPC can still show the older nonce, so never reuse one
+        val nonce = nextNonce(key.publicKeyString, onChain)
         val tx = Transaction(signer, key.publicKey, nonce, receiver, latestBlockHash(), actions)
         val (signed, hash) = tx.sign(key)
         val result = call("send_tx", JSONObject()
@@ -75,6 +83,9 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
     }
 
     companion object {
+        /** Last nonce this process used per key, shared by every client in the app. */
+        private val lastNonce = HashMap<String, Long>()
+
         const val TESTNET_RPC = "https://rpc.testnet.fastnear.com"
         const val FAUCET = "https://helper.nearprotocol.com/account"
         val TGAS: Long = 1_000_000_000_000L
@@ -82,6 +93,17 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
 
         fun functionCall(method: String, args: JSONObject, tgas: Long = 30, deposit: BigInteger = BigInteger.ZERO) =
             Action.FunctionCall(method, args.toString().toByteArray(), tgas * TGAS, deposit)
+
+        /**
+         * Pure: some RPC providers report a missing key inside `result` (`{"error": "... does not exist ..."}`)
+         * instead of as a JSON-RPC error. Both mean "not on the account yet".
+         */
+        fun parseAccessKeyNonce(result: JSONObject): Long? {
+            if (result.has("nonce")) return result.getLong("nonce")
+            val err = result.optString("error")
+            if (err.contains("does not exist")) return null
+            throw RpcException("unexpected access key response: ${result.toString().take(160)}")
+        }
 
         /** Pure: turns a `send_tx` / `tx` result into an outcome. Tested against recorded responses. */
         fun parseOutcome(hash: String, result: JSONObject): TxOutcome {

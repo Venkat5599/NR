@@ -74,4 +74,11 @@ class NearTest {
         val json = JSONObject().put("data", org.json.JSONArray().put(key(nowNs - 400 * day)).put(key(nowNs - 2 * day)))
         assertEquals(NameCheck.Verdict.KeyChanged(2), NameCheck.parse(json.toString(), now))
     }
+
+    @Test fun a_missing_key_reported_inside_result_reads_as_missing() {
+        val missing = JSONObject(res("access_key_missing_fastnear.json")).getJSONObject("result")
+        assertEquals(null, NearClient.parseAccessKeyNonce(missing))
+        val found = JSONObject(res("access_key_found.json")).getJSONObject("result")
+        assertEquals(277334169000004L, NearClient.parseAccessKeyNonce(found))
+    }
 }

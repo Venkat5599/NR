@@ -3,7 +3,6 @@ export const REPO_SLUG = "Venkat5599/NR";
 export const README_URL = `${REPO_URL}#readme`;
 export const EVIDENCE_URL = `${REPO_URL}/blob/main/docs/EVIDENCE.md`;
 export const APK_URL = `${REPO_URL}/releases/latest/download/lunar.apk`;
-export const WAITLIST_ENDPOINT = "https://formsubmit.co/komasubheeksh@gmail.com";
 
 export const SITE_TITLE = "Lunar · Safe AI keyboard";
 export const SITE_DESCRIPTION = "The AI keyboard that won't let you send money to the wrong place.";

@@ -36,7 +36,7 @@ class StripView(context: Context) : LinearLayout(context) {
 
         val texts = LinearLayout(context).apply { orientation = VERTICAL }
         title.apply { textSize = 14f; setTextColor(0xFF111111.toInt()); maxLines = 1; ellipsize = TextUtils.TruncateAt.END }
-        detail.apply { textSize = 11.5f; setTextColor(0x99111111.toInt()); maxLines = 3; ellipsize = TextUtils.TruncateAt.END }
+        detail.apply { textSize = 11.5f; setTextColor(0x99111111.toInt()); maxLines = 5; ellipsize = TextUtils.TruncateAt.END }
         texts.addView(title)
         texts.addView(detail)
         addView(texts, LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f))

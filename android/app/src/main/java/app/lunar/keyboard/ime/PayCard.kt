@@ -44,6 +44,7 @@ class PayCard(
         val gen = ++generation
         val amount = p.amount.toPlainString()
         val memo = p.memo?.let { " · for $it" } ?: ""
+        val memoLine = p.memo?.let { "For $it" }
         if (p.token != "NEAR") {
             strip.show("This test build pays in NEAR", "Type  pay ${p.payee} $amount  without \"${p.token.lowercase()}\"",
                 StripView.Tone.WARN, onClose = onDone)
@@ -102,7 +103,7 @@ class PayCard(
 
             main.post {
                 if (gen != generation) return@post
-                val detail = lines.joinToString("\n") + memo
+                val detail = (lines + listOfNotNull(memoLine)).joinToString("\n")
                 when {
                     !canPay -> strip.show("Pay ${p.payee} · $amount NEAR", detail, tone, onClose = onDone)
                     overCap -> strip.show("Pay ${p.payee} · $amount NEAR", detail, tone,

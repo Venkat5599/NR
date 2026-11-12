@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
+import { APK_URL } from "@/lib/content";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -63,7 +64,7 @@ export function MobileMenu() {
                 ))}
               </div>
               <div className="pb-40 px-48">
-                <Link className="contents" href="/#waitlist">
+                <Link className="contents" download href={APK_URL}>
                   <Button
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     className="w-full !py-14"
@@ -72,7 +73,7 @@ export function MobileMenu() {
                     size="medium"
                     transition={{ ...SPRING, delay: 0.3 }}
                   >
-                    Join waitlist
+                    Download APK
                   </Button>
                 </Link>
               </div>

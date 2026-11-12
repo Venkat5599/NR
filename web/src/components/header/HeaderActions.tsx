@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { FadeInItem } from "./FadeInItem";
 import { useHeaderState } from "./header-state";
-import { JoinWaitlistLink } from "./JoinWaitlistLink";
+import { DownloadLink } from "./DownloadLink";
 import { NavLinks } from "./NavLinks";
 import { ThemeDial } from "./ThemeDial";
 
@@ -16,7 +16,7 @@ const DIAL_ENTRANCE = {
   transition: { type: "spring", stiffness: 120, damping: 20, delay: 0.1, filter: { ease: "easeInOut", duration: 0.2 } },
 } as const;
 
-/** Top-right: the time-of-day dial over the hero, section links once scrolled, and "Join waitlist". */
+/** Top-right: the time-of-day dial over the hero, section links once scrolled, and "Download APK". */
 export function HeaderActions() {
   const { isReady, isHome, isScrolled } = useHeaderState();
   const condensed = isScrolled || !isHome;
@@ -60,7 +60,7 @@ export function HeaderActions() {
       ) : (
         <div className={cn("size-2", hideDotOnSmall)} />
       )}
-      <JoinWaitlistLink />
+      <DownloadLink />
     </div>
   );
 }

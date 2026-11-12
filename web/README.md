@@ -18,7 +18,7 @@ Node 22.6 or newer is needed for `npm test` (it runs the `.ts` tests directly).
 ## Layout
 
 - `src/app/` – `layout.tsx` (metadata, header, scrollbar) and `page.tsx` (the sections in order).
-- `src/components/<section>/` – one folder per landing section: `hero`, `intro`, `rules`, `signing`, `guarantee`, `parts`, `approvers`, `waitlist`, `footer`, plus `header`, `loader`, `scrollbar` and shared `ui`.
+- `src/components/<section>/` – one folder per landing section: `hero`, `intro`, `rules`, `signing`, `guarantee`, `parts`, `approvers`, `download`, `footer`, plus `header`, `loader`, `scrollbar` and shared `ui`.
 - `src/components/pixi/` – `PixiCanvas`, the one canvas wrapper every Pixi scene runs in, and small helpers (texture loading, floating motion, themed layers).
 - `src/lib/` – content (copy, links, parts, quotes), the time-of-day theme store and small utilities.
 - `src/styles/` – the original compiled stylesheets, unchanged apart from a dead SCSS `@mixin` rule removed from `base.css`.
@@ -27,7 +27,7 @@ Node 22.6 or newer is needed for `npm test` (it runs the `.ts` tests directly).
 ## Behaviour worth knowing
 
 - The hero sky, moon, clouds and title follow the visitor's local time (morning, midday, afternoon, night). The dial in the header lets you drag through the day.
-- The waitlist form posts to formsubmit.co (`WAITLIST_ENDPOINT` in `src/lib/content.ts`). The Android pill downloads the latest APK from GitHub releases; the App Store is still marked "coming soon".
+- The header button and the "Get Lunar" section download the latest APK from GitHub releases (`APK_URL` in `src/lib/content.ts`); the App Store is marked "coming soon".
 - `next.config.ts` keeps `images.unoptimized` so image URLs stay the plain `/assets/...` paths the scenes also load.
 
 ## Demo, AI parse and public record

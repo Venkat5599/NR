@@ -85,13 +85,30 @@ class WalletSection(private val activity: Activity, private val ui: Ui) {
         accounts.saveNew(id, wallet, keyboard)
         io.execute {
             val r = runCatching {
-                NearClient.createTestnetAccount(id, wallet.publicKeyString)
+                createAccount(id, wallet.publicKeyString)
                 waitForKey(id, wallet)
                 pay.setUp(id, wallet, keyboard, topUp = BigDecimal("3"), cap = BigDecimal("1"))
             }
             main.post {
                 r.onSuccess { accounts.markReady(); render(null) }
                     .onFailure { e -> accounts.forget(); status.text = "Couldn't create $id: ${e.message?.take(160)}" }
+            }
+        }
+    }
+
+    /**
+     * Asks the testnet faucet directly; when it refuses this phone (it rate-limits per IP),
+     * asks the Lunar web app to pass the same request on. Only the name and public key leave the phone.
+     */
+    private fun createAccount(id: String, publicKey: String) {
+        try {
+            NearClient.createTestnetAccount(id, publicKey)
+        } catch (e: NearClient.RpcException) {
+            if (BuildConfig.API_BASE.isBlank() || e.message?.contains("busy") != true) throw e
+            val body = org.json.JSONObject().put("accountId", id).put("publicKey", publicKey).toString()
+            val res = org.json.JSONObject(NearClient.post("${BuildConfig.API_BASE.trimEnd('/')}/api/testnet-account", body))
+            if (!res.optBoolean("created")) {
+                throw NearClient.RpcException(res.optJSONObject("error")?.optString("message") ?: "couldn't create the account")
             }
         }
     }
