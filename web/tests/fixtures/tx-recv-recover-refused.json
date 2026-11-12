@@ -1,0 +1,61 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "status": {
+   "Failure": {
+    "ActionError": {
+     "index": 0,
+     "kind": {
+      "FunctionCallError": {
+       "ExecutionError": "Smart contract panicked: recipient is not a registered receive address"
+      }
+     }
+    }
+   }
+  },
+  "transaction": {
+   "hash": "EkFC7jLr23579T33Sd5MLRqWpvwvcf7DHx8rW9knyKjY",
+   "signer_id": "lunar-user-80366.testnet",
+   "receiver_id": "lunar-recv-80366.testnet"
+  },
+  "receipts_outcome": [
+   {
+    "outcome": {
+     "executor_id": "lunar-recv-80366.testnet",
+     "logs": [],
+     "status": {
+      "Failure": {
+       "ActionError": {
+        "index": 0,
+        "kind": {
+         "FunctionCallError": {
+          "ExecutionError": "Smart contract panicked: recipient is not a registered receive address"
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   }
+  ]
+ }
+}

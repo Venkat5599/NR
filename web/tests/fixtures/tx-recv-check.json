@@ -1,0 +1,90 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "status": {
+   "SuccessValue": "eyJ2ZXJpZmllZCI6dHJ1ZSwicmVhc29uIjpudWxsLCJwYXlsb2FkX2hhc2giOiIweGEzNWEzZTViZmJjYmM0MDQ2MzU1NzBiZjZhNDdlMjlkYWVlOTE2ZmM3ZTNiYTQ1ODgxY2JlNDFlZjRlYTZiMDciLCJ0cmFuc2ZlciI6eyJ0b2tlbiI6IjB4MDM2Y2JkNTM4NDJjNTQyNjYzNGU3OTI5NTQxZWMyMzE4ZjNkY2Y3ZSIsImZyb20iOiIweGMxZjM4MGZmODZjMDdmMTZhZmIwNGNjYWYxMjVhZTExNGU5NDMwMDAiLCJ0byI6IjB4MGEzNDQwZDIxMjcxNjI4MmViYWYwOGI3ODcxYmE1YmZlMmM4Y2UzNCIsImFtb3VudCI6IjIwMDAwMDAiLCJ0eF9pZCI6IjB4ZDM0ODJlNGUwY2QxZDQyYzBkOTQ4MzU0NDcyMjRmZjA4ZWY0MjBkYzFjZmRjY2I0OWNjYzUxMmQ1ZTA0YjBkMCIsImxvZ19pbmRleCI6M30sInJlY2lwaWVudCI6bnVsbH0="
+  },
+  "transaction": {
+   "hash": "5nG628mr1C9vWM9UWNqxgSGyA6pGdmmvwpwxVEAcFoUG",
+   "signer_id": "lunar-user-80366.testnet",
+   "receiver_id": "lunar-recv-80366.testnet"
+  },
+  "receipts_outcome": [
+   {
+    "outcome": {
+     "executor_id": "lunar-recv-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessReceiptId": "7F5p3285xDnGF9qvapbaBkC6TzKWe7Ba6qxTFjDCthQ7"
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "v1.signer-prod.testnet",
+     "logs": [
+      "verify_foreign_transaction: predecessor=AccountId(\"lunar-recv-80366.testnet\"), request=VerifyForeignTransactionRequestArgs { request: Base(EvmRpcRequest { tx_id: EvmTxId([211, 72, 46, 78, 12, 209, 212, 44, 13, 148, 131, 84, 71, 34, 79, 240, 142, 244, 32, 220, 28, 253, 204, 180, 156, 204, 81, 45, 94, 4, 176, 208]), extractors: BoundedVec { inner: [Log { log_index: 3 }], witness: PossiblyEmpty(()) }, finality: Finalized }), domain_id: DomainId(3), payload_version: V1, expected_payload_hash: Some(Hash256([163, 90, 62, 91, 251, 203, 196, 4, 99, 85, 112, 191, 106, 71, 226, 157, 174, 233, 22, 252, 126, 59, 164, 88, 129, 203, 228, 30, 244, 234, 107, 7])) }"
+     ],
+     "status": {
+      "SuccessReceiptId": "1jCL892R6eVrXbyvvEt4EMYwmPk7Tsp6aoMzLar8ZW2"
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "v1.signer-prod.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": "eyJwYXlsb2FkX2hhc2giOiJhMzVhM2U1YmZiY2JjNDA0NjM1NTcwYmY2YTQ3ZTI5ZGFlZTkxNmZjN2UzYmE0NTg4MWNiZTQxZWY0ZWE2YjA3Iiwic2lnbmF0dXJlIjp7InNjaGVtZSI6IlNlY3AyNTZrMSIsImJpZ19yIjp7ImFmZmluZV9wb2ludCI6IjAzYTI2OGE4OGRhNDI0MzNiMjg4YzU3MzlmZTczMTVkYmMwNThjNGZiZjZiMzYwZDExMjFmZDFhZjQ1NDJhZjAyNCJ9LCJzIjp7InNjYWxhciI6IjZhYjUzODViYjJkYmFkMjA3Zjg5YjY4MmQ0MGVlYTE3ZTIwNTI1OWJiNDdjMmMxNDc0NDg3NmQ4ZGJjNGRmMjMifSwicmVjb3ZlcnlfaWQiOjB9fQ=="
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-recv-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": "eyJ2ZXJpZmllZCI6dHJ1ZSwicmVhc29uIjpudWxsLCJwYXlsb2FkX2hhc2giOiIweGEzNWEzZTViZmJjYmM0MDQ2MzU1NzBiZjZhNDdlMjlkYWVlOTE2ZmM3ZTNiYTQ1ODgxY2JlNDFlZjRlYTZiMDciLCJ0cmFuc2ZlciI6eyJ0b2tlbiI6IjB4MDM2Y2JkNTM4NDJjNTQyNjYzNGU3OTI5NTQxZWMyMzE4ZjNkY2Y3ZSIsImZyb20iOiIweGMxZjM4MGZmODZjMDdmMTZhZmIwNGNjYWYxMjVhZTExNGU5NDMwMDAiLCJ0byI6IjB4MGEzNDQwZDIxMjcxNjI4MmViYWYwOGI3ODcxYmE1YmZlMmM4Y2UzNCIsImFtb3VudCI6IjIwMDAwMDAiLCJ0eF9pZCI6IjB4ZDM0ODJlNGUwY2QxZDQyYzBkOTQ4MzU0NDcyMjRmZjA4ZWY0MjBkYzFjZmRjY2I0OWNjYzUxMmQ1ZTA0YjBkMCIsImxvZ19pbmRleCI6M30sInJlY2lwaWVudCI6bnVsbH0="
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   }
+  ]
+ }
+}

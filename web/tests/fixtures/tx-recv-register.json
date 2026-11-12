@@ -1,0 +1,72 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "status": {
+   "SuccessValue": "eyJhY2NvdW50X2lkIjoibHVuYXItdXNlci04MDM2Ni50ZXN0bmV0IiwicmVjZWl2ZV9hZGRyZXNzIjoiMHhhODg3MWU5ODc5ZDE3ZTIyOWQ3M2M1ZmFlZmY2NzdkNWE4Y2QyYmQyIiwicHVibGljX2tleSI6IjB4MDBlNGYyZWIyMDAxOTFkMjE1MWFkYjgzZTdjMTZmNzZmZGMxZmZiZjdlYTg1OWNiZjI0NDk1OWUwYmRjYjdmM2UxMzAyZjc4MzE2MmMxY2FlZGMxZDlhNzZkYmU4YTY1ZjQyZmZkODE1NzVkOWNjZTBiYTZlZjNhM2E2ZTQ0MTciLCJmb3J3YXJkX3RvIjpudWxsfQ=="
+  },
+  "transaction": {
+   "hash": "Bav6DbKJD575eYtKxctZ6pnRJiqs5SSrMpjF3dQfAAgR",
+   "signer_id": "lunar-user-80366.testnet",
+   "receiver_id": "lunar-recv-80366.testnet"
+  },
+  "receipts_outcome": [
+   {
+    "outcome": {
+     "executor_id": "lunar-recv-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessReceiptId": "5rNge1E7vPyiwttL7avn4X4zgujcbFpmSDnH2b85vadt"
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "v1.signer-prod.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": "InNlY3AyNTZrMToxMjM5aURlVkhSdXVHVDVqd0FXS2JmNHM5eFNINmdMY0RHdGExV3FERW1ITmN0eUNVV21LRDNWYnZKd0ZKS1I5aExZZWNQaHVBN0ZWSHRSaGZMYU1WMjljIg=="
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-recv-80366.testnet",
+     "logs": [
+      "registered lunar-user-80366.testnet receive address 0xa8871e9879d17e229d73c5faeff677d5a8cd2bd2"
+     ],
+     "status": {
+      "SuccessValue": "eyJhY2NvdW50X2lkIjoibHVuYXItdXNlci04MDM2Ni50ZXN0bmV0IiwicmVjZWl2ZV9hZGRyZXNzIjoiMHhhODg3MWU5ODc5ZDE3ZTIyOWQ3M2M1ZmFlZmY2NzdkNWE4Y2QyYmQyIiwicHVibGljX2tleSI6IjB4MDBlNGYyZWIyMDAxOTFkMjE1MWFkYjgzZTdjMTZmNzZmZGMxZmZiZjdlYTg1OWNiZjI0NDk1OWUwYmRjYjdmM2UxMzAyZjc4MzE2MmMxY2FlZGMxZDlhNzZkYmU4YTY1ZjQyZmZkODE1NzVkOWNjZTBiYTZlZjNhM2E2ZTQ0MTciLCJmb3J3YXJkX3RvIjpudWxsfQ=="
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-user-80366.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   }
+  ]
+ }
+}

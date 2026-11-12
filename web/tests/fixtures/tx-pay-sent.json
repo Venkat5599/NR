@@ -1,0 +1,72 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "status": {
+   "SuccessValue": "IlNlbnQi"
+  },
+  "transaction": {
+   "hash": "DqQrppNc9L9y2Dat82ax2WQVJeP3QWJyUtDhjSjNBC2v",
+   "signer_id": "lunar-e2e-480974.testnet",
+   "receiver_id": "lunarpay-0111.testnet"
+  },
+  "receipts_outcome": [
+   {
+    "outcome": {
+     "executor_id": "lunarpay-0111.testnet",
+     "logs": [
+      "EVENT_JSON:{\"standard\":\"lunar\",\"version\":\"1.0.0\",\"event\":\"pay\",\"data\":[{\"from\":\"lunar-e2e-480974.testnet\",\"to\":\"lunar-69787.testnet\",\"amount\":\"100000000000000000000000\",\"memo\":null}]}"
+     ],
+     "status": {
+      "SuccessValue": "IlNlbnQi"
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-69787.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-e2e-480974.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunarpay-0111.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": "dHJ1ZQ=="
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-e2e-480974.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   },
+   {
+    "outcome": {
+     "executor_id": "lunar-e2e-480974.testnet",
+     "logs": [],
+     "status": {
+      "SuccessValue": ""
+     }
+    }
+   }
+  ]
+ }
+}
