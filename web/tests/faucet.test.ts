@@ -1,6 +1,7 @@
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { faucetOutcome, readAccountRequest, requestTestnetAccount } from "../src/lib/near/faucet.ts";
+import { faucetFailure, faucetOutcome, readAccountRequest, requestTestnetAccount } from "../src/lib/near/faucet.ts";
 import { LunarError } from "../src/lib/errors.ts";
 
 const KEY = "ed25519:Aj1EA4YM5se9AjUceBjfj1WUdfCzjQ1yG319WmcY2fMk";
@@ -34,4 +35,18 @@ test("only the name and public key are sent to the faucet", async () => {
   };
   await requestTestnetAccount({ accountId: "alice.testnet", publicKey: KEY }, fake);
   assert.deepEqual(JSON.parse(sent), { newAccountId: "alice.testnet", newAccountPublicKey: KEY });
+});
+
+const fixture = (name: string): string => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), "utf8");
+
+test("a 200 from the faucet whose transaction failed with AccountAlreadyExists is a taken name, not a new account", () => {
+  const taken = fixture("faucet_taken.json");
+  assert.equal(faucetFailure(taken), "taken");
+  assert.throws(() => faucetOutcome(200, taken), (e: unknown) => e instanceof LunarError && e.code === "bad_input" && /taken/.test(e.message));
+});
+
+test("a 200 from the faucet whose transaction succeeded is a new account", () => {
+  const created = fixture("faucet_created.json");
+  assert.equal(faucetFailure(created), null);
+  assert.deepEqual(faucetOutcome(200, created), { created: true });
 });
