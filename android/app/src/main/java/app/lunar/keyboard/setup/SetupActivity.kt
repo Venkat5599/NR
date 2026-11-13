@@ -4,58 +4,80 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.InputType
 import android.view.Gravity
-import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import app.lunar.keyboard.BuildConfig
 import app.lunar.keyboard.core.NearName
 import app.lunar.keyboard.core.PasteCheck
 import app.lunar.keyboard.core.Payee
 import app.lunar.keyboard.data.PayeeStore
 import app.lunar.keyboard.ime.LunarIme
+import app.lunar.keyboard.ui.Appearance
+import app.lunar.keyboard.ui.Icons
+import app.lunar.keyboard.ui.Palette
 
-/** Turn the keyboard on, try it, and keep the list of people you pay. */
+/** Turn the keyboard on, set up the testnet wallet, try it, and keep the list of people you pay. */
 class SetupActivity : Activity() {
 
     private lateinit var payees: PayeeStore
+    private lateinit var kit: Kit
     private lateinit var root: LinearLayout
+    private lateinit var scroll: ScrollView
     private lateinit var enableStatus: TextView
     private lateinit var chooseStatus: TextView
+    private lateinit var stepsBox: LinearLayout
     private lateinit var payeeList: LinearLayout
     private var wallet: WalletSection? = null
-
-    private val uiBridge = object : WalletSection.Ui {
-        override fun text(s: String, size: Float, bold: Boolean, muted: Boolean) = this@SetupActivity.text(s, size, bold, muted)
-        override fun section(s: String) = this@SetupActivity.section(s)
-        override fun button(label: String, onClick: () -> Unit) = this@SetupActivity.button(label, onClick)
-        override fun card(body: LinearLayout.() -> Unit) = this@SetupActivity.card(body)
-        override fun px(v: Int) = this@SetupActivity.px(v)
-    }
 
     override fun onDestroy() {
         wallet?.close()
         super.onDestroy()
     }
-    private val dp by lazy { resources.displayMetrics.density }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         payees = PayeeStore(this)
-        root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(px(22), px(28), px(22), px(40))
+        kit = Kit(this, Palette.of(this))
+        val p = kit.palette
+        window.decorView.setBackgroundColor(p.page)
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT < 35) { window.statusBarColor = p.page; window.navigationBarColor = p.page }
+        if (Build.VERSION.SDK_INT >= 30) window.insetsController?.setSystemBarsAppearance(
+            if (p.dark) 0 else WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
+
+        root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        scroll = ScrollView(this).apply {
+            isFillViewport = true
+            clipToPadding = true // content scrolls under nothing: the status bar area stays clear
+            isVerticalScrollBarEnabled = false
+            setBackgroundColor(p.page)
+            addView(kit.centred(root, 600))
         }
-        setContentView(ScrollView(this).apply { addView(root) })
+        // side padding grows a little with the screen; the column stops growing at 600dp
+        val side = kit.px((resources.configuration.screenWidthDp * 0.055f).toInt().coerceIn(16, 28))
+        // Android 15 draws edge to edge: keep content clear of the status bar, gesture bar and keyboard
+        scroll.setOnApplyWindowInsetsListener { v, insets ->
+            val (top, bottom) = if (Build.VERSION.SDK_INT >= 30) {
+                val bars = insets.getInsets(WindowInsets.Type.systemBars())
+                val ime = insets.getInsets(WindowInsets.Type.ime())
+                bars.top to maxOf(bars.bottom, ime.bottom)
+            } else @Suppress("DEPRECATION") (insets.systemWindowInsetTop to insets.systemWindowInsetBottom)
+            v.setPadding(side, top + kit.px(12), side, bottom + kit.px(28))
+            insets
+        }
+        setContentView(scroll)
         build()
     }
 
@@ -74,48 +96,85 @@ class SetupActivity : Activity() {
         setIntent(intent)
         root.removeAllViews()
         build()
+        if (wallet?.waiting == null) scroll.post { scroll.smoothScrollTo(0, 0) }
     }
 
     private fun build() {
-        root.addView(text("Lunar", 30f, bold = true))
-        root.addView(text("The AI keyboard that won't let you send money to the wrong place.", 15f, muted = true).also { pad(it, 4, 22) })
+        header()
 
-        root.addView(section("1 · Turn on the keyboard"))
-        enableStatus = text("", 14f, muted = true)
-        root.addView(enableStatus)
-        root.addView(button("Open keyboard settings") { startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS)) })
-
-        root.addView(section("2 · Switch to Lunar"))
-        chooseStatus = text("", 14f, muted = true)
-        root.addView(chooseStatus)
-        root.addView(button("Choose keyboard") { imm().showInputMethodPicker() })
-
-        root.addView(section("3 · Try it"))
-        root.addView(text("Type “pay bob.testnet 0.5 for dinner”, then tap Pay.", 14f, muted = true))
-        root.addView(EditText(this).apply {
-            hint = "Type here"
-            tag = "try"
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-            minLines = 2
-        }.also { pad(it, 8, 0) })
-
+        // payment requests from the keyboard (over the cap) come first
         val request = intent?.getStringExtra(EXTRA_PAYEE)?.let { payee ->
             intent.getStringExtra(EXTRA_AMOUNT)?.toBigDecimalOrNull()?.let { WalletSection.PaymentRequest(payee, it, intent.getStringExtra(EXTRA_MEMO)) }
         }
-        wallet?.close()
-        wallet = WalletSection(this, uiBridge).also { it.build(root, request) }
 
-        root.addView(section("People you pay"))
-        root.addView(text("Lunar warns you when a copied address looks like one of these but isn't.", 14f, muted = true))
-        payeeList = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-        root.addView(payeeList)
-        val name = EditText(this).apply { hint = "name, e.g. bob.testnet"; tag = "payee_name"; isSingleLine = true
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS; imeOptions = EditorInfo.IME_ACTION_NEXT }
-        val addr = EditText(this).apply { hint = "address, 0x…"; tag = "payee_address"; isSingleLine = true
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS; imeOptions = EditorInfo.IME_ACTION_DONE }
-        val error = text("", 13f, muted = true)
-        root.addView(name); root.addView(addr); root.addView(error)
-        root.addView(button("Save payee") {
+        stepsBox = kit.card {
+            addView(kit.label("Get set up"))
+            addView(kit.space(6))
+            enableStatus = kit.text("", 13.5f, muted = true)
+            chooseStatus = kit.text("", 13.5f, muted = true)
+        }
+        root.addView(stepsBox)
+
+        // "Try it" sits right under the setup steps: it's the first thing to do once the keyboard is on
+        root.addView(tryCard())
+
+        wallet?.close()
+        val swap = intent?.getStringExtra(EXTRA_SWAP_AMOUNT)?.toBigDecimalOrNull()?.let { a ->
+            WalletSection.SwapRequest(a, intent.getStringExtra(EXTRA_SWAP_TO) ?: "USDC")
+        }
+        wallet = WalletSection(this, kit).also { it.build(root, request, swap) }
+
+        root.addView(payeesCard())
+        root.addView(appearanceCard())
+        // opened by the keyboard with something to approve: bring that card into view
+        wallet?.waiting?.let { card ->
+            scroll.post {
+                val r = android.graphics.Rect()
+                card.getDrawingRect(r)
+                scroll.offsetDescendantRectToMyCoords(card, r)
+                scroll.smoothScrollTo(0, (r.top - kit.px(24)).coerceAtLeast(0))
+            }
+        }
+        root.addView(kit.text("Testnet build · ${BuildConfig.PAY_CONTRACT}", 12f, faint = true).apply {
+            gravity = Gravity.CENTER
+            setPadding(0, kit.px(22), 0, 0)
+        })
+        refreshStatus()
+    }
+
+    private fun header() {
+        root.addView(kit.row {
+            addView(kit.icon(Icons.Kind.CRESCENT, 24f), LinearLayout.LayoutParams(kit.px(30), kit.px(30)).apply { marginEnd = kit.px(6) })
+            addView(kit.displayText("Lunar", 26f))
+        })
+        root.addView(kit.displayText("Pay anyone by name,\nright from your keyboard.", 31f).apply { setPadding(0, kit.px(18), 0, 0) })
+        root.addView(kit.text("Lunar checks the name, your daily cap and the chain before anything moves. Built on NEAR.", 15f, muted = true)
+            .apply { setPadding(0, kit.px(10), 0, kit.px(6)) })
+    }
+
+    private fun tryCard() = kit.card {
+        addView(kit.label("Try it"))
+        addView(kit.text("Tap Pay with nothing typed to open the pay form, or write it as a sentence and tap Pay.", 14.5f, muted = true)
+            .apply { setPadding(0, kit.px(8), 0, 0) })
+        addView(kit.field("Type here", "try").apply {
+            isSingleLine = false
+            minLines = 2
+            gravity = Gravity.TOP
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        })
+    }
+
+    private fun payeesCard() = kit.card {
+        addView(kit.label("People you pay"))
+        addView(kit.text("Lunar warns you when a copied address looks like one of these but isn't.", 14.5f, muted = true)
+            .apply { setPadding(0, kit.px(8), 0, kit.px(4)) })
+        payeeList = LinearLayout(context).apply { orientation = LinearLayout.VERTICAL }
+        addView(payeeList)
+        val name = kit.field("name, e.g. bob.testnet", "payee_name").apply { imeOptions = EditorInfo.IME_ACTION_NEXT }
+        val addr = kit.field("address, 0x…", "payee_address").apply { imeOptions = EditorInfo.IME_ACTION_DONE }
+        val error = kit.text("", 13f, muted = true)
+        addView(name); addView(addr); addView(error)
+        addView(kit.secondary("Save payee") {
             val n = name.text.toString().trim().lowercase()
             val a = PasteCheck.extract(addr.text)
             when {
@@ -127,18 +186,32 @@ class SetupActivity : Activity() {
         renderPayees()
     }
 
+    private fun appearanceCard() = kit.card {
+        addView(kit.label("Appearance"))
+        val modes = listOf(Appearance.SYSTEM, Appearance.LIGHT, Appearance.DARK)
+        addView(kit.segmented(listOf("System", "Light", "Dark"), modes.indexOf(Appearance.get(context))) { i ->
+            if (Appearance.get(context) != modes[i]) {
+                Appearance.set(context, modes[i])
+                recreate() // the keyboard picks it up the next time it opens
+            }
+        })
+    }
+
     private fun renderPayees() {
         payeeList.removeAllViews()
         val all = payees.all()
-        if (all.isEmpty()) payeeList.addView(text("Nobody yet.", 14f, muted = true).also { pad(it, 8, 8) })
+        if (all.isEmpty()) payeeList.addView(kit.text("Nobody yet.", 14.5f, faint = true).also { it.setPadding(0, kit.px(6), 0, kit.px(2)) })
         all.forEach { p ->
-            payeeList.addView(LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(0, px(8), 0, px(8))
-                addView(text("${p.name}   ${PasteCheck.short(p.address)}", 15f), LinearLayout.LayoutParams(0, -2, 1f))
-                addView(TextView(context).apply {
-                    text = "Remove"; textSize = 14f; setTextColor(0xFF8A1C1C.toInt()); setPadding(px(10), px(6), 0, px(6))
+            payeeList.addView(kit.row {
+                setPadding(0, kit.px(10), 0, kit.px(10))
+                addView(LinearLayout(context).apply {
+                    orientation = LinearLayout.VERTICAL
+                    addView(kit.text(p.name, 15.5f, bold = true))
+                    addView(kit.text(PasteCheck.short(p.address), 13f, muted = true))
+                }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+                addView(kit.text("Remove", 14f).apply {
+                    setTextColor(kit.palette.danger)
+                    setPadding(kit.px(12), kit.px(8), 0, kit.px(8))
                     setOnClickListener { payees.remove(p.name); renderPayees() }
                 })
             })
@@ -146,49 +219,32 @@ class SetupActivity : Activity() {
     }
 
     private fun refreshStatus() {
-        if (!::enableStatus.isInitialized) return
+        if (!::stepsBox.isInitialized) return
         val me = ComponentName(this, LunarIme::class.java)
         val enabled = imm().enabledInputMethodList.any { it.component == me }
         // Android stores ids in either form ("pkg/.ime.LunarIme" or "pkg/pkg.ime.LunarIme"); compare components
         val current = Settings.Secure.getString(contentResolver, Settings.Secure.DEFAULT_INPUT_METHOD)
             ?.let { ComponentName.unflattenFromString(it) }
-        enableStatus.text = if (enabled) "✓ Lunar is on." else "Lunar is off. Turn it on in keyboard settings."
-        chooseStatus.text = if (current == me) "✓ Lunar is your keyboard." else "Another keyboard is selected."
+        val chosen = current == me
+        enableStatus.text = if (enabled) "Lunar is on" else "Turn Lunar on in your keyboard settings"
+        chooseStatus.text = if (chosen) "Lunar is your keyboard" else "Pick Lunar as the keyboard you type with"
+        // rebuild the two steps so their dots and buttons match the new state
+        while (stepsBox.childCount > 2) stepsBox.removeViewAt(2)
+        (enableStatus.parent as? ViewGroup)?.removeView(enableStatus)
+        (chooseStatus.parent as? ViewGroup)?.removeView(chooseStatus)
+        stepsBox.addView(kit.step(1, "Turn on the keyboard", enableStatus, enabled, if (enabled) null else "Open") {
+            startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
+        })
+        stepsBox.addView(kit.step(2, "Switch to Lunar", chooseStatus, chosen, if (chosen) null else "Choose") { imm().showInputMethodPicker() })
     }
-
-    // ---------------------------------------------------------------- tiny view helpers
 
     private fun imm() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    private fun px(v: Int) = (v * dp).toInt()
-    private fun pad(v: View, top: Int, bottom: Int) { v.setPadding(v.paddingLeft, px(top), v.paddingRight, px(bottom)) }
-
-    private fun text(s: String, size: Float, bold: Boolean = false, muted: Boolean = false) = TextView(this).apply {
-        text = s; textSize = size
-        setTextColor(if (muted) 0x99111111.toInt() else 0xFF111111.toInt())
-        if (bold) typeface = Typeface.DEFAULT_BOLD
-    }
-
-    private fun section(s: String) = text(s, 18f, bold = true).also { pad(it, 26, 6) }
-
-    private fun button(label: String, onClick: () -> Unit) = Button(this).apply {
-        text = label
-        isAllCaps = false
-        setTextColor(0xFFFFFFFF.toInt())
-        background = GradientDrawable().apply { cornerRadius = 999f; setColor(0xFF0A0A0A.toInt()) }
-        setOnClickListener { onClick() }
-        layoutParams = LinearLayout.LayoutParams(-2, -2).apply { topMargin = px(10) }
-    }
-
-    private fun card(body: LinearLayout.() -> Unit) = LinearLayout(this).apply {
-        orientation = LinearLayout.VERTICAL
-        setPadding(px(16), px(14), px(16), px(14))
-        background = GradientDrawable().apply { cornerRadius = 18 * dp; setColor(0xFFF2F3F5.toInt()) }
-        body()
-    }
 
     companion object {
         const val EXTRA_PAYEE = "payee"
         const val EXTRA_AMOUNT = "amount"
         const val EXTRA_MEMO = "memo"
+        const val EXTRA_SWAP_AMOUNT = "swap_amount"
+        const val EXTRA_SWAP_TO = "swap_to"
     }
 }
