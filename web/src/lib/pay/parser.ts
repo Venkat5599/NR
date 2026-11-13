@@ -14,7 +14,7 @@ export type PayIntent = {
 };
 
 const NAME = String.raw`@?[a-z0-9][a-z0-9._-]*[a-z0-9]`;
-const AMOUNT = String.raw`\$?(\d{1,9}(?:[.,]\d{1,6})?)`;
+const AMOUNT = String.raw`(\$)?(\d{1,9}(?:[.,]\d{1,6})?)`;
 const TOKEN = String.raw`(usdc|usdt|near|usd|dollars?)`;
 const MEMO = String.raw`(?:\s+for\s+(.{1,60}?))?`;
 
@@ -31,9 +31,9 @@ export function parsePay(textBeforeCursor: string | null | undefined): PayIntent
   if (!textBeforeCursor || textBeforeCursor.trim() === "") return null;
   const text = textBeforeCursor;
   const nameFirst = NAME_FIRST.exec(text);
-  if (nameFirst) return build(nameFirst[1], nameFirst[2], nameFirst[3], nameFirst[4], text, nameFirst.index);
+  if (nameFirst) return build(nameFirst[1], nameFirst[3], nameFirst[4], nameFirst[5], nameFirst[2] === "$", text, nameFirst.index);
   const amountFirst = AMOUNT_FIRST.exec(text);
-  if (amountFirst) return build(amountFirst[3], amountFirst[1], amountFirst[2], amountFirst[4], text, amountFirst.index);
+  if (amountFirst) return build(amountFirst[4], amountFirst[2], amountFirst[3], amountFirst[5], amountFirst[1] === "$", text, amountFirst.index);
   return null;
 }
 
@@ -68,6 +68,8 @@ function build(
   rawAmount: string | undefined,
   rawToken: string | undefined,
   rawMemo: string | undefined,
+  /** The amount itself was written with "$"; a "$" in the memo does not count. */
+  dollarSign: boolean,
   text: string,
   start: number,
 ): PayIntent | null {
@@ -76,7 +78,7 @@ function build(
   if (!isValidNearName(payee)) return null;
   const amount = normalizeAmount(rawAmount);
   if (!/[1-9]/.test(amount)) return null;
-  const token = tokenOf(rawToken ?? "", text.slice(start).includes("$"));
+  const token = tokenOf(rawToken ?? "", dollarSign);
   if (!token) return null;
   const sentenceStart = /\s/.test(text.charAt(start)) ? start + 1 : start;
   const memo = (rawMemo ?? "").trim();
