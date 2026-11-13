@@ -20,9 +20,9 @@ function nameLine(check: NameCheck): { line: string; warn: boolean } {
     case "new-account":
       return { line: `${check.account} was created ${daysText(k.ageDays)}`, warn: true };
     case "settled":
-      return { line: `${check.account} ✓ ${k.ageDays} days old`, warn: false };
+      return { line: `${check.account} · ${k.ageDays} days old`, warn: false };
     default:
-      return { line: `${check.account} ✓ exists`, warn: false };
+      return { line: `${check.account} · exists`, warn: false };
   }
 }
 

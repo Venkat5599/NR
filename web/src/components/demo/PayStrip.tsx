@@ -39,7 +39,9 @@ export function PayStrip({ title, lines, tone, busy = false, action, onClose }: 
         ))}
       {onClose && (
         <button aria-label="Close" className="strip-close" onClick={onClose} type="button">
-          {"✕"}
+          <svg aria-hidden="true" height="16" viewBox="0 0 24 24" width="16">
+            <path d="M6.5 6.5l11 11m0-11-11 11" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.9" />
+          </svg>
         </button>
       )}
     </div>
