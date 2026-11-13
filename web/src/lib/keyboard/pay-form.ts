@@ -75,15 +75,24 @@ export function choosePayee(f: PayForm, name: string): PayForm {
   return { ...f, to: name, active: f.amount === "" ? "amount" : "memo" };
 }
 
+/** "05.90" -> "5.9", always plain digits (never "1e-7"); null when [raw] is not a plain decimal. */
+function plainAmount(raw: string): string | null {
+  const m = /^(\d*)(?:\.(\d*))?$/.exec(raw.trim());
+  if (!m || raw.trim() === "" || raw.trim() === ".") return null;
+  const whole = (m[1] ?? "").replace(/^0+(?=\d)/, "") || "0";
+  const frac = (m[2] ?? "").replace(/0+$/, "");
+  return frac ? `${whole}.${frac}` : whole;
+}
+
 export function setAmount(f: PayForm, amount: string): PayForm {
-  return { ...f, amount: String(Number(amount)).slice(0, 18) };
+  return { ...f, amount: (plainAmount(amount) ?? "").slice(0, 18) };
 }
 
 export function checkForm(f: PayForm): FormCheck {
   if (f.to === "") return { ok: false, field: "to", message: "Who are you paying?" };
   const implicit = /^[0-9a-f]{64}$/.test(f.to) || /^0x[0-9a-f]{40}$/.test(f.to);
   if (!isValidNearName(f.to) || (!f.to.includes(".") && !implicit)) return { ok: false, field: "to", message: "Type the full name, e.g. bob.testnet" };
-  const value = Number(f.amount);
-  if (f.amount === "" || !Number.isFinite(value) || value <= 0) return { ok: false, field: "amount", message: "How much?" };
-  return { ok: true, payee: f.to, amount: String(value), token: f.token, memo: f.memo.trim() === "" ? null : f.memo.trim() };
+  const value = plainAmount(f.amount);
+  if (value === null || !/[1-9]/.test(value)) return { ok: false, field: "amount", message: "How much?" };
+  return { ok: true, payee: f.to, amount: value, token: f.token, memo: f.memo.trim() === "" ? null : f.memo.trim() };
 }
