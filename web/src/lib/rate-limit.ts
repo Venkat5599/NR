@@ -17,7 +17,8 @@ export function createRateLimiter(capacity: number, refillMs: number, now: () =>
       const tokens = Math.min(capacity, b.tokens + (t - b.at) / refillMs);
       if (buckets.size >= MAX_KEYS && !buckets.has(key)) buckets.clear();
       if (tokens < 1) {
-        buckets.set(key, { tokens, at: t });
+        // keep the last real take as the anchor: re-anchoring on every refusal adds float drift
+        buckets.set(key, b);
         return false;
       }
       buckets.set(key, { tokens: tokens - 1, at: t });
