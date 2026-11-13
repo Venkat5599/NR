@@ -1,0 +1,5162 @@
+{
+ "version": 1,
+ "names": {
+  "valid": [
+   "bob.near",
+   "alice.testnet",
+   "near",
+   "testnet",
+   "aa",
+   "a1",
+   "00",
+   "a.b",
+   "x.y.z.near",
+   "a-b_c.near",
+   "lunar-69787.testnet",
+   "carol_x.near",
+   "dev.sub.testnet",
+   "ref-finance-101.testnet",
+   "wrap.testnet",
+   "wrap.near",
+   "usdc.itachicara.testnet",
+   "lunarpay-0111.testnet",
+   "1.near",
+   "007.near",
+   "a_b-c_d.e-f_g.near",
+   "x1.near",
+   "abc123.near",
+   "q.q",
+   "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "0xffffffffffffffffffffffffffffffffffffffff",
+   "0x0000000000000000000000000000000000000000",
+   "0000000000000000000000000000000000000000000000000000000000000000",
+   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "zz",
+   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.near",
+   "1111111111111111111111111111111111111111111111111111111111111.nx",
+   "sub.account.of.someone.near",
+   "token-v2.factory.testnet",
+   "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "0xgggggggggggggggggggggggggggggggggggggggg",
+   "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+   "my_wallet.testnet",
+   "bob.testnet",
+   "42-coffee.carol_bob.coffee_bob.testnet",
+   "bob.app.testnet",
+   "app.eve.shop.testnet",
+   "dao.carol.near",
+   "shop.42_lunar.near",
+   "shop.pay_alice.eve.near",
+   "app-dao.near",
+   "shop.near",
+   "dave-dave.pay-coffee.carol.near",
+   "coffee.app.app-0.near",
+   "x7.x7.0.near",
+   "0.dao-shop.testnet",
+   "42_bob.app.app.testnet",
+   "lunar.x7.alice.near",
+   "coffee-x7.near",
+   "lunar.near",
+   "pay_alice.42-bob.42-x7.near",
+   "dao.lunar.near",
+   "42.carol.pay_shop.near",
+   "coffee-dao.testnet",
+   "lunar-app.shop.testnet",
+   "shop-v2.near",
+   "carol.alice.near",
+   "x7-alice.0_eve.near",
+   "x7-app.x7_carol.lunar_alice.testnet",
+   "coffee.testnet",
+   "pay.42.alice.near",
+   "carol.dao-carol.testnet",
+   "dave.carol_carol.x7.testnet",
+   "dave.x7.testnet",
+   "v2.testnet",
+   "42.v2.dao-app.near",
+   "alice_shop.42-lunar.bob.near",
+   "v2.0-v2.near",
+   "alice.near",
+   "0-app.lunar.testnet",
+   "coffee.dave_42.0.testnet",
+   "pay.carol_alice.near",
+   "dao.near",
+   "v2.coffee.bob-x7.near",
+   "0.app_x7.eve_lunar.near",
+   "alice_dao.near",
+   "coffee.lunar.near",
+   "shop.bob_42.dao.testnet",
+   "v2_0.testnet",
+   "v2.pay-42.near",
+   "x7.eve.testnet",
+   "42-carol.near",
+   "0.carol.app-pay.near",
+   "42-dao.shop.eve-pay.testnet",
+   "carol.v2-x7.eve.testnet",
+   "carol.carol-42.near",
+   "eve.carol.app-v2.near",
+   "v2.shop.v2-x7.testnet",
+   "42.testnet",
+   "0.near",
+   "bob.coffee_v2.near",
+   "42-pay.testnet",
+   "dave-pay.carol-pay.testnet",
+   "pay_pay.testnet",
+   "dao-coffee.x7_dave.bob.testnet",
+   "0-bob.v2.near",
+   "eve.testnet",
+   "42.pay_x7.lunar.testnet",
+   "dave.dao_v2.x7-carol.testnet",
+   "42-carol.carol-v2.shop_x7.near",
+   "eve.x7-42.coffee_v2.near",
+   "pay-dave.bob.alice_v2.near",
+   "bob.alice.v2-dave.testnet",
+   "coffee.dao-dao.v2-carol.testnet",
+   "shop.app-42.eve.testnet",
+   "0_dao.near",
+   "v2.lunar_dao.near",
+   "dave_lunar.carol-shop.alice.near",
+   "0.x7.testnet",
+   "alice.0_0.near",
+   "v2-carol.dave.testnet",
+   "shop.testnet",
+   "42.eve_x7.eve_x7.testnet",
+   "x7-pay.coffee.testnet",
+   "shop_app.42.eve.testnet",
+   "bob.x7-bob.shop-shop.testnet",
+   "bob-v2.carol-v2.testnet",
+   "dave-app.lunar.testnet",
+   "pay.near",
+   "x7_bob.bob.coffee_42.testnet",
+   "eve_v2.app.pay.testnet",
+   "bob.carol.near",
+   "shop.app.testnet",
+   "carol.near",
+   "pay.x7.pay_shop.near",
+   "x7-bob.near",
+   "42.x7.near",
+   "v2.app-shop.testnet",
+   "alice.eve-v2.shop-dao.testnet",
+   "v2_dao.eve-dao.testnet",
+   "carol.eve.coffee_coffee.testnet",
+   "pay-shop.pay-lunar.near",
+   "dave.x7_dao.v2.near",
+   "dao.dao_dave.dave_shop.testnet",
+   "v2_bob.dao-bob.carol-v2.near",
+   "pay-alice.eve.bob.near",
+   "0-lunar.carol-pay.near",
+   "x7-42.42.near",
+   "app.lunar-pay.eve.testnet",
+   "alice_eve.carol_dao.dao-v2.near",
+   "coffee_shop.app.testnet",
+   "eve_app.0_coffee.eve-alice.testnet",
+   "0.x7.shop.testnet",
+   "alice-lunar.dave.testnet",
+   "eve.alice-bob.near",
+   "shop.0_app.pay.testnet",
+   "coffee-pay.coffee_pay.app.testnet",
+   "carol-0.near",
+   "v2-alice.dave_app.dave.near",
+   "v2.app.testnet",
+   "shop_app.near",
+   "app_app.eve-lunar.pay.near",
+   "pay_dao.near",
+   "dave.eve.testnet",
+   "carol.lunar_bob.bob_eve.testnet",
+   "dave.near",
+   "alice_v2.testnet",
+   "carol-pay.testnet",
+   "dave.pay_x7.lunar-x7.near",
+   "bob_eve.app_shop.testnet",
+   "carol.testnet",
+   "pay.alice.42-app.near",
+   "pay.testnet",
+   "42-dave.lunar.lunar.testnet",
+   "bob.coffee_0.coffee.testnet",
+   "carol.alice.dave.near",
+   "bob.alice.42_app.testnet",
+   "dave_carol.dao.near",
+   "pay-coffee.pay-alice.x7.testnet",
+   "0.shop.near",
+   "dao.x7-coffee.near",
+   "carol.42.dave_lunar.testnet",
+   "pay.app-coffee.app.near",
+   "x7.testnet",
+   "bob_pay.0.testnet",
+   "eve.0.testnet",
+   "dao.lunar.testnet",
+   "0-v2.near",
+   "42-carol.dao.near",
+   "42.bob.testnet",
+   "shop-pay.0-alice.0.near",
+   "dao-app.shop-lunar.testnet",
+   "alice_carol.eve.alice.near",
+   "42.app.dao_dave.testnet",
+   "v2.dave.lunar.near",
+   "coffee.carol.eve.near",
+   "carol.eve.near",
+   "dave-lunar.lunar.carol.near",
+   "bob.carol-dave.testnet",
+   "dave.42.near",
+   "0.testnet",
+   "v2-app.testnet",
+   "alice_dao.v2.coffee-eve.testnet",
+   "8363fbb9384eb0fd9c3ccee29308e3eac1dd43339b49be08e2f474fd08a5f6cf",
+   "0x80b33607f0d7445753b583eac5fc07fff261382f",
+   "bfcbfa815fa45f7a81b17cd7e9354e2e55dcb6736060fe583cd77881095066bf",
+   "0xc51991f9fb7add5e59fe3947225dae1cc9a486a6",
+   "3a2474b67851b74c88d405d64d844e68b2a3cd301b5c17f3d35bd640c80f7991",
+   "0xbe6deb0c291b71ebbf67028a8659ca1fcedb21d9",
+   "67a322ecd6961d5ad3790c3d57a3a7feedb7586b8ffa7aabbaeefd45cfa2a445",
+   "0xf7092e6bf097da582ac99c917c64c0794ed2efe2",
+   "80431afcd8e6b58d0acb7722d6d8044622f643bfea8025bc1903398e4bd5ba17",
+   "0xbed9b2adee6c232464986f575d8b791402cdd0dc",
+   "05999c7b6135375607d3c31647d0bb3ca85c8d91e471b7ddf9f2d9687d92968a",
+   "0x3b31431699cfef1a6dcc506c486b5d3932de4e30",
+   "22dedca97fcc4e2668bcfc2d1f9f2b510c3c95ec72d3bbff08c03fac83e6454b",
+   "0x287705c5327fafbc276fe2b23ceb599579ff800f",
+   "b384e36ed1d42a0e000994003919f51f4d3347919c0fa21d47a5fc2365d9d2e4",
+   "0x11b67ff8e9c3c759c2427a6cb8b567c90fb2dc13",
+   "8536ceb46391b79f8470bfcde0dae94d6a40f128f08cdd202373a415b9dc0f2d",
+   "0x9b93a9f4927a73fc2c1076ede0b54f9749562857",
+   "b57234c628f273e19515a9b7debe9c175f7313860fdd3affd03a807e6468d35d",
+   "0x01863860bbcbb301106fbf57f7955ec9a40942f1"
+  ],
+  "invalid": [
+   "",
+   "a",
+   "0",
+   "-",
+   "_",
+   ".",
+   "..",
+   "Bob.near",
+   "BOB.NEAR",
+   "bob..near",
+   ".near",
+   ".bob.near",
+   "bob.",
+   "bob.near.",
+   "-bob.near",
+   "bob-.near",
+   "bob_.near",
+   "_bob.near",
+   "bob--x.near",
+   "bob__x.near",
+   "bob-_x.near",
+   "bob.-x.near",
+   "bob._x.near",
+   "bob near",
+   " bob.near",
+   "bob.near ",
+   "bob@near",
+   "@bob.near",
+   "bob!.near",
+   "bób.near",
+   "bob/near",
+   "bob:near",
+   "bob,near",
+   "bob+near",
+   "bob#near",
+   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.near",
+   "0Xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "bob\tnear",
+   "bob\nnear",
+   "b.",
+   ".b",
+   "-a",
+   "a-",
+   "a_",
+   "_a",
+   "a..b",
+   "a.-b",
+   "a-.b",
+   "ab.",
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "bob.near​",
+   "аlice.near",
+   ".alice.testnet",
+   "a.b.",
+   "x.y.z.near-",
+   "_a-b_c.near",
+   "Lunar-69787.testnet",
+   "carol_x near",
+   "dev!sub.testnet",
+   "ref-finance-101.-testnet",
+   "wrap_.testnet",
+   "wrap.nearzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "usdc$itachicara.testnet",
+   "lunarpay-0111..testnet",
+   ".a_b-c_d.e-f_g.near",
+   "x1.near.",
+   "abc123.near-",
+   "_q.q",
+   "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.near",
+   "sub account.of.someone.near",
+   "token-v2!factory.testnet",
+   "my_wallet.-testnet",
+   "bob_.testnet",
+   "bob.app.testnetzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "app$eve.shop.testnet",
+   "dao..carol.near",
+   ".shop.42_lunar.near",
+   "shop.pay_alice.eve.near.",
+   "app-dao.near-",
+   "_shop.near",
+   "Dave-dave.pay-coffee.carol.near",
+   "coffee app.app-0.near",
+   "x7!x7.0.near",
+   "lunar.-x7.alice.near",
+   "coffee-x7_.near",
+   "lunar.nearzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "pay_alice$42-bob.42-x7.near",
+   "dao..lunar.near",
+   ".coffee-dao.testnet",
+   "lunar-app.shop.testnet.",
+   "shop-v2.near-",
+   "_carol.alice.near",
+   "X7-alice.0_eve.near",
+   "x7-app x7_carol.lunar_alice.testnet",
+   "coffee!testnet",
+   "pay.-42.alice.near",
+   "carol_.dao-carol.testnet",
+   "dave.carol_carol.x7.testnetzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "dave$x7.testnet",
+   "v2..testnet",
+   ".alice_shop.42-lunar.bob.near",
+   "v2.0-v2.near.",
+   "alice.near-",
+   "_coffee.dave_42.0.testnet",
+   "Pay.carol_alice.near",
+   "dao near",
+   "v2!coffee.bob-x7.near",
+   "alice_dao.-near",
+   "coffee_.lunar.near",
+   "shop.bob_42.dao.testnetzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "v2_0$testnet",
+   "v2..pay-42.near",
+   ".x7.eve.testnet",
+   "carol.v2-x7.eve.testnet.",
+   "carol.carol-42.near-",
+   "_eve.carol.app-v2.near",
+   "V2.shop.v2-x7.testnet",
+   "bob coffee_v2.near",
+   "dave-pay!carol-pay.testnet",
+   "pay_pay.-testnet",
+   "dao-coffee_.x7_dave.bob.testnet",
+   "eve.testnetzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "dave$dao_v2.x7-carol.testnet",
+   "eve..x7-42.coffee_v2.near",
+   ".pay-dave.bob.alice_v2.near",
+   "bob.alice.v2-dave.testnet.",
+   "coffee.dao-dao.v2-carol.testnet-",
+   "_shop.app-42.eve.testnet",
+   "V2.lunar_dao.near",
+   "dave_lunar carol-shop.alice.near",
+   "alice!0_0.near",
+   "v2-carol.-dave.testnet",
+   "shop_.testnet",
+   "x7-pay.coffee.testnetzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "shop_app$42.eve.testnet",
+   "bob..x7-bob.shop-shop.testnet",
+   ".bob-v2.carol-v2.testnet",
+   "dave-app.lunar.testnet.",
+   "pay.near-",
+   "_x7_bob.bob.coffee_42.testnet",
+   "Eve_v2.app.pay.testnet",
+   "bob carol.near",
+   "shop!app.testnet",
+   "carol.-near",
+   "pay_.x7.pay_shop.near",
+   "x7-bob.nearzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "v2$app-shop.testnet",
+   "alice..eve-v2.shop-dao.testnet",
+   ".v2_dao.eve-dao.testnet",
+   "carol.eve.coffee_coffee.testnet.",
+   "pay-shop.pay-lunar.near-",
+   "_dave.x7_dao.v2.near",
+   "Dao.dao_dave.dave_shop.testnet",
+   "v2_bob dao-bob.carol-v2.near",
+   "pay-alice!eve.bob.near",
+   "x7-42.-42.near",
+   "app_.lunar-pay.eve.testnet",
+   "alice_eve.carol_dao.dao-v2.nearzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "coffee_shop$app.testnet",
+   "eve_app..0_coffee.eve-alice.testnet",
+   ".alice-lunar.dave.testnet",
+   "eve.alice-bob.near.",
+   "shop.0_app.pay.testnet-",
+   "_coffee-pay.coffee_pay.app.testnet",
+   "Carol-0.near",
+   "v2-alice dave_app.dave.near",
+   "v2!app.testnet",
+   "shop_app.-near",
+   "app_app_.eve-lunar.pay.near",
+   "pay_dao.nearzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "dave$eve.testnet",
+   "carol..lunar_bob.bob_eve.testnet",
+   ".dave.near",
+   "alice_v2.testnet.",
+   "carol-pay.testnet-",
+   "_dave.pay_x7.lunar-x7.near",
+   "Bob_eve.app_shop.testnet",
+   "carol testnet",
+   "pay!alice.42-app.near",
+   "pay.-testnet",
+   "bob_.coffee_0.coffee.testnet",
+   "carol.alice.dave.nearzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "bob$alice.42_app.testnet",
+   "dave_carol..dao.near",
+   ".pay-coffee.pay-alice.x7.testnet",
+   "dao.x7-coffee.near.",
+   "carol.42.dave_lunar.testnet-",
+   "_pay.app-coffee.app.near",
+   "X7.testnet",
+   "bob_pay 0.testnet",
+   "eve!0.testnet",
+   "dao.-lunar.testnet",
+   "shop-pay_.0-alice.0.near",
+   "dao-app.shop-lunar.testnetzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+   "alice_carol$eve.alice.near",
+   "v2..dave.lunar.near",
+   ".coffee.carol.eve.near"
+  ]
+ },
+ "amounts": {
+  "valid": [
+   {
+    "near": "0",
+    "yocto": "0",
+    "plain": "0"
+   },
+   {
+    "near": "0.0",
+    "yocto": "0",
+    "plain": "0"
+   },
+   {
+    "near": "1",
+    "yocto": "1000000000000000000000000",
+    "plain": "1"
+   },
+   {
+    "near": "1.0",
+    "yocto": "1000000000000000000000000",
+    "plain": "1"
+   },
+   {
+    "near": "0.05",
+    "yocto": "50000000000000000000000",
+    "plain": "0.05"
+   },
+   {
+    "near": "0.5",
+    "yocto": "500000000000000000000000",
+    "plain": "0.5"
+   },
+   {
+    "near": "12.5",
+    "yocto": "12500000000000000000000000",
+    "plain": "12.5"
+   },
+   {
+    "near": "012.50",
+    "yocto": "12500000000000000000000000",
+    "plain": "12.5"
+   },
+   {
+    "near": "007",
+    "yocto": "7000000000000000000000000",
+    "plain": "7"
+   },
+   {
+    "near": "100",
+    "yocto": "100000000000000000000000000",
+    "plain": "100"
+   },
+   {
+    "near": "1000000",
+    "yocto": "1000000000000000000000000000000",
+    "plain": "1000000"
+   },
+   {
+    "near": "999999999",
+    "yocto": "999999999000000000000000000000000",
+    "plain": "999999999"
+   },
+   {
+    "near": "999999999.999999999999999999999999",
+    "yocto": "999999999999999999999999999999999",
+    "plain": "999999999.999999999999999999999999"
+   },
+   {
+    "near": "0.000000000000000000000001",
+    "yocto": "1",
+    "plain": "0.000000000000000000000001"
+   },
+   {
+    "near": "1.000000000000000000000001",
+    "yocto": "1000000000000000000000001",
+    "plain": "1.000000000000000000000001"
+   },
+   {
+    "near": "0.000001",
+    "yocto": "1000000000000000000",
+    "plain": "0.000001"
+   },
+   {
+    "near": "0.1",
+    "yocto": "100000000000000000000000",
+    "plain": "0.1"
+   },
+   {
+    "near": "0.25",
+    "yocto": "250000000000000000000000",
+    "plain": "0.25"
+   },
+   {
+    "near": "3.39",
+    "yocto": "3390000000000000000000000",
+    "plain": "3.39"
+   },
+   {
+    "near": "123456789.123456789",
+    "yocto": "123456789123456789000000000000000",
+    "plain": "123456789.123456789"
+   },
+   {
+    "near": "42",
+    "yocto": "42000000000000000000000000",
+    "plain": "42"
+   },
+   {
+    "near": "10",
+    "yocto": "10000000000000000000000000",
+    "plain": "10"
+   },
+   {
+    "near": "0.000000000000000001",
+    "yocto": "1000000",
+    "plain": "0.000000000000000001"
+   },
+   {
+    "near": "5.000000000000000000000000",
+    "yocto": "5000000000000000000000000",
+    "plain": "5"
+   },
+   {
+    "near": "9543157.8510416130",
+    "yocto": "9543157851041613000000000000000",
+    "plain": "9543157.851041613"
+   },
+   {
+    "near": "97784",
+    "yocto": "97784000000000000000000000000",
+    "plain": "97784"
+   },
+   {
+    "near": "437522.941017162830",
+    "yocto": "437522941017162830000000000000",
+    "plain": "437522.94101716283"
+   },
+   {
+    "near": "20124089.37514243552653923788",
+    "yocto": "20124089375142435526539237880000",
+    "plain": "20124089.37514243552653923788"
+   },
+   {
+    "near": "99.9685",
+    "yocto": "99968500000000000000000000",
+    "plain": "99.9685"
+   },
+   {
+    "near": "6.569715336418959336",
+    "yocto": "6569715336418959336000000",
+    "plain": "6.569715336418959336"
+   },
+   {
+    "near": "45991216.32677403254770250",
+    "yocto": "45991216326774032547702500000000",
+    "plain": "45991216.3267740325477025"
+   },
+   {
+    "near": "7590678.56212793516277230",
+    "yocto": "7590678562127935162772300000000",
+    "plain": "7590678.5621279351627723"
+   },
+   {
+    "near": "6271729",
+    "yocto": "6271729000000000000000000000000",
+    "plain": "6271729"
+   },
+   {
+    "near": "966176",
+    "yocto": "966176000000000000000000000000",
+    "plain": "966176"
+   },
+   {
+    "near": "88.177302495",
+    "yocto": "88177302495000000000000000",
+    "plain": "88.177302495"
+   },
+   {
+    "near": "874963",
+    "yocto": "874963000000000000000000000000",
+    "plain": "874963"
+   },
+   {
+    "near": "684397.7092783853790168298",
+    "yocto": "684397709278385379016829800000",
+    "plain": "684397.7092783853790168298"
+   },
+   {
+    "near": "74765784.27426963727",
+    "yocto": "74765784274269637270000000000000",
+    "plain": "74765784.27426963727"
+   },
+   {
+    "near": "16.25",
+    "yocto": "16250000000000000000000000",
+    "plain": "16.25"
+   },
+   {
+    "near": "1169.86607345311904",
+    "yocto": "1169866073453119040000000000",
+    "plain": "1169.86607345311904"
+   },
+   {
+    "near": "64950352.97130658394058764387",
+    "yocto": "64950352971306583940587643870000",
+    "plain": "64950352.97130658394058764387"
+   },
+   {
+    "near": "67460.838282097895549437428165",
+    "yocto": "67460838282097895549437428165",
+    "plain": "67460.838282097895549437428165"
+   },
+   {
+    "near": "85698.1094992725588889815166",
+    "yocto": "85698109499272558888981516600",
+    "plain": "85698.1094992725588889815166"
+   },
+   {
+    "near": "41082451.29968739371041781",
+    "yocto": "41082451299687393710417810000000",
+    "plain": "41082451.29968739371041781"
+   },
+   {
+    "near": "31240000.50609575522452663806172",
+    "yocto": "31240000506095755224526638061720",
+    "plain": "31240000.50609575522452663806172"
+   },
+   {
+    "near": "706556149.4747386569912",
+    "yocto": "706556149474738656991200000000000",
+    "plain": "706556149.4747386569912"
+   },
+   {
+    "near": "7663.8147163953892794",
+    "yocto": "7663814716395389279400000000",
+    "plain": "7663.8147163953892794"
+   },
+   {
+    "near": "578975556.299557280017155371723",
+    "yocto": "578975556299557280017155371723000",
+    "plain": "578975556.299557280017155371723"
+   },
+   {
+    "near": "452.143502652",
+    "yocto": "452143502652000000000000000",
+    "plain": "452.143502652"
+   },
+   {
+    "near": "43658282.3073769968562131701",
+    "yocto": "43658282307376996856213170100000",
+    "plain": "43658282.3073769968562131701"
+   },
+   {
+    "near": "3",
+    "yocto": "3000000000000000000000000",
+    "plain": "3"
+   },
+   {
+    "near": "646.55513",
+    "yocto": "646555130000000000000000000",
+    "plain": "646.55513"
+   },
+   {
+    "near": "563364936",
+    "yocto": "563364936000000000000000000000000",
+    "plain": "563364936"
+   },
+   {
+    "near": "3668.16243105544813",
+    "yocto": "3668162431055448130000000000",
+    "plain": "3668.16243105544813"
+   },
+   {
+    "near": "86567757.63849546672386",
+    "yocto": "86567757638495466723860000000000",
+    "plain": "86567757.63849546672386"
+   },
+   {
+    "near": "751980384.461106113613600565",
+    "yocto": "751980384461106113613600565000000",
+    "plain": "751980384.461106113613600565"
+   },
+   {
+    "near": "6.8344118",
+    "yocto": "6834411800000000000000000",
+    "plain": "6.8344118"
+   },
+   {
+    "near": "421.740178465556529150826547",
+    "yocto": "421740178465556529150826547",
+    "plain": "421.740178465556529150826547"
+   },
+   {
+    "near": "404249041.755619235174765779875081",
+    "yocto": "404249041755619235174765779875081",
+    "plain": "404249041.755619235174765779875081"
+   },
+   {
+    "near": "8160.4866119187102347965",
+    "yocto": "8160486611918710234796500000",
+    "plain": "8160.4866119187102347965"
+   },
+   {
+    "near": "85210753.04898858284724065",
+    "yocto": "85210753048988582847240650000000",
+    "plain": "85210753.04898858284724065"
+   },
+   {
+    "near": "231929",
+    "yocto": "231929000000000000000000000000",
+    "plain": "231929"
+   },
+   {
+    "near": "1715.9200",
+    "yocto": "1715920000000000000000000000",
+    "plain": "1715.92"
+   },
+   {
+    "near": "28030.348",
+    "yocto": "28030348000000000000000000000",
+    "plain": "28030.348"
+   },
+   {
+    "near": "72",
+    "yocto": "72000000000000000000000000",
+    "plain": "72"
+   },
+   {
+    "near": "20868.408854032357",
+    "yocto": "20868408854032357000000000000",
+    "plain": "20868.408854032357"
+   },
+   {
+    "near": "73",
+    "yocto": "73000000000000000000000000",
+    "plain": "73"
+   },
+   {
+    "near": "74.426239800188708119733",
+    "yocto": "74426239800188708119733000",
+    "plain": "74.426239800188708119733"
+   },
+   {
+    "near": "47.860606204132226048353513",
+    "yocto": "47860606204132226048353513",
+    "plain": "47.860606204132226048353513"
+   },
+   {
+    "near": "325340506.3762514292263",
+    "yocto": "325340506376251429226300000000000",
+    "plain": "325340506.3762514292263"
+   },
+   {
+    "near": "42465191.6792512848394199742",
+    "yocto": "42465191679251284839419974200000",
+    "plain": "42465191.6792512848394199742"
+   },
+   {
+    "near": "4.3876843624450174",
+    "yocto": "4387684362445017400000000",
+    "plain": "4.3876843624450174"
+   },
+   {
+    "near": "199.5",
+    "yocto": "199500000000000000000000000",
+    "plain": "199.5"
+   },
+   {
+    "near": "197.380541752516",
+    "yocto": "197380541752516000000000000",
+    "plain": "197.380541752516"
+   },
+   {
+    "near": "93130.76575556319322487632",
+    "yocto": "93130765755563193224876320000",
+    "plain": "93130.76575556319322487632"
+   },
+   {
+    "near": "85931115.59368399200",
+    "yocto": "85931115593683992000000000000000",
+    "plain": "85931115.593683992"
+   },
+   {
+    "near": "3530620.6335980715877972633",
+    "yocto": "3530620633598071587797263300000",
+    "plain": "3530620.6335980715877972633"
+   },
+   {
+    "near": "849181.424035",
+    "yocto": "849181424035000000000000000000",
+    "plain": "849181.424035"
+   },
+   {
+    "near": "584459161",
+    "yocto": "584459161000000000000000000000000",
+    "plain": "584459161"
+   },
+   {
+    "near": "9628561.559013",
+    "yocto": "9628561559013000000000000000000",
+    "plain": "9628561.559013"
+   },
+   {
+    "near": "21587.9990960962606254511578",
+    "yocto": "21587999096096260625451157800",
+    "plain": "21587.9990960962606254511578"
+   },
+   {
+    "near": "75783",
+    "yocto": "75783000000000000000000000000",
+    "plain": "75783"
+   },
+   {
+    "near": "288.5466",
+    "yocto": "288546600000000000000000000",
+    "plain": "288.5466"
+   },
+   {
+    "near": "443280.2224",
+    "yocto": "443280222400000000000000000000",
+    "plain": "443280.2224"
+   },
+   {
+    "near": "649.193872273764530361",
+    "yocto": "649193872273764530361000000",
+    "plain": "649.193872273764530361"
+   },
+   {
+    "near": "85536.37922392933331158574",
+    "yocto": "85536379223929333311585740000",
+    "plain": "85536.37922392933331158574"
+   },
+   {
+    "near": "333510287",
+    "yocto": "333510287000000000000000000000000",
+    "plain": "333510287"
+   },
+   {
+    "near": "446.3547033069553623804",
+    "yocto": "446354703306955362380400000",
+    "plain": "446.3547033069553623804"
+   },
+   {
+    "near": "3154860.298345511311488",
+    "yocto": "3154860298345511311488000000000",
+    "plain": "3154860.298345511311488"
+   },
+   {
+    "near": "63347922.8421",
+    "yocto": "63347922842100000000000000000000",
+    "plain": "63347922.8421"
+   }
+  ],
+  "invalid": [
+   "",
+   " ",
+   "-1",
+   "-0.5",
+   "+1",
+   "1e3",
+   "1E-3",
+   "1.",
+   ".5",
+   "1,5",
+   "abc",
+   "0x10",
+   "1 000",
+   "1..2",
+   "1.2.3",
+   "NaN",
+   "Infinity",
+   "1234567890",
+   "0.0000000000000000000000001",
+   "1.1111111111111111111111111",
+   "١",
+   "５",
+   "1_000",
+   "$5",
+   "5near"
+  ]
+ },
+ "pay": [
+  {
+   "text": "pay bob.near $20",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "20",
+    "token": "USDC",
+    "memo": null,
+    "span": 16
+   }
+  },
+  {
+   "text": "ok send 7 dollars to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 46
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near 3.000001 usdc for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 38
+   }
+  },
+  {
+   "text": "sure. SEND 1,5 dollar to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 47
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet 0.5 USDT for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "the cab ride",
+    "span": 49
+   }
+  },
+  {
+   "text": "send 0.25usdc to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": null,
+    "span": 29
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet $999999999 near for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 50
+   }
+  },
+  {
+   "text": "thanks! SEND 100 Near to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 70
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 012.50 usd for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 99
+   }
+  },
+  {
+   "text": "line one\nsend 20 to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 35
+   }
+  },
+  {
+   "text": "Pay bob.near 7 dollars",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": null,
+    "span": 22
+   }
+  },
+  {
+   "text": "ok SEND 3.000001 usdc to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 50
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near $1,5 dollar for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 36
+   }
+  },
+  {
+   "text": "sure. send 0.5 USDT to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "coffee and cake",
+    "span": 45
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet 0.25usdc for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 49
+   }
+  },
+  {
+   "text": "SEND 999999999 near to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": null,
+    "span": 35
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet 100 Near for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 43
+   }
+  },
+  {
+   "text": "thanks! send 012.50 usd to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 72
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc $20 for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "20",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 92
+   }
+  },
+  {
+   "text": "line one\nSEND 7 dollars to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 42
+   }
+  },
+  {
+   "text": "pay bob.near 3.000001 usdc",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": null,
+    "span": 26
+   }
+  },
+  {
+   "text": "ok send 1,5 dollar to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 47
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near 0.5 USDT for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "dinner",
+    "span": 33
+   }
+  },
+  {
+   "text": "sure. SEND 0.25usdc to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 45
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet $999999999 near for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 56
+   }
+  },
+  {
+   "text": "send 100 Near to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": null,
+    "span": 29
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet 012.50 usd for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! SEND 20 to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 64
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 7 dollars for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 98
+   }
+  },
+  {
+   "text": "line one\nsend 3.000001 usdc to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 46
+   }
+  },
+  {
+   "text": "Pay bob.near $1,5 dollar",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": null,
+    "span": 24
+   }
+  },
+  {
+   "text": "ok SEND 0.5 USDT to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near 0.25usdc for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 33
+   }
+  },
+  {
+   "text": "sure. send 999999999 near to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 51
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet 100 Near for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 49
+   }
+  },
+  {
+   "text": "SEND 012.50 usd to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": null,
+    "span": 31
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet $20 for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "20",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 38
+   }
+  },
+  {
+   "text": "thanks! send 7 dollars to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 71
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 3.000001 usdc for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 102
+   }
+  },
+  {
+   "text": "line one\nSEND 1,5 dollar to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 43
+   }
+  },
+  {
+   "text": "pay bob.near 0.5 USDT",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": null,
+    "span": 21
+   }
+  },
+  {
+   "text": "ok send 0.25usdc to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near $999999999 near for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 40
+   }
+  },
+  {
+   "text": "sure. SEND 100 Near to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 45
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet 012.50 usd for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 51
+   }
+  },
+  {
+   "text": "send 20 to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": null,
+    "span": 23
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet 7 dollars for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 44
+   }
+  },
+  {
+   "text": "thanks! SEND 3.000001 usdc to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 75
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc $1,5 dollar for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 100
+   }
+  },
+  {
+   "text": "line one\nsend 0.5 USDT to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "the cab ride",
+    "span": 41
+   }
+  },
+  {
+   "text": "Pay bob.near 0.25usdc",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": null,
+    "span": 21
+   }
+  },
+  {
+   "text": "ok SEND 999999999 near to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 51
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near 100 Near for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 33
+   }
+  },
+  {
+   "text": "sure. send 012.50 usd to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 47
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet $20 for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "20",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 44
+   }
+  },
+  {
+   "text": "SEND 7 dollars to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": null,
+    "span": 30
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet 3.000001 usdc for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 48
+   }
+  },
+  {
+   "text": "thanks! send 1,5 dollar to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 72
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 0.5 USDT for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "coffee and cake",
+    "span": 97
+   }
+  },
+  {
+   "text": "line one\nSEND 0.25usdc to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 41
+   }
+  },
+  {
+   "text": "pay bob.near $999999999 near",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": null,
+    "span": 28
+   }
+  },
+  {
+   "text": "ok send 100 Near to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near 012.50 usd for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 35
+   }
+  },
+  {
+   "text": "sure. SEND 20 to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 39
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet 7 dollars for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 50
+   }
+  },
+  {
+   "text": "send 3.000001 usdc to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": null,
+    "span": 34
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet $1,5 dollar for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 46
+   }
+  },
+  {
+   "text": "thanks! SEND 0.5 USDT to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "dinner",
+    "span": 70
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 0.25usdc for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 97
+   }
+  },
+  {
+   "text": "line one\nsend 999999999 near to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 47
+   }
+  },
+  {
+   "text": "Pay bob.near 100 Near",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": null,
+    "span": 21
+   }
+  },
+  {
+   "text": "ok SEND 012.50 usd to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 47
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near $20 for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "20",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 28
+   }
+  },
+  {
+   "text": "sure. send 7 dollars to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 46
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet 3.000001 usdc for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 54
+   }
+  },
+  {
+   "text": "SEND 1,5 dollar to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": null,
+    "span": 31
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet 0.5 USDT for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "rent share",
+    "span": 43
+   }
+  },
+  {
+   "text": "thanks! send 0.25usdc to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 70
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc $999999999 near for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 104
+   }
+  },
+  {
+   "text": "line one\nSEND 100 Near to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 41
+   }
+  },
+  {
+   "text": "pay bob.near 012.50 usd",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": null,
+    "span": 23
+   }
+  },
+  {
+   "text": "ok send 20 to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 39
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near 7 dollars for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 34
+   }
+  },
+  {
+   "text": "sure. SEND 3.000001 usdc to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 50
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet $1,5 dollar for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 52
+   }
+  },
+  {
+   "text": "send 0.5 USDT to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": null,
+    "span": 29
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet 0.25usdc for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 43
+   }
+  },
+  {
+   "text": "thanks! SEND 999999999 near to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 76
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 100 Near for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 97
+   }
+  },
+  {
+   "text": "line one\nsend 012.50 usd to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 43
+   }
+  },
+  {
+   "text": "Pay bob.near $20",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "20",
+    "token": "USDC",
+    "memo": null,
+    "span": 16
+   }
+  },
+  {
+   "text": "ok SEND 7 dollars to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 46
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near 3.000001 usdc for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 38
+   }
+  },
+  {
+   "text": "sure. send 1,5 dollar to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 47
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet 0.5 USDT for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "the cab ride",
+    "span": 49
+   }
+  },
+  {
+   "text": "SEND 0.25usdc to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": null,
+    "span": 29
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet $999999999 near for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 50
+   }
+  },
+  {
+   "text": "thanks! send 100 Near to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 70
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 012.50 usd for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 99
+   }
+  },
+  {
+   "text": "line one\nSEND 20 to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 35
+   }
+  },
+  {
+   "text": "pay bob.near 7 dollars",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": null,
+    "span": 22
+   }
+  },
+  {
+   "text": "ok send 3.000001 usdc to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 50
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near $1,5 dollar for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 36
+   }
+  },
+  {
+   "text": "sure. SEND 0.5 USDT to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "coffee and cake",
+    "span": 45
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet 0.25usdc for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 49
+   }
+  },
+  {
+   "text": "send 999999999 near to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": null,
+    "span": 35
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet 100 Near for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 43
+   }
+  },
+  {
+   "text": "thanks! SEND 012.50 usd to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 72
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc $20 for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "20",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 92
+   }
+  },
+  {
+   "text": "line one\nsend 7 dollars to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 42
+   }
+  },
+  {
+   "text": "Pay bob.near 3.000001 usdc",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": null,
+    "span": 26
+   }
+  },
+  {
+   "text": "ok SEND 1,5 dollar to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 47
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near 0.5 USDT for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "dinner",
+    "span": 33
+   }
+  },
+  {
+   "text": "sure. send 0.25usdc to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 45
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet $999999999 near for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 56
+   }
+  },
+  {
+   "text": "SEND 100 Near to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": null,
+    "span": 29
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet 012.50 usd for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! send 20 to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 64
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 7 dollars for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 98
+   }
+  },
+  {
+   "text": "line one\nSEND 3.000001 usdc to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 46
+   }
+  },
+  {
+   "text": "pay bob.near $1,5 dollar",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": null,
+    "span": 24
+   }
+  },
+  {
+   "text": "ok send 0.5 USDT to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near 0.25usdc for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 33
+   }
+  },
+  {
+   "text": "sure. SEND 999999999 near to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 51
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet 100 Near for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 49
+   }
+  },
+  {
+   "text": "send 012.50 usd to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": null,
+    "span": 31
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet $20 for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "20",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 38
+   }
+  },
+  {
+   "text": "thanks! SEND 7 dollars to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 71
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 3.000001 usdc for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 102
+   }
+  },
+  {
+   "text": "line one\nsend 1,5 dollar to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 43
+   }
+  },
+  {
+   "text": "Pay bob.near 0.5 USDT",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": null,
+    "span": 21
+   }
+  },
+  {
+   "text": "ok SEND 0.25usdc to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near $999999999 near for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 40
+   }
+  },
+  {
+   "text": "sure. send 100 Near to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 45
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet 012.50 usd for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 51
+   }
+  },
+  {
+   "text": "SEND 20 to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": null,
+    "span": 23
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet 7 dollars for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 44
+   }
+  },
+  {
+   "text": "thanks! send 3.000001 usdc to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 75
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc $1,5 dollar for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 100
+   }
+  },
+  {
+   "text": "line one\nSEND 0.5 USDT to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "the cab ride",
+    "span": 41
+   }
+  },
+  {
+   "text": "pay bob.near 0.25usdc",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": null,
+    "span": 21
+   }
+  },
+  {
+   "text": "ok send 999999999 near to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 51
+   }
+  },
+  {
+   "text": "thanks! Pay @bob.near 100 Near for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "dinner",
+    "span": 33
+   }
+  },
+  {
+   "text": "sure. SEND 012.50 usd to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 47
+   }
+  },
+  {
+   "text": "line one\npay lunar-69787.testnet $20 for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "20",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 44
+   }
+  },
+  {
+   "text": "send 7 dollars to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "7",
+    "token": "USDC",
+    "memo": null,
+    "span": 30
+   }
+  },
+  {
+   "text": "ok Pay dev.sub.testnet 3.000001 usdc for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 48
+   }
+  },
+  {
+   "text": "thanks! SEND 1,5 dollar to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 72
+   }
+  },
+  {
+   "text": "sure. pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 0.5 USDT for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "coffee and cake",
+    "span": 97
+   }
+  },
+  {
+   "text": "line one\nsend 0.25usdc to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 41
+   }
+  },
+  {
+   "text": "Pay bob.near $999999999 near",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": null,
+    "span": 28
+   }
+  },
+  {
+   "text": "ok SEND 100 Near to alice.testnet for rent share",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "100",
+    "token": "NEAR",
+    "memo": "rent share",
+    "span": 45
+   }
+  },
+  {
+   "text": "thanks! pay @bob.near 012.50 usd for dinner",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "12.5",
+    "token": "USDC",
+    "memo": "dinner",
+    "span": 35
+   }
+  },
+  {
+   "text": "sure. send 20 to Bob.Near for coffee and cake",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "20",
+    "token": "NEAR",
+    "memo": "coffee and cake",
+    "span": 39
+   }
+  },
+  {
+   "text": "line one\nPay lunar-69787.testnet 7 dollars for the cab ride",
+   "expect": {
+    "payee": "lunar-69787.testnet",
+    "amount": "7",
+    "token": "USDC",
+    "memo": "the cab ride",
+    "span": 50
+   }
+  },
+  {
+   "text": "SEND 3.000001 usdc to carol_x.near",
+   "expect": {
+    "payee": "carol_x.near",
+    "amount": "3.000001",
+    "token": "USDC",
+    "memo": null,
+    "span": 34
+   }
+  },
+  {
+   "text": "ok pay dev.sub.testnet $1,5 dollar for rent share",
+   "expect": {
+    "payee": "dev.sub.testnet",
+    "amount": "1.5",
+    "token": "USDC",
+    "memo": "rent share",
+    "span": 46
+   }
+  },
+  {
+   "text": "thanks! send 0.5 USDT to 0xabababababababababababababababababababab for dinner",
+   "expect": {
+    "payee": "0xabababababababababababababababababababab",
+    "amount": "0.5",
+    "token": "USDT",
+    "memo": "dinner",
+    "span": 70
+   }
+  },
+  {
+   "text": "sure. Pay cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 0.25usdc for coffee and cake",
+   "expect": {
+    "payee": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "amount": "0.25",
+    "token": "USDC",
+    "memo": "coffee and cake",
+    "span": 97
+   }
+  },
+  {
+   "text": "line one\nSEND 999999999 near to x1.near for the cab ride",
+   "expect": {
+    "payee": "x1.near",
+    "amount": "999999999",
+    "token": "NEAR",
+    "memo": "the cab ride",
+    "span": 47
+   }
+  },
+  {
+   "text": "pay bob.near 5 ",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "5",
+    "token": "NEAR",
+    "memo": null,
+    "span": 15
+   }
+  },
+  {
+   "text": "pay bob.near 5 for the $3 coffee",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "5",
+    "token": "NEAR",
+    "memo": "the $3 coffee",
+    "span": 32
+   }
+  },
+  {
+   "text": "send 2 to alice.testnet for $ stuff",
+   "expect": {
+    "payee": "alice.testnet",
+    "amount": "2",
+    "token": "NEAR",
+    "memo": "$ stuff",
+    "span": 35
+   }
+  },
+  {
+   "text": "pay bob.near $5 near",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "5",
+    "token": "NEAR",
+    "memo": null,
+    "span": 20
+   }
+  },
+  {
+   "text": "pay bob.near 1.123456",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "1.123456",
+    "token": "NEAR",
+    "memo": null,
+    "span": 21
+   }
+  },
+  {
+   "text": "pay bob.near 0.10",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "0.1",
+    "token": "NEAR",
+    "memo": null,
+    "span": 17
+   }
+  },
+  {
+   "text": "i said pay bob.near 2",
+   "expect": {
+    "payee": "bob.near",
+    "amount": "2",
+    "token": "NEAR",
+    "memo": null,
+    "span": 14
+   }
+  },
+  {
+   "text": "",
+   "expect": null
+  },
+  {
+   "text": "   ",
+   "expect": null
+  },
+  {
+   "text": "hello there",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near",
+   "expect": null
+  },
+  {
+   "text": "pay 5",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 0",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 0.000",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 00",
+   "expect": null
+  },
+  {
+   "text": "pay Bob..near 5",
+   "expect": null
+  },
+  {
+   "text": "pay b 5",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 20 and then something else",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 1.1234567",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 1234567890",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near -5",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 eur",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 btc",
+   "expect": null
+  },
+  {
+   "text": "repay bob.near 5",
+   "expect": null
+  },
+  {
+   "text": "paybob.near 5",
+   "expect": null
+  },
+  {
+   "text": "pay to bob.near 5",
+   "expect": null
+  },
+  {
+   "text": "pay 5 bob.near",
+   "expect": null
+  },
+  {
+   "text": "send 5 usdc bob.near",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near five",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 1e3",
+   "expect": null
+  },
+  {
+   "text": "pay .bob.near 5",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near. 5",
+   "expect": null
+  },
+  {
+   "text": "pay bob-.near 5",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 for",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 for ",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5,",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5.",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near .5",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 usdc usdt",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 for xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "expect": null
+  },
+  {
+   "text": "pay aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 5",
+   "expect": null
+  },
+  {
+   "text": "pay 5 to",
+   "expect": null
+  },
+  {
+   "text": "send to bob.near",
+   "expect": null
+  },
+  {
+   "text": "transfer bob.near 5",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 to alice.near",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5\nthanks",
+   "expect": null
+  },
+  {
+   "text": "pay 0 to bob.near",
+   "expect": null
+  },
+  {
+   "text": "send $0 to bob.near",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near $",
+   "expect": null
+  },
+  {
+   "text": "pay bob.near 5 $",
+   "expect": null
+  }
+ ],
+ "suggest": {
+  "prefix": [
+   {
+    "typed": "tha",
+    "top": "tha"
+   },
+   {
+    "typed": "wha",
+    "top": "wha"
+   },
+   {
+    "typed": "thi",
+    "top": "thi"
+   },
+   {
+    "typed": "hav",
+    "top": "have"
+   },
+   {
+    "typed": "you",
+    "top": "you"
+   },
+   {
+    "typed": "kno",
+    "top": "know"
+   },
+   {
+    "typed": "wit",
+    "top": "wit"
+   },
+   {
+    "typed": "jus",
+    "top": "just"
+   },
+   {
+    "typed": "the",
+    "top": "the"
+   },
+   {
+    "typed": "her",
+    "top": "her"
+   },
+   {
+    "typed": "lik",
+    "top": "like"
+   },
+   {
+    "typed": "rig",
+    "top": "rig"
+   },
+   {
+    "typed": "abo",
+    "top": "about"
+   },
+   {
+    "typed": "com",
+    "top": "com"
+   },
+   {
+    "typed": "wel",
+    "top": "well"
+   },
+   {
+    "typed": "yea",
+    "top": "yea"
+   },
+   {
+    "typed": "wil",
+    "top": "wil"
+   },
+   {
+    "typed": "wan",
+    "top": "wan"
+   },
+   {
+    "typed": "goo",
+    "top": "goo"
+   },
+   {
+    "typed": "fro",
+    "top": "from"
+   },
+   {
+    "typed": "whe",
+    "top": "when"
+   },
+   {
+    "typed": "goi",
+    "top": "going"
+   },
+   {
+    "typed": "tim",
+    "top": "tim"
+   },
+   {
+    "typed": "oka",
+    "top": "okay"
+   },
+   {
+    "typed": "bac",
+    "top": "back"
+   },
+   {
+    "typed": "loo",
+    "top": "loo"
+   },
+   {
+    "typed": "wou",
+    "top": "would"
+   },
+   {
+    "typed": "wer",
+    "top": "were"
+   },
+   {
+    "typed": "tak",
+    "top": "tak"
+   },
+   {
+    "typed": "bee",
+    "top": "bee"
+   },
+   {
+    "typed": "gon",
+    "top": "gon"
+   },
+   {
+    "typed": "tel",
+    "top": "tel"
+   },
+   {
+    "typed": "rea",
+    "top": "really"
+   },
+   {
+    "typed": "som",
+    "top": "some"
+   },
+   {
+    "typed": "cou",
+    "top": "could"
+   },
+   {
+    "typed": "did",
+    "top": "did"
+   },
+   {
+    "typed": "nee",
+    "top": "need"
+   },
+   {
+    "typed": "mor",
+    "top": "more"
+   },
+   {
+    "typed": "dow",
+    "top": "dow"
+   },
+   {
+    "typed": "mak",
+    "top": "mak"
+   },
+   {
+    "typed": "ver",
+    "top": "ver"
+   },
+   {
+    "typed": "nev",
+    "top": "never"
+   },
+   {
+    "typed": "onl",
+    "top": "only"
+   },
+   {
+    "typed": "peo",
+    "top": "people"
+   },
+   {
+    "typed": "ove",
+    "top": "over"
+   },
+   {
+    "typed": "bec",
+    "top": "because"
+   },
+   {
+    "typed": "lit",
+    "top": "lit"
+   },
+   {
+    "typed": "ple",
+    "top": "please"
+   },
+   {
+    "typed": "lov",
+    "top": "love"
+   },
+   {
+    "typed": "sho",
+    "top": "should"
+   },
+   {
+    "typed": "mea",
+    "top": "mean"
+   },
+   {
+    "typed": "sai",
+    "top": "sai"
+   },
+   {
+    "typed": "sor",
+    "top": "sorry"
+   },
+   {
+    "typed": "giv",
+    "top": "give"
+   },
+   {
+    "typed": "eve",
+    "top": "eve"
+   },
+   {
+    "typed": "muc",
+    "top": "much"
+   },
+   {
+    "typed": "doi",
+    "top": "doing"
+   },
+   {
+    "typed": "sur",
+    "top": "sur"
+   },
+   {
+    "typed": "hel",
+    "top": "hel"
+   },
+   {
+    "typed": "fir",
+    "top": "fir"
+   },
+   {
+    "typed": "int",
+    "top": "into"
+   },
+   {
+    "typed": "any",
+    "top": "any"
+   },
+   {
+    "typed": "sti",
+    "top": "still"
+   },
+   {
+    "typed": "fin",
+    "top": "fin"
+   },
+   {
+    "typed": "lif",
+    "top": "life"
+   },
+   {
+    "typed": "not",
+    "top": "not"
+   },
+   {
+    "typed": "wor",
+    "top": "work"
+   },
+   {
+    "typed": "aga",
+    "top": "again"
+   },
+   {
+    "typed": "may",
+    "top": "may"
+   },
+   {
+    "typed": "mus",
+    "top": "must"
+   },
+   {
+    "typed": "bef",
+    "top": "before"
+   },
+   {
+    "typed": "oth",
+    "top": "other"
+   },
+   {
+    "typed": "wai",
+    "top": "wai"
+   },
+   {
+    "typed": "sto",
+    "top": "stop"
+   },
+   {
+    "typed": "cal",
+    "top": "cal"
+   },
+   {
+    "typed": "aft",
+    "top": "aft"
+   },
+   {
+    "typed": "tal",
+    "top": "talk"
+   },
+   {
+    "typed": "awa",
+    "top": "away"
+   },
+   {
+    "typed": "tho",
+    "top": "thought"
+   },
+   {
+    "typed": "hom",
+    "top": "home"
+   },
+   {
+    "typed": "nig",
+    "top": "night"
+   },
+   {
+    "typed": "gre",
+    "top": "great"
+   },
+   {
+    "typed": "las",
+    "top": "las"
+   },
+   {
+    "typed": "bet",
+    "top": "bet"
+   },
+   {
+    "typed": "tol",
+    "top": "told"
+   },
+   {
+    "typed": "alw",
+    "top": "always"
+   },
+   {
+    "typed": "kee",
+    "top": "keep"
+   },
+   {
+    "typed": "lon",
+    "top": "lon"
+   },
+   {
+    "typed": "lea",
+    "top": "lea"
+   },
+   {
+    "typed": "doe",
+    "top": "doe"
+   },
+   {
+    "typed": "mon",
+    "top": "mon"
+   },
+   {
+    "typed": "aro",
+    "top": "around"
+   },
+   {
+    "typed": "nam",
+    "top": "nam"
+   },
+   {
+    "typed": "pla",
+    "top": "place"
+   },
+   {
+    "typed": "fee",
+    "top": "fee"
+   },
+   {
+    "typed": "guy",
+    "top": "guy"
+   },
+   {
+    "typed": "fat",
+    "top": "fat"
+   },
+   {
+    "typed": "mad",
+    "top": "mad"
+   },
+   {
+    "typed": "whi",
+    "top": "which"
+   },
+   {
+    "typed": "don",
+    "top": "don"
+   },
+   {
+    "typed": "nic",
+    "top": "nice"
+   },
+   {
+    "typed": "bel",
+    "top": "bel"
+   },
+   {
+    "typed": "gir",
+    "top": "girl"
+   },
+   {
+    "typed": "kin",
+    "top": "kin"
+   },
+   {
+    "typed": "hou",
+    "top": "house"
+   },
+   {
+    "typed": "thr",
+    "top": "through"
+   },
+   {
+    "typed": "bei",
+    "top": "being"
+   },
+   {
+    "typed": "sta",
+    "top": "stay"
+   },
+   {
+    "typed": "lef",
+    "top": "left"
+   },
+   {
+    "typed": "eno",
+    "top": "enough"
+   },
+   {
+    "typed": "hap",
+    "top": "hap"
+   },
+   {
+    "typed": "cam",
+    "top": "cam"
+   },
+   {
+    "typed": "mot",
+    "top": "mother"
+   },
+   {
+    "typed": "wro",
+    "top": "wrong"
+   },
+   {
+    "typed": "mig",
+    "top": "might"
+   },
+   {
+    "typed": "tod",
+    "top": "tod"
+   },
+   {
+    "typed": "lis",
+    "top": "listen"
+   },
+   {
+    "typed": "ano",
+    "top": "another"
+   },
+   {
+    "typed": "und",
+    "top": "und"
+   },
+   {
+    "typed": "hea",
+    "top": "hear"
+   },
+   {
+    "typed": "rem",
+    "top": "remember"
+   },
+   {
+    "typed": "sam",
+    "top": "sam"
+   },
+   {
+    "typed": "els",
+    "top": "else"
+   },
+   {
+    "typed": "kil",
+    "top": "kill"
+   },
+   {
+    "typed": "fou",
+    "top": "found"
+   },
+   {
+    "typed": "nex",
+    "top": "next"
+   },
+   {
+    "typed": "get",
+    "top": "get"
+   },
+   {
+    "typed": "car",
+    "top": "car"
+   },
+   {
+    "typed": "wom",
+    "top": "woman"
+   },
+   {
+    "typed": "wen",
+    "top": "wen"
+   },
+   {
+    "typed": "dea",
+    "top": "dea"
+   },
+   {
+    "typed": "man",
+    "top": "man"
+   },
+   {
+    "typed": "min",
+    "top": "min"
+   },
+   {
+    "typed": "was",
+    "top": "was"
+   },
+   {
+    "typed": "fri",
+    "top": "friend"
+   },
+   {
+    "typed": "bes",
+    "top": "best"
+   },
+   {
+    "typed": "try",
+    "top": "try"
+   },
+   {
+    "typed": "tog",
+    "top": "together"
+   },
+   {
+    "typed": "fam",
+    "top": "fam"
+   },
+   {
+    "typed": "bab",
+    "top": "baby"
+   },
+   {
+    "typed": "roo",
+    "top": "room"
+   },
+   {
+    "typed": "alr",
+    "top": "already"
+   },
+   {
+    "typed": "mov",
+    "top": "move"
+   },
+   {
+    "typed": "mos",
+    "top": "most"
+   },
+   {
+    "typed": "see",
+    "top": "see"
+   },
+   {
+    "typed": "liv",
+    "top": "liv"
+   },
+   {
+    "typed": "mis",
+    "top": "miss"
+   },
+   {
+    "typed": "act",
+    "top": "act"
+   },
+   {
+    "typed": "bot",
+    "top": "bot"
+   },
+   {
+    "typed": "onc",
+    "top": "once"
+   },
+   {
+    "typed": "use",
+    "top": "use"
+   },
+   {
+    "typed": "ide",
+    "top": "idea"
+   },
+   {
+    "typed": "kne",
+    "top": "knew"
+   },
+   {
+    "typed": "hol",
+    "top": "hold"
+   },
+   {
+    "typed": "doo",
+    "top": "doo"
+   },
+   {
+    "typed": "suc",
+    "top": "such"
+   },
+   {
+    "typed": "bro",
+    "top": "bro"
+   },
+   {
+    "typed": "als",
+    "top": "also"
+   },
+   {
+    "typed": "pre",
+    "top": "pre"
+   },
+   {
+    "typed": "too",
+    "top": "too"
+   },
+   {
+    "typed": "who",
+    "top": "who"
+   },
+   {
+    "typed": "sin",
+    "top": "sin"
+   },
+   {
+    "typed": "wif",
+    "top": "wife"
+   },
+   {
+    "typed": "day",
+    "top": "day"
+   },
+   {
+    "typed": "gue",
+    "top": "guess"
+   },
+   {
+    "typed": "tom",
+    "top": "tom"
+   },
+   {
+    "typed": "mat",
+    "top": "mat"
+   },
+   {
+    "typed": "mee",
+    "top": "meet"
+   },
+   {
+    "typed": "bri",
+    "top": "bri"
+   },
+   {
+    "typed": "ton",
+    "top": "ton"
+   },
+   {
+    "typed": "har",
+    "top": "hard"
+   },
+   {
+    "typed": "alo",
+    "top": "alone"
+   },
+   {
+    "typed": "mys",
+    "top": "myself"
+   },
+   {
+    "typed": "sch",
+    "top": "school"
+   },
+   {
+    "typed": "say",
+    "top": "say"
+   },
+   {
+    "typed": "pho",
+    "top": "phone"
+   },
+   {
+    "typed": "pro",
+    "top": "pro"
+   },
+   {
+    "typed": "got",
+    "top": "got"
+   },
+   {
+    "typed": "ope",
+    "top": "open"
+   },
+   {
+    "typed": "hop",
+    "top": "hop"
+   },
+   {
+    "typed": "fac",
+    "top": "face"
+   },
+   {
+    "typed": "unt",
+    "top": "until"
+   },
+   {
+    "typed": "los",
+    "top": "los"
+   },
+   {
+    "typed": "pol",
+    "top": "police"
+   },
+   {
+    "typed": "exc",
+    "top": "excuse"
+   },
+   {
+    "typed": "tur",
+    "top": "turn"
+   },
+   {
+    "typed": "bus",
+    "top": "bus"
+   },
+   {
+    "typed": "cas",
+    "top": "case"
+   },
+   {
+    "typed": "tru",
+    "top": "tru"
+   },
+   {
+    "typed": "soo",
+    "top": "soo"
+   },
+   {
+    "typed": "eac",
+    "top": "each"
+   },
+   {
+    "typed": "lat",
+    "top": "later"
+   },
+   {
+    "typed": "wat",
+    "top": "watch"
+   },
+   {
+    "typed": "han",
+    "top": "han"
+   },
+   {
+    "typed": "bea",
+    "top": "bea"
+   },
+   {
+    "typed": "doc",
+    "top": "doc"
+   },
+   {
+    "typed": "sec",
+    "top": "sec"
+   },
+   {
+    "typed": "per",
+    "top": "per"
+   },
+   {
+    "typed": "par",
+    "top": "par"
+   },
+   {
+    "typed": "kid",
+    "top": "kid"
+   }
+  ],
+  "exact": [
+   {
+    "typed": "you",
+    "top": "you"
+   },
+   {
+    "typed": "i",
+    "top": "I"
+   },
+   {
+    "typed": "the",
+    "top": "the"
+   },
+   {
+    "typed": "to",
+    "top": "to"
+   },
+   {
+    "typed": "a",
+    "top": "a"
+   },
+   {
+    "typed": "it",
+    "top": "it"
+   },
+   {
+    "typed": "and",
+    "top": "and"
+   },
+   {
+    "typed": "that",
+    "top": "that"
+   },
+   {
+    "typed": "of",
+    "top": "of"
+   },
+   {
+    "typed": "is",
+    "top": "is"
+   },
+   {
+    "typed": "in",
+    "top": "in"
+   },
+   {
+    "typed": "what",
+    "top": "what"
+   },
+   {
+    "typed": "we",
+    "top": "we"
+   },
+   {
+    "typed": "me",
+    "top": "me"
+   },
+   {
+    "typed": "this",
+    "top": "this"
+   },
+   {
+    "typed": "he",
+    "top": "he"
+   },
+   {
+    "typed": "for",
+    "top": "for"
+   },
+   {
+    "typed": "my",
+    "top": "my"
+   },
+   {
+    "typed": "on",
+    "top": "on"
+   },
+   {
+    "typed": "have",
+    "top": "have"
+   },
+   {
+    "typed": "your",
+    "top": "your"
+   },
+   {
+    "typed": "do",
+    "top": "do"
+   },
+   {
+    "typed": "was",
+    "top": "was"
+   },
+   {
+    "typed": "no",
+    "top": "no"
+   },
+   {
+    "typed": "not",
+    "top": "not"
+   },
+   {
+    "typed": "be",
+    "top": "be"
+   },
+   {
+    "typed": "are",
+    "top": "are"
+   },
+   {
+    "typed": "don",
+    "top": "don"
+   },
+   {
+    "typed": "know",
+    "top": "know"
+   },
+   {
+    "typed": "can",
+    "top": "can"
+   },
+   {
+    "typed": "with",
+    "top": "with"
+   },
+   {
+    "typed": "but",
+    "top": "but"
+   },
+   {
+    "typed": "all",
+    "top": "all"
+   },
+   {
+    "typed": "so",
+    "top": "so"
+   },
+   {
+    "typed": "just",
+    "top": "just"
+   },
+   {
+    "typed": "there",
+    "top": "there"
+   },
+   {
+    "typed": "here",
+    "top": "here"
+   },
+   {
+    "typed": "they",
+    "top": "they"
+   },
+   {
+    "typed": "like",
+    "top": "like"
+   },
+   {
+    "typed": "get",
+    "top": "get"
+   },
+   {
+    "typed": "she",
+    "top": "she"
+   },
+   {
+    "typed": "go",
+    "top": "go"
+   },
+   {
+    "typed": "if",
+    "top": "if"
+   },
+   {
+    "typed": "right",
+    "top": "right"
+   },
+   {
+    "typed": "out",
+    "top": "out"
+   },
+   {
+    "typed": "about",
+    "top": "about"
+   },
+   {
+    "typed": "up",
+    "top": "up"
+   },
+   {
+    "typed": "at",
+    "top": "at"
+   },
+   {
+    "typed": "him",
+    "top": "him"
+   },
+   {
+    "typed": "now",
+    "top": "now"
+   },
+   {
+    "typed": "oh",
+    "top": "oh"
+   },
+   {
+    "typed": "one",
+    "top": "one"
+   },
+   {
+    "typed": "come",
+    "top": "come"
+   },
+   {
+    "typed": "well",
+    "top": "we'll"
+   },
+   {
+    "typed": "her",
+    "top": "her"
+   },
+   {
+    "typed": "how",
+    "top": "how"
+   },
+   {
+    "typed": "yeah",
+    "top": "yeah"
+   },
+   {
+    "typed": "will",
+    "top": "will"
+   },
+   {
+    "typed": "got",
+    "top": "got"
+   },
+   {
+    "typed": "want",
+    "top": "want"
+   },
+   {
+    "typed": "think",
+    "top": "think"
+   },
+   {
+    "typed": "as",
+    "top": "as"
+   },
+   {
+    "typed": "see",
+    "top": "see"
+   },
+   {
+    "typed": "did",
+    "top": "did"
+   },
+   {
+    "typed": "good",
+    "top": "good"
+   },
+   {
+    "typed": "who",
+    "top": "who"
+   },
+   {
+    "typed": "why",
+    "top": "why"
+   },
+   {
+    "typed": "from",
+    "top": "from"
+   },
+   {
+    "typed": "let",
+    "top": "let"
+   },
+   {
+    "typed": "his",
+    "top": "his"
+   },
+   {
+    "typed": "yes",
+    "top": "yes"
+   },
+   {
+    "typed": "when",
+    "top": "when"
+   },
+   {
+    "typed": "going",
+    "top": "going"
+   },
+   {
+    "typed": "time",
+    "top": "time"
+   },
+   {
+    "typed": "an",
+    "top": "an"
+   },
+   {
+    "typed": "okay",
+    "top": "okay"
+   },
+   {
+    "typed": "back",
+    "top": "back"
+   },
+   {
+    "typed": "look",
+    "top": "look"
+   },
+   {
+    "typed": "us",
+    "top": "us"
+   },
+   {
+    "typed": "would",
+    "top": "would"
+   },
+   {
+    "typed": "them",
+    "top": "them"
+   },
+   {
+    "typed": "where",
+    "top": "where"
+   },
+   {
+    "typed": "were",
+    "top": "we're"
+   },
+   {
+    "typed": "take",
+    "top": "take"
+   },
+   {
+    "typed": "then",
+    "top": "then"
+   },
+   {
+    "typed": "had",
+    "top": "had"
+   },
+   {
+    "typed": "or",
+    "top": "or"
+   },
+   {
+    "typed": "been",
+    "top": "been"
+   },
+   {
+    "typed": "our",
+    "top": "our"
+   },
+   {
+    "typed": "gonna",
+    "top": "gonna"
+   },
+   {
+    "typed": "tell",
+    "top": "tell"
+   },
+   {
+    "typed": "really",
+    "top": "really"
+   },
+   {
+    "typed": "man",
+    "top": "man"
+   },
+   {
+    "typed": "some",
+    "top": "some"
+   },
+   {
+    "typed": "say",
+    "top": "say"
+   },
+   {
+    "typed": "hey",
+    "top": "hey"
+   },
+   {
+    "typed": "could",
+    "top": "could"
+   },
+   {
+    "typed": "didn",
+    "top": "didn"
+   },
+   {
+    "typed": "by",
+    "top": "by"
+   },
+   {
+    "typed": "need",
+    "top": "need"
+   },
+   {
+    "typed": "something",
+    "top": "something"
+   },
+   {
+    "typed": "has",
+    "top": "has"
+   },
+   {
+    "typed": "too",
+    "top": "too"
+   },
+   {
+    "typed": "more",
+    "top": "more"
+   },
+   {
+    "typed": "way",
+    "top": "way"
+   },
+   {
+    "typed": "down",
+    "top": "down"
+   },
+   {
+    "typed": "make",
+    "top": "make"
+   },
+   {
+    "typed": "very",
+    "top": "very"
+   },
+   {
+    "typed": "never",
+    "top": "never"
+   },
+   {
+    "typed": "only",
+    "top": "only"
+   },
+   {
+    "typed": "people",
+    "top": "people"
+   },
+   {
+    "typed": "over",
+    "top": "over"
+   },
+   {
+    "typed": "because",
+    "top": "because"
+   },
+   {
+    "typed": "little",
+    "top": "little"
+   },
+   {
+    "typed": "please",
+    "top": "please"
+   },
+   {
+    "typed": "love",
+    "top": "love"
+   },
+   {
+    "typed": "should",
+    "top": "should"
+   },
+   {
+    "typed": "mean",
+    "top": "mean"
+   },
+   {
+    "typed": "said",
+    "top": "said"
+   },
+   {
+    "typed": "sorry",
+    "top": "sorry"
+   },
+   {
+    "typed": "give",
+    "top": "give"
+   },
+   {
+    "typed": "off",
+    "top": "off"
+   },
+   {
+    "typed": "am",
+    "top": "am"
+   },
+   {
+    "typed": "thank",
+    "top": "thank"
+   },
+   {
+    "typed": "any",
+    "top": "any"
+   },
+   {
+    "typed": "two",
+    "top": "two"
+   },
+   {
+    "typed": "even",
+    "top": "even"
+   },
+   {
+    "typed": "much",
+    "top": "much"
+   },
+   {
+    "typed": "doing",
+    "top": "doing"
+   },
+   {
+    "typed": "sure",
+    "top": "sure"
+   },
+   {
+    "typed": "thing",
+    "top": "thing"
+   },
+   {
+    "typed": "these",
+    "top": "these"
+   },
+   {
+    "typed": "help",
+    "top": "help"
+   },
+   {
+    "typed": "first",
+    "top": "first"
+   },
+   {
+    "typed": "into",
+    "top": "into"
+   },
+   {
+    "typed": "anything",
+    "top": "anything"
+   },
+   {
+    "typed": "still",
+    "top": "still"
+   },
+   {
+    "typed": "find",
+    "top": "find"
+   },
+   {
+    "typed": "life",
+    "top": "life"
+   },
+   {
+    "typed": "nothing",
+    "top": "nothing"
+   },
+   {
+    "typed": "sir",
+    "top": "sir"
+   },
+   {
+    "typed": "day",
+    "top": "day"
+   },
+   {
+    "typed": "god",
+    "top": "god"
+   },
+   {
+    "typed": "work",
+    "top": "work"
+   },
+   {
+    "typed": "their",
+    "top": "their"
+   },
+   {
+    "typed": "uh",
+    "top": "uh"
+   },
+   {
+    "typed": "again",
+    "top": "again"
+   },
+   {
+    "typed": "maybe",
+    "top": "maybe"
+   },
+   {
+    "typed": "must",
+    "top": "must"
+   },
+   {
+    "typed": "before",
+    "top": "before"
+   }
+  ],
+  "fix": [
+   {
+    "typed": "rigt",
+    "contains": "right",
+    "edit": "deletion"
+   },
+   {
+    "typed": "abuot",
+    "contains": "about",
+    "edit": "transposition"
+   },
+   {
+    "typed": "thixk",
+    "contains": "think",
+    "edit": "substitution"
+   },
+   {
+    "typed": "wold",
+    "contains": "would",
+    "edit": "deletion"
+   },
+   {
+    "typed": "whree",
+    "contains": "where",
+    "edit": "transposition"
+   },
+   {
+    "typed": "godna",
+    "contains": "gonna",
+    "edit": "substitution"
+   },
+   {
+    "typed": "realy",
+    "contains": "really",
+    "edit": "deletion"
+   },
+   {
+    "typed": "colud",
+    "contains": "could",
+    "edit": "transposition"
+   },
+   {
+    "typed": "somethpng",
+    "contains": "something",
+    "edit": "substitution"
+   },
+   {
+    "typed": "nevr",
+    "contains": "never",
+    "edit": "deletion"
+   },
+   {
+    "typed": "pepole",
+    "contains": "people",
+    "edit": "transposition"
+   },
+   {
+    "typed": "bepause",
+    "contains": "because",
+    "edit": "substitution"
+   },
+   {
+    "typed": "lttle",
+    "contains": "little",
+    "edit": "deletion"
+   },
+   {
+    "typed": "pleaes",
+    "contains": "please",
+    "edit": "transposition"
+   },
+   {
+    "typed": "shguld",
+    "contains": "should",
+    "edit": "substitution"
+   },
+   {
+    "typed": "srry",
+    "contains": "sorry",
+    "edit": "deletion"
+   },
+   {
+    "typed": "tahnk",
+    "contains": "thank",
+    "edit": "transposition"
+   },
+   {
+    "typed": "doilg",
+    "contains": "doing",
+    "edit": "substitution"
+   },
+   {
+    "typed": "thse",
+    "contains": "these",
+    "edit": "deletion"
+   },
+   {
+    "typed": "frist",
+    "contains": "first",
+    "edit": "transposition"
+   },
+   {
+    "typed": "anythibg",
+    "contains": "anything",
+    "edit": "substitution"
+   },
+   {
+    "typed": "nthing",
+    "contains": "nothing",
+    "edit": "deletion"
+   },
+   {
+    "typed": "thier",
+    "contains": "their",
+    "edit": "transposition"
+   },
+   {
+    "typed": "aoain",
+    "contains": "again",
+    "edit": "substitution"
+   },
+   {
+    "typed": "befre",
+    "contains": "before",
+    "edit": "deletion"
+   },
+   {
+    "typed": "othre",
+    "contains": "other",
+    "edit": "transposition"
+   },
+   {
+    "typed": "aftnr",
+    "contains": "after",
+    "edit": "substitution"
+   },
+   {
+    "typed": "tought",
+    "contains": "thought",
+    "edit": "deletion"
+   },
+   {
+    "typed": "nigth",
+    "contains": "night",
+    "edit": "transposition"
+   },
+   {
+    "typed": "graat",
+    "contains": "great",
+    "edit": "substitution"
+   },
+   {
+    "typed": "thoe",
+    "contains": "those",
+    "edit": "deletion"
+   },
+   {
+    "typed": "betetr",
+    "contains": "better",
+    "edit": "transposition"
+   },
+   {
+    "typed": "everytaing",
+    "contains": "everything",
+    "edit": "substitution"
+   },
+   {
+    "typed": "aways",
+    "contains": "always",
+    "edit": "deletion"
+   },
+   {
+    "typed": "yaers",
+    "contains": "years",
+    "edit": "transposition"
+   },
+   {
+    "typed": "lbave",
+    "contains": "leave",
+    "edit": "substitution"
+   },
+   {
+    "typed": "mney",
+    "contains": "money",
+    "edit": "deletion"
+   },
+   {
+    "typed": "aruond",
+    "contains": "around",
+    "edit": "transposition"
+   },
+   {
+    "typed": "deesn",
+    "contains": "doesn",
+    "edit": "substitution"
+   },
+   {
+    "typed": "plce",
+    "contains": "place",
+    "edit": "deletion"
+   },
+   {
+    "typed": "fathre",
+    "contains": "father",
+    "edit": "transposition"
+   },
+   {
+    "typed": "whiph",
+    "contains": "which",
+    "edit": "substitution"
+   },
+   {
+    "typed": "hllo",
+    "contains": "hello",
+    "edit": "deletion"
+   },
+   {
+    "typed": "bleieve",
+    "contains": "believe",
+    "edit": "transposition"
+   },
+   {
+    "typed": "someooe",
+    "contains": "someone",
+    "edit": "substitution"
+   },
+   {
+    "typed": "thans",
+    "contains": "thanks",
+    "edit": "deletion"
+   },
+   {
+    "typed": "wantde",
+    "contains": "wanted",
+    "edit": "transposition"
+   },
+   {
+    "typed": "comiug",
+    "contains": "coming",
+    "edit": "substitution"
+   },
+   {
+    "typed": "huse",
+    "contains": "house",
+    "edit": "deletion"
+   },
+   {
+    "typed": "eveyr",
+    "contains": "every",
+    "edit": "transposition"
+   },
+   {
+    "typed": "thiough",
+    "contains": "through",
+    "edit": "substitution"
+   },
+   {
+    "typed": "eough",
+    "contains": "enough",
+    "edit": "deletion"
+   },
+   {
+    "typed": "hpapened",
+    "contains": "happened",
+    "edit": "transposition"
+   },
+   {
+    "typed": "mrther",
+    "contains": "mother",
+    "edit": "substitution"
+   },
+   {
+    "typed": "wrng",
+    "contains": "wrong",
+    "edit": "deletion"
+   },
+   {
+    "typed": "wrold",
+    "contains": "world",
+    "edit": "transposition"
+   },
+   {
+    "typed": "meght",
+    "contains": "might",
+    "edit": "substitution"
+   },
+   {
+    "typed": "tody",
+    "contains": "today",
+    "edit": "deletion"
+   },
+   {
+    "typed": "litsen",
+    "contains": "listen",
+    "edit": "transposition"
+   },
+   {
+    "typed": "anothnr",
+    "contains": "another",
+    "edit": "substitution"
+   },
+   {
+    "typed": "uderstand",
+    "contains": "understand",
+    "edit": "deletion"
+   },
+   {
+    "typed": "remembre",
+    "contains": "remember",
+    "edit": "transposition"
+   },
+   {
+    "typed": "tzlking",
+    "contains": "talking",
+    "edit": "substitution"
+   },
+   {
+    "typed": "geting",
+    "contains": "getting",
+    "edit": "deletion"
+   },
+   {
+    "typed": "looknig",
+    "contains": "looking",
+    "edit": "transposition"
+   },
+   {
+    "typed": "womcn",
+    "contains": "woman",
+    "edit": "substitution"
+   },
+   {
+    "typed": "frend",
+    "contains": "friend",
+    "edit": "deletion"
+   },
+   {
+    "typed": "mornign",
+    "contains": "morning",
+    "edit": "transposition"
+   },
+   {
+    "typed": "troing",
+    "contains": "trying",
+    "edit": "substitution"
+   },
+   {
+    "typed": "togeher",
+    "contains": "together",
+    "edit": "deletion"
+   },
+   {
+    "typed": "yuorself",
+    "contains": "yourself",
+    "edit": "transposition"
+   },
+   {
+    "typed": "famicy",
+    "contains": "family",
+    "edit": "substitution"
+   },
+   {
+    "typed": "withut",
+    "contains": "without",
+    "edit": "deletion"
+   },
+   {
+    "typed": "woulnd",
+    "contains": "wouldn",
+    "edit": "transposition"
+   },
+   {
+    "typed": "aaready",
+    "contains": "already",
+    "edit": "substitution"
+   },
+   {
+    "typed": "actully",
+    "contains": "actually",
+    "edit": "deletion"
+   },
+   {
+    "typed": "haerd",
+    "contains": "heard",
+    "edit": "transposition"
+   },
+   {
+    "typed": "rekdy",
+    "contains": "ready",
+    "edit": "substitution"
+   },
+   {
+    "typed": "caled",
+    "contains": "called",
+    "edit": "deletion"
+   },
+   {
+    "typed": "hpapy",
+    "contains": "happy",
+    "edit": "transposition"
+   },
+   {
+    "typed": "bbother",
+    "contains": "brother",
+    "edit": "substitution"
+   },
+   {
+    "typed": "prety",
+    "contains": "pretty",
+    "edit": "deletion"
+   },
+   {
+    "typed": "hvaen",
+    "contains": "haven",
+    "edit": "transposition"
+   },
+   {
+    "typed": "wrole",
+    "contains": "whole",
+    "edit": "substitution"
+   },
+   {
+    "typed": "strt",
+    "contains": "start",
+    "edit": "deletion"
+   },
+   {
+    "typed": "whlie",
+    "contains": "while",
+    "edit": "transposition"
+   },
+   {
+    "typed": "sifce",
+    "contains": "since",
+    "edit": "substitution"
+   },
+   {
+    "typed": "guss",
+    "contains": "guess",
+    "edit": "deletion"
+   },
+   {
+    "typed": "tomrorow",
+    "contains": "tomorrow",
+    "edit": "transposition"
+   },
+   {
+    "typed": "mattur",
+    "contains": "matter",
+    "edit": "substitution"
+   },
+   {
+    "typed": "tonigt",
+    "contains": "tonight",
+    "edit": "deletion"
+   },
+   {
+    "typed": "everyoen",
+    "contains": "everyone",
+    "edit": "transposition"
+   },
+   {
+    "typed": "waxna",
+    "contains": "wanna",
+    "edit": "substitution"
+   },
+   {
+    "typed": "aloe",
+    "contains": "alone",
+    "edit": "deletion"
+   },
+   {
+    "typed": "msyelf",
+    "contains": "myself",
+    "edit": "transposition"
+   },
+   {
+    "typed": "slhool",
+    "contains": "school",
+    "edit": "substitution"
+   },
+   {
+    "typed": "saing",
+    "contains": "saying",
+    "edit": "deletion"
+   },
+   {
+    "typed": "loosk",
+    "contains": "looks",
+    "edit": "transposition"
+   },
+   {
+    "typed": "coulrn",
+    "contains": "couldn",
+    "edit": "substitution"
+   },
+   {
+    "typed": "poblem",
+    "contains": "problem",
+    "edit": "deletion"
+   },
+   {
+    "typed": "firends",
+    "contains": "friends",
+    "edit": "transposition"
+   },
+   {
+    "typed": "gxtta",
+    "contains": "gotta",
+    "edit": "substitution"
+   },
+   {
+    "typed": "anone",
+    "contains": "anyone",
+    "edit": "deletion"
+   },
+   {
+    "typed": "kliled",
+    "contains": "killed",
+    "edit": "transposition"
+   },
+   {
+    "typed": "ujtil",
+    "contains": "until",
+    "edit": "substitution"
+   },
+   {
+    "typed": "polce",
+    "contains": "police",
+    "edit": "deletion"
+   },
+   {
+    "typed": "excues",
+    "contains": "excuse",
+    "edit": "transposition"
+   },
+   {
+    "typed": "busineys",
+    "contains": "business",
+    "edit": "substitution"
+   },
+   {
+    "typed": "wnts",
+    "contains": "wants",
+    "edit": "deletion"
+   },
+   {
+    "typed": "herat",
+    "contains": "heart",
+    "edit": "transposition"
+   },
+   {
+    "typed": "wqrry",
+    "contains": "worry",
+    "edit": "substitution"
+   },
+   {
+    "typed": "laer",
+    "contains": "later",
+    "edit": "deletion"
+   },
+   {
+    "typed": "wtach",
+    "contains": "watch",
+    "edit": "transposition"
+   },
+   {
+    "typed": "mlsic",
+    "contains": "music",
+    "edit": "substitution"
+   },
+   {
+    "typed": "hving",
+    "contains": "having",
+    "edit": "deletion"
+   },
+   {
+    "typed": "probbaly",
+    "contains": "probably",
+    "edit": "transposition"
+   },
+   {
+    "typed": "belutiful",
+    "contains": "beautiful",
+    "edit": "substitution"
+   },
+   {
+    "typed": "dotor",
+    "contains": "doctor",
+    "edit": "deletion"
+   },
+   {
+    "typed": "thniking",
+    "contains": "thinking",
+    "edit": "transposition"
+   },
+   {
+    "typed": "youbg",
+    "contains": "young",
+    "edit": "substitution"
+   },
+   {
+    "typed": "scond",
+    "contains": "second",
+    "edit": "deletion"
+   },
+   {
+    "typed": "wokring",
+    "contains": "working",
+    "edit": "transposition"
+   },
+   {
+    "typed": "watqr",
+    "contains": "water",
+    "edit": "substitution"
+   },
+   {
+    "typed": "peron",
+    "contains": "person",
+    "edit": "deletion"
+   },
+   {
+    "typed": "eaxctly",
+    "contains": "exactly",
+    "edit": "transposition"
+   },
+   {
+    "typed": "undtr",
+    "contains": "under",
+    "edit": "substitution"
+   },
+   {
+    "typed": "dath",
+    "contains": "death",
+    "edit": "deletion"
+   },
+   {
+    "typed": "mintue",
+    "contains": "minute",
+    "edit": "transposition"
+   },
+   {
+    "typed": "crozy",
+    "contains": "crazy",
+    "edit": "substitution"
+   },
+   {
+    "typed": "foget",
+    "contains": "forget",
+    "edit": "deletion"
+   },
+   {
+    "typed": "everyboyd",
+    "contains": "everybody",
+    "edit": "transposition"
+   },
+   {
+    "typed": "chanse",
+    "contains": "change",
+    "edit": "substitution"
+   },
+   {
+    "typed": "hapen",
+    "contains": "happen",
+    "edit": "deletion"
+   },
+   {
+    "typed": "dirnk",
+    "contains": "drink",
+    "edit": "transposition"
+   },
+   {
+    "typed": "knovs",
+    "contains": "knows",
+    "edit": "substitution"
+   },
+   {
+    "typed": "watever",
+    "contains": "whatever",
+    "edit": "deletion"
+   },
+   {
+    "typed": "takign",
+    "contains": "taking",
+    "edit": "transposition"
+   },
+   {
+    "typed": "timrs",
+    "contains": "times",
+    "edit": "substitution"
+   },
+   {
+    "typed": "ceck",
+    "contains": "check",
+    "edit": "deletion"
+   },
+   {
+    "typed": "hansd",
+    "contains": "hands",
+    "edit": "transposition"
+   },
+   {
+    "typed": "minutks",
+    "contains": "minutes",
+    "edit": "substitution"
+   },
+   {
+    "typed": "diffeent",
+    "contains": "different",
+    "edit": "deletion"
+   },
+   {
+    "typed": "maens",
+    "contains": "means",
+    "edit": "transposition"
+   },
+   {
+    "typed": "plint",
+    "contains": "point",
+    "edit": "substitution"
+   },
+   {
+    "typed": "insde",
+    "contains": "inside",
+    "edit": "deletion"
+   },
+   {
+    "typed": "makse",
+    "contains": "makes",
+    "edit": "transposition"
+   },
+   {
+    "typed": "avked",
+    "contains": "asked",
+    "edit": "substitution"
+   },
+   {
+    "typed": "someody",
+    "contains": "somebody",
+    "edit": "deletion"
+   },
+   {
+    "typed": "maikng",
+    "contains": "making",
+    "edit": "transposition"
+   },
+   {
+    "typed": "afraod",
+    "contains": "afraid",
+    "edit": "substitution"
+   },
+   {
+    "typed": "chace",
+    "contains": "chance",
+    "edit": "deletion"
+   },
+   {
+    "typed": "anywya",
+    "contains": "anyway",
+    "edit": "transposition"
+   },
+   {
+    "typed": "clfse",
+    "contains": "close",
+    "edit": "substitution"
+   },
+   {
+    "typed": "pary",
+    "contains": "party",
+    "edit": "deletion"
+   },
+   {
+    "typed": "agaisnt",
+    "contains": "against",
+    "edit": "transposition"
+   },
+   {
+    "typed": "czmes",
+    "contains": "comes",
+    "edit": "substitution"
+   },
+   {
+    "typed": "importnt",
+    "contains": "important",
+    "edit": "deletion"
+   },
+   {
+    "typed": "sahll",
+    "contains": "shall",
+    "edit": "transposition"
+   },
+   {
+    "typed": "stary",
+    "contains": "story",
+    "edit": "substitution"
+   },
+   {
+    "typed": "numbr",
+    "contains": "number",
+    "edit": "deletion"
+   },
+   {
+    "typed": "daguhter",
+    "contains": "daughter",
+    "edit": "transposition"
+   },
+   {
+    "typed": "leavt",
+    "contains": "least",
+    "edit": "substitution"
+   },
+   {
+    "typed": "waiing",
+    "contains": "waiting",
+    "edit": "deletion"
+   },
+   {
+    "typed": "mometn",
+    "contains": "moment",
+    "edit": "transposition"
+   },
+   {
+    "typed": "fqght",
+    "contains": "fight",
+    "edit": "substitution"
+   },
+   {
+    "typed": "husand",
+    "contains": "husband",
+    "edit": "deletion"
+   },
+   {
+    "typed": "gilrs",
+    "contains": "girls",
+    "edit": "transposition"
+   },
+   {
+    "typed": "magried",
+    "contains": "married",
+    "edit": "substitution"
+   },
+   {
+    "typed": "nbody",
+    "contains": "nobody",
+    "edit": "deletion"
+   },
+   {
+    "typed": "childrne",
+    "contains": "children",
+    "edit": "transposition"
+   },
+   {
+    "typed": "stnnd",
+    "contains": "stand",
+    "edit": "substitution"
+   },
+   {
+    "typed": "thugh",
+    "contains": "though",
+    "edit": "deletion"
+   },
+   {
+    "typed": "startde",
+    "contains": "started",
+    "edit": "transposition"
+   },
+   {
+    "typed": "sivter",
+    "contains": "sister",
+    "edit": "substitution"
+   },
+   {
+    "typed": "suppoed",
+    "contains": "supposed",
+    "edit": "deletion"
+   },
+   {
+    "typed": "bewteen",
+    "contains": "between",
+    "edit": "transposition"
+   },
+   {
+    "typed": "cjild",
+    "contains": "child",
+    "edit": "substitution"
+   },
+   {
+    "typed": "spak",
+    "contains": "speak",
+    "edit": "deletion"
+   },
+   {
+    "typed": "womne",
+    "contains": "women",
+    "edit": "transposition"
+   },
+   {
+    "typed": "buhind",
+    "contains": "behind",
+    "edit": "substitution"
+   },
+   {
+    "typed": "almst",
+    "contains": "almost",
+    "edit": "deletion"
+   },
+   {
+    "typed": "trtuh",
+    "contains": "truth",
+    "edit": "transposition"
+   },
+   {
+    "typed": "blodd",
+    "contains": "blood",
+    "edit": "substitution"
+   },
+   {
+    "typed": "aymore",
+    "contains": "anymore",
+    "edit": "deletion"
+   },
+   {
+    "typed": "playign",
+    "contains": "playing",
+    "edit": "transposition"
+   },
+   {
+    "typed": "rtason",
+    "contains": "reason",
+    "edit": "substitution"
+   },
+   {
+    "typed": "truble",
+    "contains": "trouble",
+    "edit": "deletion"
+   },
+   {
+    "typed": "braek",
+    "contains": "break",
+    "edit": "transposition"
+   },
+   {
+    "typed": "thust",
+    "contains": "trust",
+    "edit": "substitution"
+   },
+   {
+    "typed": "ofice",
+    "contains": "office",
+    "edit": "deletion"
+   },
+   {
+    "typed": "quesiton",
+    "contains": "question",
+    "edit": "transposition"
+   },
+   {
+    "typed": "brvught",
+    "contains": "brought",
+    "edit": "substitution"
+   },
+   {
+    "typed": "yors",
+    "contains": "yours",
+    "edit": "deletion"
+   },
+   {
+    "typed": "welocme",
+    "contains": "welcome",
+    "edit": "transposition"
+   },
+   {
+    "typed": "cpuple",
+    "contains": "couple",
+    "edit": "substitution"
+   },
+   {
+    "typed": "eiher",
+    "contains": "either",
+    "edit": "deletion"
+   },
+   {
+    "typed": "poewr",
+    "contains": "power",
+    "edit": "transposition"
+   },
+   {
+    "typed": "telping",
+    "contains": "telling",
+    "edit": "substitution"
+   },
+   {
+    "typed": "hoey",
+    "contains": "honey",
+    "edit": "deletion"
+   },
+   {
+    "typed": "tride",
+    "contains": "tried",
+    "edit": "transposition"
+   }
+  ]
+ }
+}

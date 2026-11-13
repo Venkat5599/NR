@@ -42,3 +42,8 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20240303")
 }
+
+// the unit tests read the cases shared with the web keyboard; rerun them when that file changes
+tasks.withType<Test>().configureEach {
+    inputs.files(rootProject.file("../shared-fixtures/cases.json")).withPropertyName("sharedFixtures")
+}
