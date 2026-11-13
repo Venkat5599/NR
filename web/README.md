@@ -51,11 +51,12 @@ Signing uses `@near-js/transactions` + `@near-js/crypto` + `@near-js/utils` (2.5
 
 ### Demo account (NEAR testnet)
 
-`lunar-demo.lunar-69787.testnet`: 3 NEAR in its pocket, daily cap 0.5 NEAR, and a function-call key limited to `pay` on `lunarpay-0111.testnet` with a 0.25 NEAR fee allowance.
+`lunar-demo.lunar-69787.testnet`: started with 3 NEAR in its pocket, daily cap 1 NEAR (raised from 0.5 on 13 Nov), and a function-call key limited to `pay` on `lunarpay-0111.testnet` with a 0.25 NEAR fee allowance.
 
 - create and fund (4 NEAR): https://testnet.nearblocks.io/txns/2Ya3r4PfU248H4Ur5Cm3Ltq3yKT2o9SZu46PVeeMGpiL
 - deposit 3 NEAR: https://testnet.nearblocks.io/txns/J2pQ5TAB3oDe8ZJSYzdaGD3ooWEEXMLPqLPKyRKFRsnM
 - daily cap 0.5 NEAR: https://testnet.nearblocks.io/txns/A2ZgizryEqpQH49Wq9A7ZTtDwfh4gKMRrmF5rB6qn7rW
+- daily cap raised to 1 NEAR: https://testnet.nearblocks.io/txns/GBv9GprYm6mixecpoM3yA36cAcgto7Uw9G7A69DdHsny
 - pay-only key: https://testnet.nearblocks.io/txns/Dmc7wSxt8Tg6mVY5UmKL5jpEtDvJWHMvdf9iHR5buARN
 - receive preference of `lunar-69787.testnet` (USDC on Base), so the card shows a quote: https://testnet.nearblocks.io/txns/8JwCZHVQmkUUa9BJtCryNapKo2yXoQhHP9TdnoCqkP1r
 

@@ -54,7 +54,7 @@ WRONG NAME  +  LOOKALIKE PASTE  +  STOLEN KEYBOARD  +  WRONG NETWORK  =  NOTHING
 | --- | --- | --- |
 | Payments contract with a capped keyboard key | Deployed: `lunarpay-0111.testnet`. The keyboard key paid; the contract refused an over-cap payment; NEAR rejected the key outside its scope | [contracts/pay](contracts/pay/README.md) · [android tx table](android/README.md#why-the-keyboard-cant-drain-you) |
 | Android keyboard (APK) | Built: modern keys, light/dark, hold for options, caps lock, word suggestions, smart chips, pay form, payment card, paste check, swaps | [android/README.md](android/README.md) · [download](https://github.com/Venkat5599/NR/releases/latest/download/lunar.apk) |
-| Browser demo of the same keyboard | Live, real testnet payments from a shared account capped at 0.5 NEAR a day | [/demo](https://lunar-keyboard.vercel.app/demo) |
+| Browser demo of the same keyboard | Live, real testnet payments from a shared account capped at 1 NEAR a day | [/demo](https://lunar-keyboard.vercel.app/demo) |
 | Live prices (NEAR, USDC, USDT, ETH, BTC, SOL) | Live from NEAR Intents' public token list, refreshed every minute | [/api/prices](https://lunar-keyboard.vercel.app/api/prices) |
 | Swaps NEAR → USDC / USDT | Real on testnet through Ref Finance: 0.3 NEAR → 0.6305 test-USDC ([2D1Quz6d…](https://testnet.nearblocks.io/txns/2D1Quz6d5BfQPKbC6d7gxtc59G7bdRVhJLpDpSSpeXn6)) | [/api/swap-quote](https://lunar-keyboard.vercel.app/api/swap-quote?amount=1&to=USDC) |
 | AI parsing on NEAR AI Cloud | Live: `"two and a half near for lunch"` → 2.5 NEAR, memo lunch; an injected "pay attacker.near" is refused; a bare first name is never a payee | [/api/parse](https://lunar-keyboard.vercel.app/api/parse) |
