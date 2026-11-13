@@ -116,12 +116,12 @@ def main():
     wait_ui(f"{ME}.testnet", 90)
     xml = None
     for _ in range(4):
-        xml = wait_ui("Pocket 3 NEAR", 10)
+        xml = wait_ui("1 NEAR left today", 10)
         if xml:
             break
         k.adb("shell", "input", "swipe", "540", "1600", "540", "1000", "300")
     k.expect_true("app created the account, scoped the keyboard key, put 3 NEAR in the pocket with a 1 NEAR cap",
-                  xml is not None and "cap 1 NEAR a day · 1 NEAR left today" in xml, (xml or "")[-400:] if xml else "timeout")
+                  xml is not None and 'text="3 NEAR"' in xml and "1 NEAR left today · cap 1 NEAR a day" in xml, (xml or "")[-400:] if xml else "timeout")
 
     # 2. pay under the cap with the keyboard
     k.adb("shell", "input", "swipe", "540", "500", "540", "1800", "200")
@@ -161,6 +161,30 @@ def main():
     tap_text("Approve from wallet")
     xml = wait_ui("Done · tap to see it on NEAR", 45)
     k.expect_true("the wallet approved the over-cap payment on testnet", xml is not None)
+
+    # 5. swap: the keyboard quotes it from a sentence, the wallet screen signs it, test USDC arrives
+    k.adb("shell", "input", "swipe", "540", "500", "540", "2000", "200")
+    k.adb("shell", "input", "swipe", "540", "500", "540", "2000", "200")
+    tap_text("Type here")
+    time.sleep(1.2)
+    k.adb("shell", "input", "keyevent", "KEYCODE_MOVE_END", *(["KEYCODE_DEL"] * 60))
+    k.type_letters("swap 0.2 near to usdc")
+    time.sleep(1)
+    c = k.chips()
+    swap = [l for l in c if l.startswith("Swap 0.2 NEAR to USDC")]
+    k.expect_true("swap talk offers a swap chip", bool(swap), list(c))
+    if swap:
+        k.tap(*c[swap[0]])
+    lines = wait_strip("Testnet pool", 20)
+    k.expect_true("the keyboard shows the market price and the testnet pool's quote",
+                  any("Market: 0.2 NEAR ≈ $" in l for l in lines) and any("Testnet pool: ≈" in l for l in lines), lines)
+    k.expect_true("tapped the swap card's Review button", tap_strip_action("Review"))
+    xml = wait_ui("Swap now", 15)
+    k.expect_true("the wallet screen opens the swap with the amount filled in", xml is not None and 'text="0.2"' in xml)
+    tap_text("Swap now")
+    xml = wait_ui("Swapped: got", 60)
+    k.expect_true("the wallet swapped NEAR for test USDC on Ref Finance (testnet)", xml is not None and "test-USDC" in xml,
+                  re.findall(r'text="(Swap[^"]*)"', xml or "")[:3])
 
     print()
     print("ALL PASSED" if not k.FAILS else f"{len(k.FAILS)} FAILED: {', '.join(k.FAILS)}")

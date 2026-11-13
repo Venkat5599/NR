@@ -79,7 +79,7 @@ def main():
     k.press("LETTERS", "⏎")          # "Done" closes the keyboard
     time.sleep(0.8)
     tap_text("Save payee")
-    k.expect_true("enter key moved to the next box and Save stored the payee", bounds_any("bob.near   0x9f3a…b21c"))
+    k.expect_true("enter key moved to the next box and Save stored the payee", bounds_any("bob.near") and bounds_any("0x9f3a…b21c"))
 
     # open the keyboard in the Try box so the strip is on screen
     k.adb("shell", "input", "swipe", "540", "500", "540", "2000", "200")

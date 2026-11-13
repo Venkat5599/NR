@@ -124,6 +124,35 @@ def clear_field(field_bounds):
     time.sleep(0.4)
 
 
+def chips():
+    """The bar's chips and suggestions with their on-screen centres, from the debug log (tag LunarChips)."""
+    lines = [l.split("LunarChips:", 1)[1].strip() for l in adb("logcat", "-d", "-s", "LunarChips:D").splitlines() if "LunarChips:" in l]
+    if not lines or not lines[-1]:
+        return {}
+    return {c.split("|")[0]: (int(c.split("|")[1]), int(c.split("|")[2])) for c in lines[-1].split(";")}
+
+
+def hold_and_pick(page, label, option):
+    """Holds a key until its options open, slides to `option`, lifts. Returns the offered options."""
+    x, y, _ = keys()[page][label]
+    def popups():
+        return [l.split("LunarPopup:", 1)[1].strip() for l in adb("logcat", "-d", "-s", "LunarPopup:D").splitlines() if "LunarPopup:" in l]
+    seen = len(popups())                                       # don't clear logcat: the key map lives there too
+    adb("shell", "input", "motionevent", "DOWN", str(x), str(y))
+    time.sleep(0.8)
+    lines = popups()[seen:]
+    if not lines:
+        adb("shell", "input", "motionevent", "UP", str(x), str(y))
+        return None
+    opts = {o.split("|")[0]: int(o.split("|")[1]) for o in lines[-1].split(";")}
+    tx = opts.get(option, x)
+    for i in range(1, 6):
+        adb("shell", "input", "motionevent", "MOVE", str(x + (tx - x) * i // 5), str(y))
+        time.sleep(0.04)
+    adb("shell", "input", "motionevent", "UP", str(tx), str(y))
+    return list(opts)
+
+
 def main():
     adb("shell", "am", "force-stop", PKG)  # stopping the package makes Android fall back to another keyboard,
     adb("shell", "ime", "enable", IME, check=False)  # so select Lunar after it
@@ -137,8 +166,8 @@ def main():
     time.sleep(2.5)
 
     xml = ui()
-    expect_true("setup screen sees Lunar is on", "✓ Lunar is on." in xml)
-    expect_true("setup screen sees Lunar is selected", "✓ Lunar is your keyboard." in xml)
+    expect_true("setup screen sees Lunar is on", 'text="Lunar is on"' in xml)
+    expect_true("setup screen sees Lunar is selected", 'text="Lunar is your keyboard"' in xml)
 
     field = node(xml, **{"class": "android.widget.EditText", "text": "Type here"})
     if not field:
@@ -198,10 +227,10 @@ def main():
     expect_true("Pay shows the payment card", any(t.startswith("Pay near · 2 NEAR") for t in texts), texts)
     for _ in range(20):
         texts = strip_text()
-        if any("near ✓" in t or "Couldn't reach" in t or "No account" in t for t in texts):
+        if len(texts) > 1 and not texts[1].startswith("Checking"):
             break
         time.sleep(0.5)
-    expect_true("Pay checked the name on NEAR mainnet (exists, account age)", any(t.startswith("near ✓") for t in texts), texts)
+    expect_true("Pay checked the name on NEAR mainnet (exists, account age)", len(texts) > 1 and texts[1].startswith("near · "), texts)
 
     # 7. a name that does not exist is flagged
     clear_field(fb)
@@ -217,14 +246,83 @@ def main():
         time.sleep(0.5)
     expect_true("a missing NEAR name is flagged", any("No account called zzqqlunarnobody.near" in t for t in texts), texts)
 
-    # 8. Pay without a sentence explains what to type
+    # 8. shift: a quick double tap locks capitals even at the start of a sentence (auto-capital on)
+    clear_field(fb)
+    tap((fb[0] + fb[2]) // 2, (fb[1] + fb[3]) // 2)
+    time.sleep(0.6)
+    x, y, _ = keys()["LETTERS"]["⇧"]
+    adb("shell", f"input tap {x} {y}; input tap {x} {y}")   # one shell call: the two taps land well inside the double-tap window
+    time.sleep(0.3)
+    type_letters("abc")
+    time.sleep(0.3)
+    expect("double-tap shift locks capitals", field_text(ui()), "ABC")
+    press("LETTERS", "⇧")                                     # one tap unlocks
+    type_letters("d")
+    time.sleep(0.3)
+    expect("a tap unlocks shift", field_text(ui()), "ABCd")
+
+    # 9. holding a key offers options: hold $ and slide to NEAR types the token after the amount
+    clear_field(fb)
+    tap((fb[0] + fb[2]) // 2, (fb[1] + fb[3]) // 2)
+    time.sleep(0.6)
+    press("LETTERS", "?123"); time.sleep(0.3)
+    press("SYMBOLS", "5")
+    picked = hold_and_pick("SYMBOLS", "$", "NEAR")
+    time.sleep(0.4)
+    expect_true("holding $ lists currencies and tokens", picked is not None and "USDC" in picked, picked)
+    expect("sliding to NEAR types ' NEAR' after the amount", field_text(ui()), "5 NEAR")
+
+    # 10. Pay with nothing typed opens the pay form; keys type into it, enter moves on, Review checks it
     clear_field(fb)
     tap((fb[0] + fb[2]) // 2, (fb[1] + fb[3]) // 2)
     time.sleep(0.6)
     press("LETTERS", "Pay")
+    time.sleep(0.6)
+    texts = strip_text()
+    expect_true("Pay with nothing typed opens the pay form", texts[:1] == ["Pay form"], texts)
+    type_letters("bob")
+    press("LETTERS", "."); type_letters("near")
+    press("LETTERS", "⏎"); time.sleep(0.5)
+    press("SYMBOLS", "2")
     time.sleep(0.4)
     texts = strip_text()
-    expect_true("Pay with nothing typed explains the format", any("Type who and how much" in t for t in texts), texts)
+    expect_true("the form took the name and the amount", texts[1:2] and "to=bob.near amount=2 token=NEAR" in texts[1], texts)
+    press("SYMBOLS", "Pay")                                   # Pay inside the form means Review
+    for _ in range(20):
+        texts = strip_text()
+        if len(texts) > 1 and not texts[1].startswith("Checking"):
+            break
+        time.sleep(0.5)
+    expect_true("Review shows the checked payment card", texts[:1] == ["Pay bob.near · 2 NEAR"] and texts[1].startswith("bob.near · "), texts)
+    adb("shell", "input", "keyevent", "KEYCODE_BACK"); time.sleep(0.6)   # keyboard down: the chat box is visible again
+    expect("nothing typed into the form reached the chat", field_text(ui()), "")
+
+    # 11. suggestions: the bar completes the word being typed, and a tap replaces it
+    clear_field(fb)
+    tap((fb[0] + fb[2]) // 2, (fb[1] + fb[3]) // 2)
+    time.sleep(0.8)
+    type_letters("see you at dinn")
+    time.sleep(0.6)
+    c = chips()
+    expect_true("the bar suggests 'dinner' for 'dinn'", "dinner" in c, list(c))
+    if "dinner" in c:
+        tap(*c["dinner"]); time.sleep(0.5)
+    expect("tapping a suggestion replaces the word and adds a space", field_text(ui()), "See you at dinner ")
+
+    # 12. smart chips read the sentence: money talk offers Pay, dollars convert at the live price
+    type_letters("i owe you ")
+    press("LETTERS", "?123"); time.sleep(0.3)
+    for ch in "$12":
+        press("SYMBOLS", ch)
+    time.sleep(0.8)
+    c = chips()
+    conv = [l for l in c if l.startswith("$12 ≈ ") and l.endswith(" NEAR")]
+    expect_true("dollars in the chat show their value in NEAR at the live price", bool(conv), list(c))
+    if conv:
+        tap(*c[conv[0]]); time.sleep(0.8)
+        texts = strip_text()
+        expect_true("the conversion chip opens the pay form with that amount",
+                    texts[:1] == ["Pay form"] and "amount=" + conv[0].split("≈ ")[1].split(" ")[0] in texts[1] and "info=" in texts[1], texts)
 
     print()
     print(f"{'ALL PASSED' if not FAILS else str(len(FAILS)) + ' FAILED: ' + ', '.join(FAILS)}")
