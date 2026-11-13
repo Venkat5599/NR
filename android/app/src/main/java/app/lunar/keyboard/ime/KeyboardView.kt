@@ -1,9 +1,9 @@
 package app.lunar.keyboard.ime
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.os.Handler
@@ -18,219 +18,222 @@ import app.lunar.keyboard.core.KeyType
 import app.lunar.keyboard.core.Layouts
 import app.lunar.keyboard.core.Page
 import app.lunar.keyboard.core.ShiftState
+import app.lunar.keyboard.ui.Icons
+import app.lunar.keyboard.ui.Palette
 
 /**
- * Draws the keys on a Canvas and turns touches into key events.
- * One finger at a time per key; a second finger pressing another key commits the first
- * (fast two-thumb typing). Long press types the key's hint, or repeats delete.
+ * Draws the keys and turns touches into key events.
+ *
+ * Speed: the keys are drawn once into a bitmap whenever the page, shift, theme or size
+ * changes; a touch only repaints the one pressed key on top of it, so a key press costs a
+ * bitmap copy and one rounded rect. Nothing is allocated while drawing.
+ *
+ * Touch: one finger at a time per key; a second finger commits the first (fast two-thumb
+ * typing). Holding a key opens its options (digits, accents, currencies); slide to pick, lift
+ * to type it. Holding delete repeats; holding space switches keyboards; holding Pay opens the
+ * pay form.
  */
-class KeyboardView(context: Context, private val listener: Listener) : View(context) {
+class KeyboardView(context: Context, private val listener: Listener, private val overlay: KeyOverlay) : View(context) {
 
     interface Listener {
-        fun onKey(key: Key, longPress: Boolean)
+        fun onKey(key: Key)
+        fun onText(text: String)
         fun onSpaceLongPress()
+        fun onPayLongPress()
     }
 
+    enum class Enter { RETURN, SEARCH, SEND, GO, NEXT, DONE }
+
     var page: Page = Page.LETTERS
-        set(v) { field = v; relayout(); invalidate() }
+        set(v) { if (field != v) { field = v; relayout() } }
     var shift: ShiftState.Mode = ShiftState.Mode.OFF
-        set(v) { field = v; invalidate() }
-    var enterLabel: String = "⏎"
-        set(v) { field = v; invalidate() }
+        set(v) { if (field != v) { field = v; dirty() } }
+    var enter: Enter = Enter.RETURN
+        set(v) { if (field != v) { field = v; dirty() } }
+    var palette: Palette = Palette.LIGHT
+        set(v) { field = v; overlay.setPalette(v); dirty() }
 
     private val dp = resources.displayMetrics.density
     private var boxes: List<KeyBox> = emptyList()
+    private var keyRects: Array<RectF> = emptyArray()
+    private var cache: Bitmap? = null
+    private var cacheValid = false
 
-    private val bg = Paint().apply { color = 0xFFE9EBEF.toInt() }
-    private val keyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
-    private val modPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFCDD1D8.toInt() }
-    private val payPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF0A0A0A.toInt() }
-    private val pressedPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFB9BEC7.toInt() }
-    private val shadow = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x26000000 }
-    private val text = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xFF111111.toInt(); textAlign = Paint.Align.CENTER; typeface = Typeface.DEFAULT
-    }
-    private val hintText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0x80111111.toInt(); textAlign = Paint.Align.RIGHT; textSize = 10 * dp
-    }
-    private val previewPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
-    private val previewShadow = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x33000000 }
-    private val crescent = Path()
+    private val icons = Icons()
+    private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val shadow = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val blit = Paint(Paint.FILTER_BITMAP_FLAG)
+    private val label = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER }
+    private val hint = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.RIGHT }
+    private val shadowRect = RectF()
+    private val letterFace = Typeface.create("sans-serif", Typeface.NORMAL)
+    private val modFace = Typeface.create("sans-serif-medium", Typeface.NORMAL)
 
     private val handler = Handler(Looper.getMainLooper())
-    private var pressed: KeyBox? = null
+    private var pressed = -1
     private var pressedPointer = -1
     private var longFired = false
     private var repeating = false
+    private var optionLabels: List<String> = emptyList()
+    private var optionEdges: FloatArray? = null
+    private var optionSelected = 0
 
-    private val longPressRunnable = Runnable {
-        val b = pressed ?: return@Runnable
-        when (b.key.type) {
-            KeyType.DELETE -> { repeating = true; repeatDelete() }
-            KeyType.SPACE -> { longFired = true; listener.onSpaceLongPress(); release() }
-            KeyType.CHAR -> if (b.key.hint != null) { longFired = true; haptic(); listener.onKey(b.key, true); invalidate() }
-            else -> Unit
-        }
-    }
+    private val longPressRunnable = Runnable { onLongPress() }
 
-    private fun repeatDelete() {
-        val b = pressed ?: return
-        if (b.key.type != KeyType.DELETE || !repeating) return
-        listener.onKey(b.key, false)
-        handler.postDelayed({ repeatDelete() }, 55)
-    }
+    // ---------------------------------------------------------------- size and layout
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val w = MeasureSpec.getSize(widthMeasureSpec)
-        val h = (ROW_DP * 4 + PAD_DP * 2) * dp
-        setMeasuredDimension(w, h.toInt())
+        val cfg = resources.configuration
+        val row = Geometry.rowHeightDp(cfg.screenWidthDp, cfg.screenHeightDp)
+        setMeasuredDimension(w, ((row * 4 + PAD_DP * 2) * dp).toInt())
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) = relayout()
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        cache?.recycle()
+        cache = if (w > 0 && h > 0) Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888) else null
+        relayout()
+    }
 
     private fun relayout() {
         if (width == 0) return
         boxes = Geometry.layout(Layouts.page(page), width.toFloat(), height.toFloat(), PAD_DP * dp)
+        val gx = GAP_X_DP * dp
+        val gy = GAP_Y_DP * dp
+        keyRects = Array(boxes.size) { i -> boxes[i].let { RectF(it.left + gx, it.top + gy, it.right - gx, it.bottom - gy) } }
         loggedAt = null
+        dirty()
     }
 
-    private var loggedAt: String? = null
-
-    /** Debug: log the key map again on the next draw (each time the keyboard is shown). */
-    fun relogKeys() { loggedAt = null; invalidate() }
-
-    /**
-     * Debug builds only: writes each key's on-screen centre to logcat (tag LunarKeys), so the
-     * end-to-end test can tap real keys. Keys are drawn on a canvas, so UI dumps can't see them.
-     */
-    private fun logKeysForTests() {
-        if (context.applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE == 0) return
-        run {
-            val loc = IntArray(2)
-            getLocationOnScreen(loc)
-            // the keyboard window slides in, so log again whenever its on-screen position settles somewhere new
-            val at = "$page@${loc[0]},${loc[1]}"
-            if (at == loggedAt) return
-            loggedAt = at
-            val line = boxes.filter { it.key.type != KeyType.SPACER }.joinToString(";") {
-                // label as hex code points: symbol keys include the separators
-                val hex = it.key.label.codePoints().toArray().joinToString("-") { c -> Integer.toHexString(c) }
-                "${it.key.type}|$hex|${(loc[0] + it.centerX).toInt()}|${(loc[1] + it.centerY).toInt()}"
-            }
-            android.util.Log.d("LunarKeys", "page=$page $line")
-        }
+    private fun dirty() {
+        cacheValid = false
+        invalidate()
     }
 
-    /** The current key boxes, for tests that need to tap a key by its label. */
-    fun keyBoxes(): List<KeyBox> = boxes
+    // ---------------------------------------------------------------- drawing
 
     override fun onDraw(canvas: Canvas) {
         logKeysForTests()
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), bg)
-        val gap = 3 * dp
-        val r = 7 * dp
-        for (b in boxes) {
-            val k = b.key
-            if (k.type == KeyType.SPACER) continue
-            val rect = RectF(b.left + gap, b.top + gap * 1.6f, b.right - gap, b.bottom - gap * 1.6f)
-            val isMod = k.type != KeyType.CHAR && k.type != KeyType.SPACE && k.type != KeyType.PAY
-            val fill = when {
-                b == pressed -> pressedPaint
-                k.type == KeyType.PAY -> payPaint
-                k.type == KeyType.SHIFT && shift != ShiftState.Mode.OFF -> keyPaint
-                isMod -> modPaint
-                else -> keyPaint
+        val bmp = cache ?: return
+        if (!cacheValid) {
+            val c = Canvas(bmp)
+            c.drawColor(palette.board)
+            for (i in boxes.indices) if (boxes[i].key.type != KeyType.SPACER) drawKey(c, i, false)
+            cacheValid = true
+        }
+        canvas.drawBitmap(bmp, 0f, 0f, blit)
+        if (pressed >= 0 && optionEdges == null) drawKey(canvas, pressed, true)
+    }
+
+    private fun drawKey(c: Canvas, i: Int, isPressed: Boolean) {
+        val k = boxes[i].key
+        val r = keyRects[i]
+        val radius = RADIUS_DP * dp
+        val isMod = k.type != KeyType.CHAR && k.type != KeyType.SPACE && k.type != KeyType.PAY
+        val shiftOn = k.type == KeyType.SHIFT && shift != ShiftState.Mode.OFF
+        fill.color = when {
+            isPressed && k.type == KeyType.PAY -> palette.textMuted
+            isPressed -> palette.keyPressed
+            k.type == KeyType.PAY -> palette.accent
+            shiftOn -> palette.key
+            isMod -> palette.keyMod
+            else -> palette.key
+        }
+        if (!palette.dark && !isPressed) {
+            shadow.color = palette.keyShadow
+            shadowRect.set(r.left, r.top + 1.1f * dp, r.right, r.bottom + 1.1f * dp)
+            c.drawRoundRect(shadowRect, radius, radius, shadow)
+        }
+        c.drawRoundRect(r, radius, radius, fill)
+
+        val cx = r.centerX(); val cy = r.centerY()
+        val iconSize = minOf(r.height(), r.width()) * 0.5f
+        when (k.type) {
+            KeyType.PAY -> drawPay(c, r)
+            KeyType.SHIFT -> icons.draw(c, when (shift) {
+                ShiftState.Mode.OFF -> Icons.Kind.SHIFT
+                ShiftState.Mode.ONCE -> Icons.Kind.SHIFT_ON
+                ShiftState.Mode.LOCKED -> Icons.Kind.SHIFT_LOCKED
+            }, cx, cy, iconSize, palette.text)
+            KeyType.DELETE -> icons.draw(c, Icons.Kind.DELETE, cx, cy, iconSize, palette.text)
+            KeyType.ENTER -> icons.draw(c, when (enter) {
+                Enter.RETURN -> Icons.Kind.RETURN
+                Enter.SEARCH -> Icons.Kind.SEARCH
+                Enter.SEND -> Icons.Kind.SEND
+                Enter.GO -> Icons.Kind.GO
+                Enter.NEXT -> Icons.Kind.NEXT
+                Enter.DONE -> Icons.Kind.DONE
+            }, cx, cy, iconSize, palette.text)
+            KeyType.SPACE -> {
+                hint.textAlign = Paint.Align.CENTER
+                hint.textSize = 11 * dp; hint.typeface = modFace; hint.color = palette.textFaint
+                c.drawText("Lunar", cx, cy - (hint.descent() + hint.ascent()) / 2, hint)
+                hint.textAlign = Paint.Align.RIGHT
             }
-            canvas.drawRoundRect(RectF(rect.left, rect.top + 1.2f * dp, rect.right, rect.bottom + 1.2f * dp), r, r, shadow)
-            canvas.drawRoundRect(rect, r, r, fill)
-            drawLabel(canvas, b, rect)
-        }
-        pressed?.let { if (it.key.type == KeyType.CHAR && !longFired) drawPreview(canvas, it) }
-    }
-
-    private fun labelFor(k: Key): String = when (k.type) {
-        KeyType.CHAR -> if (page == Page.LETTERS && shift != ShiftState.Mode.OFF) k.label.uppercase() else k.label
-        KeyType.ENTER -> enterLabel
-        KeyType.SPACE -> ""
-        KeyType.SHIFT -> if (shift == ShiftState.Mode.LOCKED) "⇪" else "⇧"
-        else -> k.label
-    }
-
-    private fun drawLabel(canvas: Canvas, b: KeyBox, rect: RectF) {
-        val k = b.key
-        if (k.type == KeyType.PAY) {
-            drawPay(canvas, rect); return
-        }
-        val label = labelFor(k)
-        text.textSize = when {
-            k.type == KeyType.CHAR && label.length == 1 -> 22 * dp
-            label.length > 3 -> 13 * dp
-            else -> 16 * dp
-        }
-        text.color = 0xFF111111.toInt()
-        val y = rect.centerY() - (text.descent() + text.ascent()) / 2
-        canvas.drawText(label, rect.centerX(), y, text)
-        if (k.hint != null && page == Page.LETTERS) canvas.drawText(k.hint, rect.right - 4 * dp, rect.top + 12 * dp, hintText)
-        if (k.type == KeyType.SPACE) {
-            hintText.textAlign = Paint.Align.CENTER
-            canvas.drawText("Lunar", rect.centerX(), rect.centerY() + 4 * dp, hintText)
-            hintText.textAlign = Paint.Align.RIGHT
+            KeyType.CHAR -> {
+                val text = labelFor(k)
+                label.typeface = letterFace
+                label.textSize = if (text.length == 1 && text[0].isLetter()) 22 * dp else 20 * dp
+                label.color = palette.text
+                c.drawText(text, cx, cy - (label.descent() + label.ascent()) / 2, label)
+                if (k.hint != null && page == Page.LETTERS) {
+                    hint.textSize = 10.5f * dp; hint.typeface = letterFace; hint.color = palette.textFaint
+                    c.drawText(k.hint, r.right - 5 * dp, r.top + 13 * dp, hint)
+                }
+            }
+            else -> {
+                label.typeface = modFace
+                label.textSize = 14.5f * dp
+                label.color = palette.text
+                c.drawText(k.label, cx, cy - (label.descent() + label.ascent()) / 2, label)
+            }
         }
     }
 
-    private fun drawPay(canvas: Canvas, rect: RectF) {
-        val cy = rect.centerY()
-        val rad = 7 * dp
-        val cx = rect.centerX() - 14 * dp
-        crescent.reset()
-        crescent.addCircle(cx, cy, rad, Path.Direction.CW)
-        val cut = Path().apply { addCircle(cx + rad * 0.55f, cy - rad * 0.35f, rad * 0.85f, Path.Direction.CW) }
-        crescent.op(cut, Path.Op.DIFFERENCE)
-        text.color = 0xFFFFFFFF.toInt()
-        canvas.drawPath(crescent, text)
-        text.textSize = 15 * dp
-        text.typeface = Typeface.DEFAULT_BOLD
-        canvas.drawText("Pay", rect.centerX() + 9 * dp, cy - (text.descent() + text.ascent()) / 2, text)
-        text.typeface = Typeface.DEFAULT
-        text.color = 0xFF111111.toInt()
+    private fun drawPay(c: Canvas, r: RectF) {
+        label.typeface = modFace
+        label.textSize = 15.5f * dp
+        val word = "Pay"
+        val iconSize = 15 * dp
+        val gap = 6 * dp
+        val total = iconSize + gap + label.measureText(word)
+        val left = r.centerX() - total / 2
+        icons.draw(c, Icons.Kind.CRESCENT, left + iconSize / 2, r.centerY(), iconSize, palette.onAccent)
+        label.textAlign = Paint.Align.LEFT
+        label.color = palette.onAccent
+        c.drawText(word, left + iconSize + gap, r.centerY() - (label.descent() + label.ascent()) / 2, label)
+        label.textAlign = Paint.Align.CENTER
     }
 
-    private fun drawPreview(canvas: Canvas, b: KeyBox) {
-        // The preview sits over the key itself (a keyboard view cannot draw above its own top edge).
-        val w = (b.right - b.left) * 1.25f
-        val h = (b.bottom - b.top) * 1.15f
-        val rect = RectF(b.centerX - w / 2, b.top - h * 0.35f, b.centerX + w / 2, b.top + h * 0.65f)
-        if (rect.top < 0) rect.offset(0f, -rect.top)
-        canvas.drawRoundRect(RectF(rect.left, rect.top + 2 * dp, rect.right, rect.bottom + 2 * dp), 9 * dp, 9 * dp, previewShadow)
-        canvas.drawRoundRect(rect, 9 * dp, 9 * dp, previewPaint)
-        text.textSize = 28 * dp
-        canvas.drawText(labelFor(b.key), rect.centerX(), rect.centerY() - (text.descent() + text.ascent()) / 2, text)
-    }
+    private fun labelFor(k: Key): String =
+        if (k.type == KeyType.CHAR && page == Page.LETTERS && shift != ShiftState.Mode.OFF) k.label.uppercase() else k.label
+
+    // ---------------------------------------------------------------- touch
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val idx = e.actionIndex
         when (e.actionMasked) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                 // a new finger commits the key the previous finger is still holding
-                if (pressed != null && pressedPointer != e.getPointerId(idx)) commitPressed()
-                val b = Geometry.hit(boxes, e.getX(idx), e.getY(idx)) ?: return true
-                pressed = b
-                pressedPointer = e.getPointerId(idx)
-                longFired = false
-                repeating = false
-                haptic()
-                if (b.key.type == KeyType.DELETE) { listener.onKey(b.key, false); longFired = true }
-                handler.postDelayed(longPressRunnable, if (b.key.type == KeyType.DELETE) 400 else 380)
-                invalidate()
+                if (pressed >= 0 && pressedPointer != e.getPointerId(idx)) commitPressed()
+                val i = indexAt(e.getX(idx), e.getY(idx))
+                if (i < 0) return true
+                press(i, e.getPointerId(idx))
             }
             MotionEvent.ACTION_MOVE -> {
                 val p = e.findPointerIndex(pressedPointer)
-                if (p >= 0 && !repeating && !longFired) {
-                    val b = Geometry.hit(boxes, e.getX(p), e.getY(p))
-                    if (b != null && b != pressed) {
+                if (p < 0) return true
+                val edges = optionEdges
+                if (edges != null) {
+                    optionSelected = Geometry.optionAt(e.getX(p), edges)
+                    overlay.selectOption(optionSelected)
+                } else if (!repeating && !longFired) {
+                    val i = indexAt(e.getX(p), e.getY(p))
+                    if (i >= 0 && i != pressed) {
                         handler.removeCallbacks(longPressRunnable)
-                        pressed = b
-                        handler.postDelayed(longPressRunnable, 380)
+                        pressed = i
+                        showBubble()
+                        handler.postDelayed(longPressRunnable, LONG_PRESS_MS)
                         invalidate()
                     }
                 }
@@ -243,18 +246,90 @@ class KeyboardView(context: Context, private val listener: Listener) : View(cont
         return true
     }
 
+    private fun indexAt(x: Float, y: Float): Int {
+        val b = Geometry.hit(boxes, x, y) ?: return -1
+        return boxes.indexOf(b)
+    }
+
+    private fun press(i: Int, pointer: Int) {
+        pressed = i
+        pressedPointer = pointer
+        longFired = false
+        repeating = false
+        haptic()
+        val k = boxes[i].key
+        if (k.type == KeyType.DELETE) { listener.onKey(k); longFired = true }
+        showBubble()
+        handler.postDelayed(longPressRunnable, if (k.type == KeyType.DELETE) 400 else LONG_PRESS_MS)
+        invalidate()
+    }
+
+    private fun showBubble() {
+        val b = boxes.getOrNull(pressed) ?: return
+        overlay.keyboardTop = top.toFloat()
+        if (b.key.type == KeyType.CHAR) {
+            val r = keyRects[pressed]
+            overlay.showBubble(labelFor(b.key), r.left, r.top, r.right, r.bottom)
+        } else overlay.hideBubble()
+    }
+
+    private fun onLongPress() {
+        val i = pressed
+        if (i < 0) return
+        val k = boxes[i].key
+        when (k.type) {
+            KeyType.DELETE -> { repeating = true; repeatDelete(0) }
+            KeyType.SPACE -> { longFired = true; listener.onSpaceLongPress(); release() }
+            KeyType.PAY -> { longFired = true; haptic(); listener.onPayLongPress(); release() }
+            KeyType.CHAR -> {
+                val upper = page == Page.LETTERS && shift != ShiftState.Mode.OFF
+                val opts = Layouts.options(k, upper)
+                if (opts.isEmpty()) return
+                longFired = true
+                haptic()
+                if (opts.size == 1) {
+                    listener.onText(opts[0]); overlay.hideBubble(); invalidate(); return
+                }
+                val r = keyRects[i]
+                overlay.keyboardTop = top.toFloat()
+                optionLabels = opts
+                optionSelected = 0
+                optionEdges = overlay.showOptions(opts, r.left, r.top, r.right, r.bottom)
+                logPopupForTests()
+                invalidate()
+            }
+            else -> Unit
+        }
+    }
+
+    /** Held delete repeats, and speeds up after the first dozen characters. */
+    private fun repeatDelete(count: Int) {
+        val i = pressed
+        if (i < 0 || boxes[i].key.type != KeyType.DELETE || !repeating) return
+        listener.onKey(boxes[i].key)
+        handler.postDelayed({ repeatDelete(count + 1) }, if (count < 12) 60 else 30)
+    }
+
     private fun commitPressed() {
-        val b = pressed
+        val i = pressed
         handler.removeCallbacks(longPressRunnable)
-        if (b != null && !longFired && !repeating) listener.onKey(b.key, false)
+        if (optionEdges != null) {
+            optionLabels.getOrNull(optionSelected)?.let { listener.onText(it) }
+        } else if (i >= 0 && !longFired && !repeating) {
+            listener.onKey(boxes[i].key)
+        }
         release()
     }
 
     private fun release() {
         handler.removeCallbacks(longPressRunnable)
-        pressed = null
+        pressed = -1
         pressedPointer = -1
         repeating = false
+        optionEdges = null
+        optionLabels = emptyList()
+        overlay.hideBubble()
+        overlay.hideOptions()
         invalidate()
     }
 
@@ -262,8 +337,60 @@ class KeyboardView(context: Context, private val listener: Listener) : View(cont
         performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
     }
 
+    // ---------------------------------------------------------------- test hooks (debug builds only)
+
+    private var loggedAt: String? = null
+
+    /** Debug: log the key map again on the next draw (each time the keyboard is shown). */
+    fun relogKeys() {
+        loggedAt = null
+        invalidate()
+        // the window slides in without redrawing the keys: check the position again once it settles
+        if (debuggable) for (ms in longArrayOf(250, 600, 1200)) handler.postDelayed({ logKeysForTests() }, ms)
+    }
+
+    private val debuggable = context.applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE != 0
+
+    /**
+     * Writes each key's on-screen centre to logcat (tag LunarKeys), so the end-to-end test can
+     * tap real keys. Keys are drawn on a canvas, so UI dumps can't see them.
+     */
+    private fun logKeysForTests() {
+        if (!debuggable) return
+        val loc = IntArray(2)
+        getLocationOnScreen(loc)
+        // the keyboard window slides in, so log again whenever its on-screen position settles somewhere new
+        val at = "$page@${loc[0]},${loc[1]},$height"
+        if (at == loggedAt) return
+        loggedAt = at
+        val line = boxes.filter { it.key.type != KeyType.SPACER }.joinToString(";") {
+            // label as hex code points: symbol keys include the separators
+            val hex = it.key.label.codePoints().toArray().joinToString("-") { c -> Integer.toHexString(c) }
+            "${it.key.type}|$hex|${(loc[0] + it.centerX).toInt()}|${(loc[1] + it.centerY).toInt()}"
+        }
+        android.util.Log.d("LunarKeys", "page=$page $line")
+    }
+
+    /** Writes the open options and each one's on-screen centre (tag LunarPopup). */
+    private fun logPopupForTests() {
+        if (!debuggable) return
+        val edges = optionEdges ?: return
+        val loc = IntArray(2)
+        getLocationOnScreen(loc)
+        val y = loc[1] + keyRects[pressed].top - keyRects[pressed].height() / 2 - 6 * dp
+        val line = optionLabels.indices.joinToString(";") { i ->
+            "${optionLabels[i]}|${(loc[0] + (edges[i] + edges[i + 1]) / 2).toInt()}|${y.toInt()}"
+        }
+        android.util.Log.d("LunarPopup", line)
+    }
+
+    fun keyBoxes(): List<KeyBox> = boxes
+
     companion object {
-        const val ROW_DP = 54
         const val PAD_DP = 4
+        const val GAP_X_DP = 3f
+        const val GAP_Y_DP = 5f
+        const val RADIUS_DP = 8f
+        const val LONG_PRESS_MS = 320L
     }
 }
