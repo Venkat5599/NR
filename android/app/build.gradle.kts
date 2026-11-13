@@ -11,8 +11,8 @@ android {
         applicationId = "app.lunar.keyboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.3.1"
         buildConfigField("String", "PAY_CONTRACT", "\"${providers.gradleProperty("lunar.payContract").getOrElse("lunarpay-0111.testnet")}\"")
         buildConfigField("String", "API_BASE", "\"${providers.gradleProperty("lunar.apiBase").getOrElse("")}\"")
     }
