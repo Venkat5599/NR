@@ -71,7 +71,7 @@ Android warns that a keyboard "may be able to collect all the text you type"; ev
 
 ## Tests
 
-Unit tests, no phone needed (79): the pay-sentence parser, the pay form, word suggestions and smart chips (against the real word list), price parsing, the Ref Finance swap (quote parsing, wrap-then-swap actions, a recorded real swap), NEAR name rules, Base58/Borsh/key encoding, the lookalike check, shift, key layout and touch targets, validation of AI answers (including "the model can't pick a name you didn't type"), and parsing of transactions and account data recorded from NEAR testnet, mainnet and the explorer API.
+Unit tests, no phone needed (4,251, most of them table-driven, one reported test per case, including every case in [`../shared-fixtures/cases.json`](../shared-fixtures/cases.json) that the website runs too): the pay-sentence parser, the pay form, word suggestions and smart chips (against the real word list), price parsing, the Ref Finance swap (quote parsing, wrap-then-swap actions, a recorded real swap), NEAR name rules, Base58/Borsh/key encoding, the lookalike check, shift, key layout and touch targets, validation of AI answers (including "the model can't pick a name you didn't type"), and parsing of transactions and account data recorded from NEAR testnet, mainnet and the explorer API.
 
 ```sh
 ./gradlew testDebugUnitTest
