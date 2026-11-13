@@ -1,12 +1,17 @@
 package app.lunar.keyboard.core
 
-/** Shift behaves like every phone keyboard: tap once for one capital, double-tap to lock. */
+/**
+ * Shift behaves like every phone keyboard: tap once for one capital, double-tap to lock,
+ * tap again to unlock. A double tap locks from any state, including the automatic capital at
+ * the start of a sentence (where the first tap turns it off and the second used to turn it
+ * back on instead of locking).
+ */
 class ShiftState(private val doubleTapMs: Long = 350) {
     enum class Mode { OFF, ONCE, LOCKED }
 
     var mode: Mode = Mode.OFF
         private set
-    private var lastTap = Long.MIN_VALUE / 2
+    private var lastTap: Long? = null
 
     /** The user chose the current state by hand since the last character; auto-capitalisation leaves it alone. */
     private var manual = false
@@ -14,13 +19,17 @@ class ShiftState(private val doubleTapMs: Long = 350) {
     val isUpper get() = mode != Mode.OFF
 
     fun tap(now: Long) {
-        mode = when {
-            mode == Mode.LOCKED -> Mode.OFF
-            mode == Mode.ONCE && now - lastTap <= doubleTapMs -> Mode.LOCKED
-            mode == Mode.ONCE -> Mode.OFF
-            else -> Mode.ONCE
+        val quick = lastTap?.let { now - it <= doubleTapMs } == true
+        if (mode == Mode.LOCKED) {
+            mode = Mode.OFF
+            lastTap = null // a tap that unlocks never starts a double tap
+        } else if (quick) {
+            mode = Mode.LOCKED
+            lastTap = null
+        } else {
+            mode = if (mode == Mode.ONCE) Mode.OFF else Mode.ONCE
+            lastTap = now
         }
-        lastTap = now
         manual = true
     }
 
@@ -28,6 +37,7 @@ class ShiftState(private val doubleTapMs: Long = 350) {
     fun afterChar() {
         if (mode == Mode.ONCE) mode = Mode.OFF
         manual = false
+        lastTap = null
     }
 
     /** Auto-capitalisation from the editor (start of a sentence). Never overrides a lock or a choice made by hand. */
@@ -39,5 +49,6 @@ class ShiftState(private val doubleTapMs: Long = 350) {
     fun reset() {
         mode = Mode.OFF
         manual = false
+        lastTap = null
     }
 }
