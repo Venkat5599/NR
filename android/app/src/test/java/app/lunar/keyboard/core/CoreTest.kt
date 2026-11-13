@@ -163,6 +163,55 @@ class ShiftStateTest {
         s.tap(1000); s.tap(2000)
         assertEquals(ShiftState.Mode.OFF, s.mode)
     }
+
+    @Test fun double_tap_locks_even_at_the_start_of_a_sentence() {
+        val s = ShiftState()
+        s.setAuto(true)                       // auto capital is on
+        s.tap(1000); s.tap(1200)              // the first tap turns it off; the quick second one locks
+        assertEquals(ShiftState.Mode.LOCKED, s.mode)
+    }
+
+    @Test fun the_tap_that_unlocks_does_not_start_a_double_tap() {
+        val s = ShiftState()
+        s.tap(1000); s.tap(1100)              // locked
+        s.tap(3000)                           // unlocked
+        s.tap(3150)                           // a quick tap after unlocking is one capital, not a lock
+        assertEquals(ShiftState.Mode.ONCE, s.mode)
+    }
+}
+
+class KeyOptionsTest {
+    @Test fun holding_dollar_offers_currencies_and_tokens() {
+        val dollar = Layouts.symbols.flatten().first { it.label == "$" }
+        assertEquals(listOf("$", "€", "£", "¥", "₹", "NEAR", "USDC", "USDT"), Layouts.options(dollar, upper = false))
+    }
+
+    @Test fun top_row_offers_the_digit_first_then_accents_in_the_current_case() {
+        val e = Layouts.letters[0].first { it.label == "e" }
+        assertEquals("3", Layouts.options(e, upper = false).first())
+        assertEquals(listOf("3", "È", "É", "Ê", "Ë", "Ē"), Layouts.options(e, upper = true))
+        val q = Layouts.letters[0].first { it.label == "q" }
+        assertEquals(listOf("1"), Layouts.options(q, upper = false))
+    }
+
+    @Test fun multi_letter_tokens_keep_their_case() {
+        val dollar = Layouts.symbols.flatten().first { it.label == "$" }
+        assertEquals("NEAR", Layouts.options(dollar, upper = true)[5])
+    }
+
+    @Test fun the_finger_picks_the_option_under_it_clamped_to_the_ends() {
+        val edges = floatArrayOf(100f, 140f, 180f, 240f, 300f)   // cells can differ in width ("USDC" is wider than "$")
+        assertEquals(0, Geometry.optionAt(-50f, edges))
+        assertEquals(2, Geometry.optionAt(190f, edges))
+        assertEquals(3, Geometry.optionAt(900f, edges))
+    }
+
+    @Test fun rows_fit_short_tall_and_sideways_screens() {
+        assertEquals(46f, Geometry.rowHeightDp(360, 640), 0.01f)      // small 16:9 phone
+        assertEquals(57.645f, Geometry.rowHeightDp(412, 915), 0.01f)  // tall 20:9 phone
+        assertEquals(58f, Geometry.rowHeightDp(800, 1280), 0.01f)     // tablet in portrait
+        assertEquals(40.95f, Geometry.rowHeightDp(915, 390), 0.01f)   // phone on its side
+    }
 }
 
 class GeometryTest {
