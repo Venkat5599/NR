@@ -271,7 +271,7 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 
 ## Security
 
-No keys or secrets belong in this repository. Contract deployment keys are deleted from the vault account after deploy. Report issues privately to the repository owner.
+No keys or secrets belong in this repository. Contract deployment keys are deleted from the vault account after deploy: both contract accounts have **no access keys at all**, so nobody, including us, can change their code or sign as them. Payments contract key deleted: [CscZsNUG…](https://testnet.nearblocks.io/txns/CscZsNUGtGFqA9U7m1bGXJaS2jR7cKwK6N9etsGBeVpM); receive contract key deleted: [FTvVjpJt…](https://testnet.nearblocks.io/txns/FTvVjpJtriCAmGApfouLBT1Bdmd6V4DBRdPV6nSB7jGw). Check it yourself: `view_access_key_list` on `lunarpay-0111.testnet` and `lunar-recv-80366.testnet` returns an empty list. Report issues privately to the repository owner.
 
 ## Tech stack
 
