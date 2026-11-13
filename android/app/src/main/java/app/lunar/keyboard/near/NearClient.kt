@@ -169,6 +169,11 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
             return (stream?.bufferedReader()?.use { it.readText() } ?: "").also { c.disconnect() }
         }
 
+        private val NEAR_AMOUNT = Regex("^[0-9]{1,9}(\\.[0-9]{1,24})?$")
+
+        /** Pure: a typed NEAR amount, strictly 1-9 whole digits and optionally "." with 1-24 decimals (one yocto); null otherwise. */
+        fun parseNear(text: String): java.math.BigDecimal? = if (NEAR_AMOUNT.matches(text)) java.math.BigDecimal(text) else null
+
         fun toYocto(near: java.math.BigDecimal): BigInteger = near.movePointRight(24).toBigIntegerExact()
         fun toNear(yocto: BigInteger): java.math.BigDecimal = java.math.BigDecimal(yocto).movePointLeft(24).stripTrailingZeros()
     }

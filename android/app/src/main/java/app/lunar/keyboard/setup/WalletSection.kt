@@ -140,7 +140,7 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
         val meterSlot = LinearLayout(activity).apply { orientation = LinearLayout.VERTICAL }
         val capField = kit.field("new daily cap in NEAR", "cap", number = true).apply { visibility = android.view.View.GONE }
         val capSave = kit.primary("Set daily cap") {
-            val v = capField.text.toString().toBigDecimalOrNull()
+            val v = NearClient.parseNear(capField.text.toString().trim())
             if (v == null || v.signum() < 0) { say("Type a number."); return@primary }
             walletAction("Setting the cap") { pay.setCap(account, accounts.walletKey()!!, v) }
         }.apply { visibility = android.view.View.GONE }
@@ -220,7 +220,7 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
         }
 
         fun requote() {
-            val a = amount.text.toString().toBigDecimalOrNull()
+            val a = NearClient.parseNear(amount.text.toString().trim())
             if (a == null || a.signum() <= 0) { quote.visibility = android.view.View.GONE; return }
             val s = symbol
             quote.visibility = android.view.View.VISIBLE
@@ -229,7 +229,7 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
                 val q = runCatching { swapper.quote(a, s) }
                 val market = Prices.usd(a, "NEAR", Prices.all())
                 main.post {
-                    if (amount.text.toString().toBigDecimalOrNull() != a || symbol != s) return@post
+                    if (NearClient.parseNear(amount.text.toString().trim()) != a || symbol != s) return@post
                     quote.text = q.fold(
                         { "You get ≈ ${it.out.toPlainString()} test-$s from the testnet pool" + (market?.let { m -> "\nMarket value of ${a.toPlainString()} NEAR: $m" } ?: "") },
                         { "No quote: ${it.message?.take(80)}" })
@@ -249,7 +249,7 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
             addView(amount)
             addView(quote)
             addView(kit.primary("Swap now") {
-                val a = amount.text.toString().toBigDecimalOrNull()
+                val a = NearClient.parseNear(amount.text.toString().trim())
                 if (a == null || a.signum() <= 0) { result.show("Type how much NEAR to swap.", kit.palette.textMuted); return@primary }
                 val s = symbol
                 result.show("Swapping ${a.toPlainString()} NEAR to $s…", kit.palette.textMuted)
