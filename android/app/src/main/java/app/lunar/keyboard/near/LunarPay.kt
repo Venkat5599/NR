@@ -40,13 +40,17 @@ class LunarPay(private val near: NearClient, val contract: String) {
     }
 
     /** Wallet-key setup: scope the keyboard key to `pay`, top up the pocket, set the cap. */
-    fun setUp(account: String, walletKey: KeyPair, keyboardKey: KeyPair, topUp: BigDecimal, cap: BigDecimal): List<String> {
-        val add = near.send(account, walletKey, account, listOf(
+    fun setUp(account: String, walletKey: KeyPair, keyboardKey: KeyPair, topUp: BigDecimal, cap: BigDecimal, lap: (String) -> Unit = {}): List<String> {
+        // the two transactions don't depend on each other, so the second goes as soon as the first is in a block
+        val addHash = near.sendIncluded(account, walletKey, account, listOf(
             Action.AddFunctionCallKey(keyboardKey.publicKey, NearClient.toYocto(BigDecimal("0.25")), contract, listOf("pay"))))
-        if (!add.ok) throw NearClient.RpcException("adding the keyboard key failed: ${add.failure}")
+        lap("key tx in a block")
         val fund = near.send(account, walletKey, contract, listOf(
             NearClient.functionCall("deposit", JSONObject(), deposit = NearClient.toYocto(topUp)),
             NearClient.functionCall("set_daily_cap", JSONObject().put("cap", NearClient.toYocto(cap).toString()), deposit = BigInteger.ONE)))
+        lap("pocket tx executed")
+        val add = near.outcome(addHash, account)
+        if (!add.ok) throw NearClient.RpcException("adding the keyboard key failed: ${add.failure}")
         if (!fund.ok) throw NearClient.RpcException("top-up failed: ${fund.failure}")
         return listOf(add.hash, fund.hash)
     }
