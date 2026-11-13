@@ -73,35 +73,106 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
                 "The keyboard gets its own key that can only pay from that pocket.", 14.5f, muted = true).apply { setPadding(0, kit.px(8), 0, 0) })
             val name = kit.field("pick a name", "account_name").apply { imeOptions = android.view.inputmethod.EditorInfo.IME_ACTION_DONE }
             addView(name)
-            addView(kit.text(".testnet is added for you", 12.5f, faint = true).apply { setPadding(kit.px(4), kit.px(6), 0, 0) })
+            val hint = kit.text(".testnet is added for you", 12.5f, faint = true).apply { setPadding(kit.px(4), kit.px(6), 0, 0) }
+            addView(hint)
+            // checks the name against testnet as you type, so a taken name is caught before Create
+            var checking: Runnable? = null
+            name.addTextChangedListener(object : android.text.TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) = Unit
+                override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) = Unit
+                override fun afterTextChanged(s: android.text.Editable?) {
+                    checking?.let { main.removeCallbacks(it) }
+                    val id = idFrom(s.toString())
+                    if (id == null) { hint.text = ".testnet is added for you"; hint.setTextColor(kit.palette.textFaint); return }
+                    val run = Runnable {
+                        io.execute {
+                            val taken = runCatching { NearClient().exists(id) }.getOrNull()
+                            main.post {
+                                if (idFrom(name.text.toString()) != id) return@post
+                                when (taken) {
+                                    false -> { hint.text = "$id is free"; hint.setTextColor(kit.palette.ok) }
+                                    true -> { hint.text = "$id is taken, pick another"; hint.setTextColor(kit.palette.danger) }
+                                    null -> { hint.text = ".testnet is added for you"; hint.setTextColor(kit.palette.textFaint) }
+                                }
+                            }
+                        }
+                    }
+                    checking = run
+                    main.postDelayed(run, 350)
+                }
+            })
             addView(kit.primary("Create account") {
-                val id = name.text.toString().trim().lowercase().removeSuffix(".testnet") + ".testnet"
-                if (!NearName.isValid(id) || id.count { it == '.' } != 1) {
+                val id = idFrom(name.text.toString())
+                if (id == null) {
                     say("Use lowercase letters, digits, - or _ only.")
                     return@primary
                 }
-                create(id)
+                create(id, name)
             })
             addView(status)
         })
     }
 
-    private fun create(id: String) {
-        say("Creating $id…")
+    /** "Solar" or "solar.testnet" → "solar.testnet"; null when it can't be a top-level testnet name. */
+    private fun idFrom(typed: String): String? {
+        val base = typed.trim().lowercase().removeSuffix(".testnet")
+        if (base.length < 2) return null
+        val id = "$base.testnet"
+        return if (NearName.isValid(id) && id.count { it == '.' } == 1) id else null
+    }
+
+    private fun create(id: String, name: android.widget.EditText) {
+        val started = System.currentTimeMillis()
+        say("Checking $id…")
         val wallet = KeyPair.random()
         val keyboard = KeyPair.random()
-        accounts.saveNew(id, wallet, keyboard)
         io.execute {
+            val near = NearClient()
             val r = runCatching {
+                fun lap(step: String) = debugLog("  $step at ${System.currentTimeMillis() - started} ms")
+                if (near.exists(id)) throw Taken(id, freeNameLike(near, id).also { lap("taken, suggestion") })
+                lap("name free")
+                main.post { say("Creating $id… (1 of 2)") }
+                accounts.saveNew(id, wallet, keyboard)
                 createAccount(id, wallet.publicKeyString)
-                waitForKey(id, wallet)
-                pay.setUp(id, wallet, keyboard, topUp = BigDecimal("3"), cap = BigDecimal("1"))
+                lap("faucet answered")
+                waitForKey(near, id, wallet)
+                lap("key visible")
+                main.post { say("Adding the keyboard key and filling your pocket… (2 of 2)") }
+                pay.setUp(id, wallet, keyboard, topUp = BigDecimal("3"), cap = BigDecimal("1"), lap = ::lap)
+                lap("set up")
             }
+            val took = (System.currentTimeMillis() - started) / 100 / 10.0
+            debugLog("create $id: ${if (r.isSuccess) "ok" else r.exceptionOrNull()?.message} in $took s")
             main.post {
                 r.onSuccess { accounts.markReady(); render(null) }
-                    .onFailure { e -> accounts.forget(); say("Couldn't create $id: ${e.message?.take(160)}") }
+                    .onFailure { e ->
+                        if (e is Taken) {
+                            say("$id is taken. ${e.suggestion?.let { "$it is free, it's filled in for you." } ?: "Pick another name."}")
+                            e.suggestion?.let { name.setText(it.removeSuffix(".testnet")); name.setSelection(name.text.length) }
+                            return@onFailure
+                        }
+                        accounts.forget()
+                        say("Couldn't create $id: ${e.message?.take(160)}")
+                    }
             }
         }
+    }
+
+    private class Taken(id: String, val suggestion: String?) : Exception("$id is taken")
+
+    /** A free name close to the one asked for: name-1234.testnet. */
+    private fun freeNameLike(near: NearClient, id: String): String? {
+        val base = id.removeSuffix(".testnet").take(50)
+        repeat(4) {
+            val candidate = "$base-${(1000..9999).random()}.testnet"
+            if (runCatching { near.exists(candidate) }.getOrDefault(true).not()) return candidate
+        }
+        return null
+    }
+
+    private fun debugLog(s: String) {
+        if (activity.applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE != 0) android.util.Log.d("LunarCreate", s)
     }
 
     /**
@@ -121,11 +192,11 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
         }
     }
 
-    private fun waitForKey(id: String, key: KeyPair) {
-        val near = NearClient()
-        repeat(20) {
+    /** The faucet waits for its own transaction, so the key is normally there on the first read. */
+    private fun waitForKey(near: NearClient, id: String, key: KeyPair) {
+        repeat(60) {
             if (near.accessKeyNonce(id, key.publicKeyString) != null) return
-            Thread.sleep(1000)
+            Thread.sleep(250)
         }
         throw NearClient.RpcException("the new account didn't appear on testnet")
     }
