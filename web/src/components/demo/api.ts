@@ -17,6 +17,8 @@ export class ApiError extends Error {
 
 export type PayReply = { result: PayResult; txHash: string; explorer: string; to: string; amount: string };
 export type ParseReply = ParseOutcome & { model: string };
+export type PricesReply = { prices: Record<string, number>; updatedAt: string | null };
+export type SwapQuoteReply = { amount: string; to: "USDC" | "USDT"; out: string; pool: number; marketUsd: string | null; recordedSwap: string };
 
 function errorFrom(body: unknown, status: number): ApiError {
   const error = typeof body === "object" && body !== null && "error" in body ? body.error : null;
@@ -53,4 +55,6 @@ export const api = {
     call<NameCheck>(`/api/name-check?account=${encodeURIComponent(account)}&amount=${encodeURIComponent(amount)}`),
   pay: (to: string, amount: string, memo: string | null) => call<PayReply>("/api/demo/pay", post({ to, amount, memo })),
   parse: (sentence: string) => call<ParseReply>("/api/parse", post({ sentence })),
+  prices: () => call<PricesReply>("/api/prices"),
+  swapQuote: (amount: string, to: string) => call<SwapQuoteReply>(`/api/swap-quote?amount=${encodeURIComponent(amount)}&to=${encodeURIComponent(to)}`),
 };
