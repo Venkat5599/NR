@@ -24,8 +24,8 @@ import java.util.concurrent.Executors
 
 /**
  * The wallet part of the app. On testnet this screen plays the wallet: it holds the account's
- * full-access key and is the only place that can top up, change the cap, set where you get
- * paid, or approve a payment over the cap. The keyboard never can.
+ * full-access key and is the only place that can top up, change the cap, set where money sent to
+ * your receive address goes, or approve a payment over the cap. The keyboard never can.
  */
 class WalletSection(private val activity: Activity, private val kit: Kit) {
 
@@ -37,6 +37,7 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
     private lateinit var status: TextView
 
     private var swapRequest: SwapRequest? = null
+    private var receive: ReceiveSection? = null
 
     /** The card a request from the keyboard opened (an over-cap payment or a swap); the screen scrolls to it. */
     var waiting: android.view.View? = null
@@ -51,7 +52,10 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
 
     data class SwapRequest(val amount: BigDecimal, val symbol: String)
 
-    fun close() = io.shutdownNow()
+    fun close() {
+        io.shutdownNow()
+        receive?.close()
+    }
 
     data class PaymentRequest(val payee: String, val amount: BigDecimal, val memo: String?)
 
@@ -240,7 +244,8 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
 
         renderSwap(account, swapRequest)
         swapRequest = null
-        renderReceive(account)
+        receive?.close()
+        receive = ReceiveSection(activity, kit, account, pay).also { it.build(box) }
 
         box.addView(kit.text("Forget this account on this phone", 13.5f, muted = true).apply {
             setPadding(0, kit.px(16), 0, 0)
@@ -356,23 +361,6 @@ class WalletSection(private val activity: Activity, private val kit: Kit) {
         this.text = text
         setTextColor(color)
         visibility = android.view.View.VISIBLE
-    }
-
-    private fun renderReceive(account: String) {
-        val chains = listOf("base", "arb", "sol", "near")
-        var chain = "base"
-        box.addView(kit.card {
-            addView(kit.label("Where you get paid"))
-            addView(kit.text("People paying you see a live price for this chain, in USDC.", 14.5f, muted = true).apply { setPadding(0, kit.px(8), 0, 0) })
-            addView(kit.segmented(listOf("Base", "Arbitrum", "Solana", "NEAR"), 0) { i -> chain = chains[i] })
-            val addr = kit.field("your address on that chain", "recv_address")
-            addView(addr)
-            addView(kit.secondary("Save where I get paid") {
-                val a = addr.text.toString().trim()
-                if (a.length < 8) { say("Paste your address on that chain."); return@secondary }
-                walletAction("Saving") { pay.setReceive(account, accounts.walletKey()!!, LunarPay.ReceivePref(chain, "USDC", a)) }
-            })
-        })
     }
 
     private fun loadPocket(account: String, balance: TextView, capLine: TextView, meterSlot: LinearLayout) {
