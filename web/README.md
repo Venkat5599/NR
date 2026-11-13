@@ -40,6 +40,9 @@ Node 22.6 or newer is needed for `npm test` (it runs the `.ts` tests directly).
 | `POST /api/demo/pay` | `{to, amount, memo?}` (0 < amount ≤ 1 NEAR) → `{result, txHash, explorer}`; signed server-side with the demo's pay-only key, 4 calls then one per 30 s per IP. |
 | `GET /api/demo/pocket` | The demo pocket (`get_pocket`). |
 | `GET /api/name-check?account=&amount=` | Exists, key history (new account / new full-access key), receive preference, Intents quote. |
+| `GET /api/prices` | Live USD prices (NEAR, USDC, USDT, ETH, BTC, SOL) from NEAR Intents' token list, cached a minute. |
+| `GET /api/swap-quote?amount=&to=USDC\|USDT` | A live quote from the Ref Finance testnet pool the phone swaps through, the market value beside it, and a link to a real swap the app made. |
+| `POST /api/testnet-account` | `{accountId, publicKey}` → asks the testnet faucet for the phone when the faucet refuses the phone's own address; only the name and public key pass through. |
 
 Environment (`.env.example` lists the names; values live in `.env.local`, which is not tracked):
 `LUNAR_DEMO_ACCOUNT`, `LUNAR_DEMO_KEY`, `NEARAI_API_KEY`, `NEARAI_MODEL` (default `deepseek/deepseek-v3.2`).

@@ -44,8 +44,11 @@ No phone? **[Try the keyboard in your browser](https://lunar-keyboard.vercel.app
 | Paste check: lookalike detection against people you paid | Built, tested on an Android 15 emulator | [android/e2e/paste_e2e.py](android/e2e/paste_e2e.py) |
 | Name-changed-hands warning | Built: the card flags a new account or a full-access key added in the last 7 days. The registry-lease check is not built | [android](android/README.md) |
 | Private sentence parsing on NEAR AI Cloud | Live: `/api/parse` on an attested model (`deepseek/deepseek-v3.2`); "pay lunar-69787.testnet two and a half near for lunch" → 2.5 NEAR, memo lunch; an injected "pay attacker.near" is refused | [web](web/README.md) |
-| Android keyboard (APK): typing, Pay key, payment card, name check, capped payments, wallet hand-off | Built; 45 unit tests, 26 end-to-end checks on an Android 15 emulator | [android/README.md](android/README.md) |
-| Web demo of the keyboard, wired to testnet | Live | [lunar-keyboard.vercel.app/demo](https://lunar-keyboard.vercel.app/demo) |
+| Android keyboard (APK): modern keys, light/dark, hold-for-options, double-tap caps lock, word suggestions, pay form, capped payments, wallet hand-off | Built; 79 unit tests, 42 end-to-end checks on an Android 15 emulator | [android/README.md](android/README.md) |
+| Smart chips: the bar reads the sentence and offers the one action that fits (pay a typed name, pay when the chat talks money, `$12` → NEAR at the live price, swap, drop a price) | Built on the phone and the web demo; same rules, tested on both | [Suggest.kt](android/app/src/main/java/app/lunar/keyboard/core/Suggest.kt) · [suggest.ts](web/src/lib/keyboard/suggest.ts) |
+| Live prices (NEAR, USDC, USDT, ETH, BTC, SOL) | Live from NEAR Intents' public token list; every amount on the card and in the form shows its dollar value, so a slipped digit stands out | [/api/prices](https://lunar-keyboard.vercel.app/api/prices) |
+| Swaps: NEAR → USDC / USDT | Real on testnet through Ref Finance: quoted in the keyboard, signed in the app with the wallet key (the keyboard's key can only pay). 0.3 NEAR → 0.6305 test-USDC: [2D1Quz6d…](https://testnet.nearblocks.io/txns/2D1Quz6d5BfQPKbC6d7gxtc59G7bdRVhJLpDpSSpeXn6) | [TestnetSwap.kt](android/app/src/main/java/app/lunar/keyboard/near/TestnetSwap.kt) |
+| Web demo of the keyboard, wired to testnet | Live: the phone's keyboard in the browser (suggestions, smart chips, pay form, hold-for-currency, light/dark, live swap quotes), real testnet payments | [lunar-keyboard.vercel.app/demo](https://lunar-keyboard.vercel.app/demo) |
 | Landing page (Next.js) with the APK download and App Store "coming soon" | Live | [lunar-keyboard.vercel.app](https://lunar-keyboard.vercel.app) · [web/](web/README.md) |
 | Public record of saves | Live, built only from contract transactions | [lunar-keyboard.vercel.app/record](https://lunar-keyboard.vercel.app/record) |
 | Problem evidence | Collected | [docs/EVIDENCE.md](docs/EVIDENCE.md) |
@@ -162,6 +165,7 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | A payment under the daily cap | You, by tapping Pay on the card |
 | A payment over the cap | You, in your own wallet |
 | Changing the cap | You, in your own wallet (never from the keyboard key) |
+| A swap | You, in your own wallet: the keyboard quotes it, the wallet key signs it |
 | Choosing your receive chain and token | You, in your own wallet |
 | A wrong-network recovery | Nobody. The contract does it once NEAR's signer verifies the transfer |
 
@@ -183,7 +187,9 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | Paste check | Real: lookalike warning against saved payees; poisoning from on-chain history not written |
 | Name-changed-hands warning | Real for new accounts and new full-access keys; registry-lease check pending |
 | Private parsing in an enclave | Real: live on NEAR AI Cloud, attested model; the phone sends only the one sentence, only on tap |
-| Android keyboard | Real: installs, types, pays on testnet through the capped key |
+| Android keyboard | Real: installs, types (suggestions, accents, caps lock, light/dark), pays on testnet through the capped key |
+| Live prices | Real: NEAR Intents token list, refreshed every minute |
+| Swaps | Real on testnet (Ref Finance pools of test tokens, so the pool rate is not the market rate; the market value is shown beside it). Mainnet swaps would route through NEAR Intents and are not made |
 | Web demo | Real: live, real testnet payments |
 | Landing page | Real: live |
 | Problem evidence | Collected with links in [docs/EVIDENCE.md](docs/EVIDENCE.md) |

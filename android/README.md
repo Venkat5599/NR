@@ -8,8 +8,14 @@ Everything below runs on NEAR **testnet**. Payments are real testnet transaction
 
 | Feature | State |
 |---|---|
-| QWERTY typing, two symbol pages, digits by long press on the top row | Works, end-to-end tested on an Android 15 emulator |
-| Shift: one tap for one capital, double tap to lock; capital at the start of a sentence; double space types ". " | Works, tested |
+| QWERTY typing, two symbol pages; flat keys with drawn icons; light and dark (follows the phone, or set in the app) | Works, end-to-end tested on an Android 15 emulator |
+| Hold a key for options: digits and accents on letters, `$` offers `$ € £ ¥ ₹ NEAR USDC USDT`; slide to pick, lift to type | Works, tested (hold `$`, slide to NEAR types " NEAR" after the amount) |
+| Shift: one tap for one capital, double tap to lock (also at the start of a sentence), tap to unlock; double space types ". " | Works, tested |
+| Word suggestions from a 20,000-word list on the phone: completes the word, fixes one slip (`becuase` → because), puts the apostrophe back (`dont` → don't) | Works, tested; nothing leaves the phone |
+| Smart chips: the bar reads the sentence and offers one action — pay a typed `name.testnet`, **Pay** when the chat says owe/send/split, `$12 ≈ 3.6 NEAR` at the live price, **Swap**, or a price | Works, tested |
+| Pay form in the keyboard: tap Pay with nothing typed (or hold Pay): To, Amount with its currency, What for, recent names as chips, the dollar value under the amount; keys type into the form, not the chat | Works, tested |
+| Live prices from NEAR Intents: the toolbar shows NEAR's price and what's left today; every card shows the dollar value | Works, tested |
+| Swap NEAR to test USDC/USDT on Ref Finance (testnet): the keyboard quotes it with the market price beside the pool's rate; the app's wallet key signs it | Works, tested with real swaps ([2D1Quz6d…](https://testnet.nearblocks.io/txns/2D1Quz6d5BfQPKbC6d7gxtc59G7bdRVhJLpDpSSpeXn6)) |
 | Delete (held delete repeats); enter shows and runs the box's action (Next, Done, Send, Search, Go) | Works, tested |
 | Key preview, haptic tap, long press on space opens the keyboard picker; clear of the gesture bar on Android 15 | Works, checked by hand |
 | One-tap testnet account: the app creates `name.testnet`, adds a keyboard key that can only call `pay`, puts 3 NEAR in the pocket and sets a 1 NEAR daily cap | Works, tested (uses the public testnet faucet, which rate-limits after many accounts from one IP) |
@@ -20,7 +26,7 @@ Everything below runs on NEAR **testnet**. Payments are real testnet transaction
 | If the payee chose where to get paid (Base, Arbitrum, Solana), the card shows a live NEAR Intents quote for what they'd receive on mainnet | Works; the quote is live, the cross-chain transfer is not made on testnet |
 | Paste check: a copied address that shares its start and end with someone you paid, but isn't theirs, gets a warning | Works, tested with real clipboard changes |
 | AI for free-form sentences ("send bob.testnet a fiver for the cab"): only that sentence goes to the web app's route, which asks a model on NEAR AI Cloud | Built and unit-tested; needs the web app running with its API key |
-| Word suggestions, autocorrect, swipe typing, emoji, dark theme | Not built |
+| Automatic autocorrect while typing (suggestions are tapped, never forced), swipe typing, emoji, other languages | Not built |
 
 ## Why the keyboard can't drain you
 
@@ -65,7 +71,7 @@ Android warns that a keyboard "may be able to collect all the text you type"; ev
 
 ## Tests
 
-Unit tests, no phone needed (45): the pay-sentence parser, NEAR name rules, Base58/Borsh/key encoding, the lookalike check, shift, key layout and touch targets, validation of AI answers (including "the model can't pick a name you didn't type"), and parsing of transactions and account data recorded from NEAR testnet, mainnet and the explorer API.
+Unit tests, no phone needed (79): the pay-sentence parser, the pay form, word suggestions and smart chips (against the real word list), price parsing, the Ref Finance swap (quote parsing, wrap-then-swap actions, a recorded real swap), NEAR name rules, Base58/Borsh/key encoding, the lookalike check, shift, key layout and touch targets, validation of AI answers (including "the model can't pick a name you didn't type"), and parsing of transactions and account data recorded from NEAR testnet, mainnet and the explorer API.
 
 ```sh
 ./gradlew testDebugUnitTest
@@ -78,19 +84,24 @@ End-to-end tests drive the real keyboard on an emulator or a phone with USB debu
 ```sh
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 cd e2e
-python3 keyboard_e2e.py   # 13 checks: typing, caps, symbols, delete, the Pay card, live NEAR name checks
+python3 keyboard_e2e.py   # 24 checks: typing, caps and caps lock, symbols, delete, hold $ for currencies, the pay form,
+                          #   word suggestions, smart chips at the live price, the Pay card, live NEAR name checks
 python3 paste_e2e.py      # 5 checks: save a payee, then lookalike / real / unknown / plain-text clipboard
-python3 pay_e2e.py        # 8 checks: create a testnet account in the app, pay under the cap, over the cap → wallet approves
+python3 pay_e2e.py        # 13 checks: create a testnet account in the app, pay under the cap, over the cap → wallet approves,
+                          #   then a swap: chip in the keyboard → live quote → wallet signs → test USDC arrives
 ```
 
-Debug builds log key positions and the strip's text to logcat and include a receiver that lets the tests set the clipboard. Release builds have neither.
+Debug builds log key positions, the bar's chips, held-key options and the strip's text to logcat and include a receiver that lets the tests set the clipboard. Release builds have neither.
 
 ## How it is built
 
 - `ime/LunarIme.kt` — the `InputMethodService`: commits text, enter actions, auto-capitals, the Pay key, the clipboard listener.
 - `ime/KeyboardView.kt` — draws every key on one `Canvas` and maps touches to keys; a second finger commits the first key for fast two-thumb typing.
-- `ime/StripView.kt`, `ime/PayCard.kt` — the row above the keys and the payment card (its checks run in parallel).
-- `core/` — plain Kotlin with no Android imports: layouts, shift, the pay parser, NEAR name rules, the paste check.
-- `near/` — Base58, Borsh, ed25519 signing, NEAR RPC, and the payments-contract calls. Transactions are built and signed on the phone.
-- `data/` — name check, live Intents quotes, the AI parser client, the account and payee stores.
-- `setup/` — turn on, switch to, try, the testnet account (the wallet role) and the people-you-pay list.
+- `ime/KeyOverlay.kt` — the key bubble and the options row, drawn above the keys.
+- `ime/StripView.kt`, `ime/PayPanel.kt`, `ime/PayCard.kt` — the bar above the keys (suggestions, chips, toolbar), the pay form, and the payment/swap card (its checks start while you type the amount and run in parallel).
+- `ui/` — the light and dark palettes and the line icons, shared by the keyboard and the app.
+- `core/` — plain Kotlin with no Android imports: layouts and key options, shift, the pay parser, the pay form, word suggestions and smart chips, NEAR name rules, the paste check.
+- `near/` — Base58, Borsh, ed25519 signing, NEAR RPC, the payments-contract calls and the Ref Finance swap. Transactions are built and signed on the phone.
+- `data/` — name check, live Intents quotes and prices, the AI parser client, the account, payee and recent-name stores.
+- `assets/words_en.txt` — the 20,000 most common English words (from the MIT-licensed [FrequencyWords](https://github.com/hermitdave/FrequencyWords) list, profanity removed, contractions restored).
+- `setup/` — the app: turn on, switch to, try it, the testnet wallet (pocket, cap, swap, where you get paid), the people-you-pay list and the appearance switch. Laid out in one centred column up to 600dp wide, so it fits small phones, tall phones, tablets and landscape.
