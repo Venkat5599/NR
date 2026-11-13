@@ -5,7 +5,7 @@
 ### The AI keyboard that won't let you send money to the wrong place.
 
 [![Status](https://img.shields.io/badge/status-live%20on%20NEAR%20testnet-2ea44f)](#live-status)
-[![Tests](https://img.shields.io/badge/tests-6%2C340%20passing-2ea44f)](#tests)
+[![Tests](https://img.shields.io/badge/tests-6%2C349%20passing-2ea44f)](#tests)
 [![Download APK](https://img.shields.io/badge/Download-Android%20APK-3ddc84?logo=android&logoColor=white)](https://github.com/Venkat5599/NR/releases/latest/download/lunar.apk)
 [![Chain](https://img.shields.io/badge/NEAR-Chain%20Signatures%20%C2%B7%20Intents%20%C2%B7%20AI%20Cloud-000000)](#architecture)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
@@ -308,13 +308,13 @@ Details: [android/README.md](android/README.md) · [web/README.md](web/README.md
 
 | Suite | Tests | Runner |
 | --- | --- | --- |
-| Android unit | 4,251 | `./gradlew testDebugUnitTest` |
-| Android end-to-end on an emulator (keyboard 24, paste 5, pay + swap 13) | 42 | `android/e2e/*.py` |
-| Website | 2,003 | `npm test` in `web/` |
+| Android unit | 4,253 | `./gradlew testDebugUnitTest` |
+| Android end-to-end on an emulator (keyboard 24, paste 5, pay + swap 13, account creation 5) | 47 | `android/e2e/*.py` |
+| Website | 2,005 | `npm test` in `web/` |
 | Payments contract | 10 | `cargo test` |
 | Receive contract | 20 | `cargo test` |
 | Recovery watcher | 14 | `npm test` in `services/watcher/` |
-| **Total** | **6,340** | |
+| **Total** | **6,349** | |
 
 Most unit tests are table-driven: each case is its own reported test with its own assertion. Examples: every one of the 400 most common words completes from its first letters; 200 one-letter slips get the right fix; 420 valid and invalid NEAR names; ed25519 signatures checked against the RFC 8032 vectors; 210 pay sentences. The cases in [shared-fixtures/cases.json](shared-fixtures/cases.json) run on **both** the phone and the website, so the two keyboards can't drift apart. That shared table caught a real bug on both sides: `pay bob.near 5 for the $3 coffee` used to pay 5 USDC because of the `$` in the memo.
 

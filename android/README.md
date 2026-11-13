@@ -71,7 +71,7 @@ Android warns that a keyboard "may be able to collect all the text you type"; ev
 
 ## Tests
 
-Unit tests, no phone needed (4,251, most of them table-driven, one reported test per case, including every case in [`../shared-fixtures/cases.json`](../shared-fixtures/cases.json) that the website runs too): the pay-sentence parser, the pay form, word suggestions and smart chips (against the real word list), price parsing, the Ref Finance swap (quote parsing, wrap-then-swap actions, a recorded real swap), NEAR name rules, Base58/Borsh/key encoding, the lookalike check, shift, key layout and touch targets, validation of AI answers (including "the model can't pick a name you didn't type"), and parsing of transactions and account data recorded from NEAR testnet, mainnet and the explorer API.
+Unit tests, no phone needed (4,253, most of them table-driven, one reported test per case, including every case in [`../shared-fixtures/cases.json`](../shared-fixtures/cases.json) that the website runs too): the pay-sentence parser, the pay form, word suggestions and smart chips (against the real word list), price parsing, the Ref Finance swap (quote parsing, wrap-then-swap actions, a recorded real swap), NEAR name rules, Base58/Borsh/key encoding, the lookalike check, shift, key layout and touch targets, validation of AI answers (including "the model can't pick a name you didn't type"), and parsing of transactions and account data recorded from NEAR testnet, mainnet and the explorer API.
 
 ```sh
 ./gradlew testDebugUnitTest
@@ -89,6 +89,7 @@ python3 keyboard_e2e.py   # 24 checks: typing, caps and caps lock, symbols, dele
 python3 paste_e2e.py      # 5 checks: save a payee, then lookalike / real / unknown / plain-text clipboard
 python3 pay_e2e.py        # 13 checks: create a testnet account in the app, pay under the cap, over the cap → wallet approves,
                           #   then a swap: chip in the keyboard → live quote → wallet signs → test USDC arrives
+python3 create_e2e.py     # 5 checks: a taken name is flagged while typing, Create offers a free one, a new account is ready in under 15 s
 ```
 
 Debug builds log key positions, the bar's chips, held-key options and the strip's text to logcat and include a receiver that lets the tests set the clipboard. Release builds have neither.
