@@ -46,7 +46,8 @@ export function isFullAccount(payee: string): boolean {
 /** The model may only pick a name the user typed as a whole word; it never invents or completes one. */
 export function typedInSentence(payee: string, sentence: string): boolean {
   const boundary = "[^a-z0-9._-]";
-  return new RegExp(`(^|${boundary})@?${escapeRegExp(payee)}($|${boundary})`).test(sentence.toLowerCase());
+  // a full stop right after the name ends the sentence ("send 2 to bob.near."); it is not part of the name
+  return new RegExp(`(^|${boundary})@?${escapeRegExp(payee)}\\.*($|${boundary})`).test(sentence.toLowerCase());
 }
 
 function tokenOf(raw: unknown): Token | null {
