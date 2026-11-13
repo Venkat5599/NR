@@ -56,6 +56,14 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
     fun latestBlockHash(): ByteArray =
         Base58.decode(call("block", JSONObject().put("finality", "final")).getJSONObject("header").getString("hash"))
 
+    /** Whether a NEAR account exists right now (optimistic: a name made a moment ago counts). */
+    fun exists(account: String): Boolean = try {
+        call("query", JSONObject().put("request_type", "view_account").put("finality", "optimistic").put("account_id", account))
+        true
+    } catch (e: RpcException) {
+        if (e.message?.contains("UNKNOWN_ACCOUNT") == true || e.message?.contains("does not exist") == true) false else throw e
+    }
+
     fun balance(account: String): BigInteger? = try {
         BigInteger(call("query", JSONObject().put("request_type", "view_account").put("finality", "final")
             .put("account_id", account)).getString("amount"))
@@ -71,6 +79,23 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
 
     /** Builds, signs and sends a transaction, waiting until it is executed. */
     fun send(signer: String, key: KeyPair, receiver: String, actions: List<Action>): TxOutcome {
+        val (hash, result) = submit(signer, key, receiver, actions, "EXECUTED_OPTIMISTIC")
+        return parseOutcome(hash, result)
+    }
+
+    /**
+     * Sends a transaction and returns as soon as it is in a block, before it executes. The next
+     * transaction from the same key can go straight after it: it lands in the same or a later block,
+     * in nonce order. Read the result later with [outcome].
+     */
+    fun sendIncluded(signer: String, key: KeyPair, receiver: String, actions: List<Action>): String =
+        submit(signer, key, receiver, actions, "INCLUDED").first
+
+    /** The executed result of a transaction sent with [sendIncluded]. */
+    fun outcome(hash: String, signer: String): TxOutcome = parseOutcome(hash, call("tx", JSONObject()
+        .put("tx_hash", hash).put("sender_account_id", signer).put("wait_until", "EXECUTED_OPTIMISTIC")))
+
+    private fun submit(signer: String, key: KeyPair, receiver: String, actions: List<Action>, waitUntil: String): Pair<String, JSONObject> {
         val onChain = accessKeyNonce(signer, key.publicKeyString) ?: throw RpcException("this key is not on $signer")
         // two transactions in a row from one key: the RPC can still show the older nonce, so never reuse one
         val nonce = nextNonce(key.publicKeyString, onChain)
@@ -78,8 +103,8 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
         val (signed, hash) = tx.sign(key)
         val result = call("send_tx", JSONObject()
             .put("signed_tx_base64", Base64.getEncoder().encodeToString(signed))
-            .put("wait_until", "EXECUTED_OPTIMISTIC"))
-        return parseOutcome(Base58.encode(hash), result)
+            .put("wait_until", waitUntil))
+        return Base58.encode(hash) to result
     }
 
     companion object {
@@ -148,7 +173,22 @@ class NearClient(val rpcUrl: String = TESTNET_RPC) {
             if (code == 429) throw RpcException("the NEAR testnet faucet is busy (too many new accounts). Try again in a few minutes.")
             if (code == 400 && text.contains("exist", true)) throw RpcException("that name is taken, pick another")
             if (code !in 200..299) throw RpcException("faucet said $code: ${text.take(200)}")
-            return true
+            when (val failure = faucetFailure(text)) {
+                null -> return true
+                "taken" -> throw RpcException("that name is taken, pick another")
+                else -> throw RpcException("the faucet's transaction failed: $failure")
+            }
+        }
+
+        /**
+         * Pure: the faucet answers 200 even when no account was made. The transaction it sent is in the
+         * body, and a taken name shows up only as a failed CreateAccount inside it. Null when it succeeded.
+         */
+        fun faucetFailure(text: String): String? {
+            val body = runCatching { JSONObject(text) }.getOrNull() ?: return null
+            val failure = body.optJSONObject("status")?.opt("Failure") ?: return null
+            val s = failure.toString()
+            return if (s.contains("AccountAlreadyExists")) "taken" else s.take(160)
         }
 
         fun post(url: String, body: String, headers: Map<String, String> = emptyMap()): String {

@@ -14,6 +14,16 @@ import java.time.Instant
 class NearTest {
     private fun res(name: String) = javaClass.classLoader!!.getResource(name)!!.readText()
 
+    @Test
+    fun `a 200 from the faucet whose transaction failed with AccountAlreadyExists is a taken name`() {
+        assertEquals("taken", NearClient.faucetFailure(res("faucet_taken.json")))
+    }
+
+    @Test
+    fun `a 200 from the faucet whose transaction succeeded is a new account`() {
+        assertEquals(null, NearClient.faucetFailure(res("faucet_created.json")))
+    }
+
     @Test fun base58_round_trips_and_keeps_leading_zeros() {
         val bytes = byteArrayOf(0, 0, 1, 2, 3, -1)
         assertArrayEquals(bytes, Base58.decode(Base58.encode(bytes)))
