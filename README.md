@@ -5,7 +5,7 @@
 ### The AI keyboard that won't let you send money to the wrong place.
 
 [![Status](https://img.shields.io/badge/status-live%20on%20NEAR%20testnet-2ea44f)](#live-status)
-[![Tests](https://img.shields.io/badge/tests-6%2C349%20passing-2ea44f)](#tests)
+[![Tests](https://img.shields.io/badge/tests-6%2C363%20passing-2ea44f)](#tests)
 [![Download APK](https://img.shields.io/badge/Download-Android%20APK-3ddc84?logo=android&logoColor=white)](https://github.com/Venkat5599/NR/releases/latest/download/lunar.apk)
 [![Chain](https://img.shields.io/badge/NEAR-Chain%20Signatures%20%C2%B7%20Intents%20%C2%B7%20AI%20Cloud-000000)](#architecture)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
@@ -59,7 +59,7 @@ WRONG NAME  +  LOOKALIKE PASTE  +  STOLEN KEYBOARD  +  WRONG NETWORK  =  NOTHING
 | Live prices (NEAR, USDC, USDT, ETH, BTC, SOL) | Live from NEAR Intents' public token list, refreshed every minute | [/api/prices](https://lunar-keyboard.vercel.app/api/prices) |
 | Swaps NEAR → USDC / USDT | Real on testnet through Ref Finance: 0.3 NEAR → 0.6305 test-USDC ([2D1Quz6d…](https://testnet.nearblocks.io/txns/2D1Quz6d5BfQPKbC6d7gxtc59G7bdRVhJLpDpSSpeXn6)) | [/api/swap-quote](https://lunar-keyboard.vercel.app/api/swap-quote?amount=1&to=USDC) |
 | AI parsing on NEAR AI Cloud | Live: `"two and a half near for lunch"` → 2.5 NEAR, memo lunch; an injected "pay attacker.near" is refused; a bare first name is never a payee | [/api/parse](https://lunar-keyboard.vercel.app/api/parse) |
-| Receive address: get paid from any wallet (Base Sepolia, USDC) | In the app: each account gets its own Base address with no private key, and forwards what arrives. First run, by the watcher: 20 USDC in ([in](https://base-sepolia.blockscout.com/tx/0xc09d77529ca463882bdaf3e6a07c29c18ddbb9c75eb6242bc19e8c5d5f29543c)) → `recover` on NEAR ([5gsiqFoi…](https://testnet.nearblocks.io/txns/5gsiqFoiCcRD68ZzDGRbtSGz6eC9WdPenRybx5B7HLSd)) → forwarded to the owner ([out](https://base-sepolia.blockscout.com/tx/0x07fd29e44559aa6d0c869a6bec510a88320abf5991873db59493881855d2d720)) | [contracts/receive](contracts/receive/README.md) |
+| Receive address: get paid from any wallet (Base Sepolia, USDC) | Works end to end **from the app**: `lunar-e2e-560303.testnet` got receive address `0xf0cc…498d`; 2 USDC paid to it from an outside wallet ([in](https://base-sepolia.blockscout.com/tx/0xbf6876ea762452a87a35a7e31c66857fed5087beb23c1d7d9ebedff0ff16e13e)); once Base finalized it, **Forward it** called `recover` ([8UHzV2bG…](https://testnet.nearblocks.io/txns/8UHzV2bGkqYFNMx9buW1jFyVEsnE3GmFCMxR4DabnDM8)) and sent the signed forward to the owner's address ([out](https://base-sepolia.blockscout.com/tx/0x0fdf08806776c4f46e08a91e24d8f942df5d622c7b7972976e9a8b09b8331a0a)). Earlier, by the watcher: 20 USDC in ([in](https://base-sepolia.blockscout.com/tx/0xc09d77529ca463882bdaf3e6a07c29c18ddbb9c75eb6242bc19e8c5d5f29543c)) → `recover` on NEAR ([5gsiqFoi…](https://testnet.nearblocks.io/txns/5gsiqFoiCcRD68ZzDGRbtSGz6eC9WdPenRybx5B7HLSd)) → forwarded to the owner ([out](https://base-sepolia.blockscout.com/tx/0x07fd29e44559aa6d0c869a6bec510a88320abf5991873db59493881855d2d720)) | [contracts/receive](contracts/receive/README.md) |
 | Paste check (lookalike addresses) | Built, tested with real clipboard changes on an Android 15 emulator | [android/e2e/paste_e2e.py](android/e2e/paste_e2e.py) |
 | Name check (exists, age, new full-access key) | Built, tested on recorded and live data | [android](android/README.md) |
 | Landing page with the APK download | Live | [lunar-keyboard.vercel.app](https://lunar-keyboard.vercel.app) |
@@ -239,7 +239,7 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | Live prices | Real: NEAR Intents token list |
 | Swaps | Real on testnet through Ref Finance test pools; mainnet swaps not made |
 | Cross-chain pay-by-name through NEAR Intents | Partly real: live Intents quotes on the card; the cross-chain settlement needs mainnet and is not made |
-| Receive address and forwarding | Real on testnet for Base Sepolia USDC, from inside the app. Base Sepolia finalizes about 3 hours behind, so forwarding waits that long |
+| Receive address and forwarding | Real on testnet for Base Sepolia USDC, run from inside the app (links above). Base Sepolia finalizes about 3 hours behind, so forwarding waits that long; a receive address needs a little Base ETH to pay the forward's gas |
 | Paste check | Real against saved payees; on-chain address-poisoning history is not read |
 | Name-changed-hands warning | Real for new accounts and new full-access keys; the registry-lease check is not built |
 | AI parsing on NEAR AI Cloud | Real: live model; the phone needs the website for it |
@@ -309,13 +309,13 @@ Details: [android/README.md](android/README.md) · [web/README.md](web/README.md
 
 | Suite | Tests | Runner |
 | --- | --- | --- |
-| Android unit | 4,253 | `./gradlew testDebugUnitTest` |
-| Android end-to-end on an emulator (keyboard 24, paste 5, pay + swap 13, account creation 5) | 47 | `android/e2e/*.py` |
+| Android unit | 4,263 | `./gradlew testDebugUnitTest` |
+| Android end-to-end on an emulator (keyboard 24, paste 5, pay + swap 13, account creation 5, receive and forward 4) | 51 | `android/e2e/*.py` |
 | Website | 2,005 | `npm test` in `web/` |
 | Payments contract | 10 | `cargo test` |
 | Receive contract | 20 | `cargo test` |
 | Recovery watcher | 14 | `npm test` in `services/watcher/` |
-| **Total** | **6,349** | |
+| **Total** | **6,363** | |
 
 Most unit tests are table-driven: each case is its own reported test with its own assertion. Examples: every one of the 400 most common words completes from its first letters; 200 one-letter slips get the right fix; 420 valid and invalid NEAR names; ed25519 signatures checked against the RFC 8032 vectors; 210 pay sentences. The cases in [shared-fixtures/cases.json](shared-fixtures/cases.json) run on **both** the phone and the website, so the two keyboards can't drift apart. That shared table caught a real bug on both sides: `pay bob.near 5 for the $3 coffee` used to pay 5 USDC because of the `$` in the memo.
 
