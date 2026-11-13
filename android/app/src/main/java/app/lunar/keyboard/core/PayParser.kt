@@ -60,20 +60,23 @@ object PayParser {
         val text = textBeforeCursor.toString()
 
         NAME_FIRST.find(text)?.let { m ->
-            return build(m.groupValues[1], m.groupValues[2], m.groupValues[3], m.groupValues[4], text, m.range.first)
+            return build(m.groupValues[1], m.groupValues[2], m.groupValues[3], m.groupValues[4], dollarBefore(text, m, 2), text, m.range.first)
         }
         AMOUNT_FIRST.find(text)?.let { m ->
-            return build(m.groupValues[3], m.groupValues[1], m.groupValues[2], m.groupValues[4], text, m.range.first)
+            return build(m.groupValues[3], m.groupValues[1], m.groupValues[2], m.groupValues[4], dollarBefore(text, m, 1), text, m.range.first)
         }
         return null
     }
 
-    private fun build(rawName: String, rawAmount: String, rawToken: String, rawMemo: String, text: String, start: Int): PayIntent? {
+    /** The amount itself was written with "$" (a "$" in the memo does not count). */
+    private fun dollarBefore(text: String, m: MatchResult, amountGroup: Int): Boolean =
+        m.groups[amountGroup]?.range?.first?.let { text.getOrNull(it - 1) == '$' } == true
+
+    private fun build(rawName: String, rawAmount: String, rawToken: String, rawMemo: String, dollarSign: Boolean, text: String, start: Int): PayIntent? {
         val name = rawName.removePrefix("@").lowercase()
         if (!NearName.isValid(name)) return null
         val amount = rawAmount.replace(',', '.').toBigDecimalOrNull() ?: return null
         if (amount.signum() <= 0) return null
-        val dollarSign = text.substring(start).contains('$')
         val token = when (rawToken.lowercase()) {
             "" -> if (dollarSign) "USDC" else "NEAR"
             "near" -> "NEAR"
