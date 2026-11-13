@@ -18,7 +18,7 @@ export function parsePrices(tokens: unknown): PriceTable {
   const rows = list(tokens, "token list").filter(isRecord);
   for (const nativeOnly of [true, false]) {
     for (const t of rows) {
-      const sym = typeof t["symbol"] === "string" ? WANTED[t["symbol"]] : undefined;
+      const sym = typeof t["symbol"] === "string" && Object.hasOwn(WANTED, t["symbol"]) ? WANTED[t["symbol"]] : undefined;
       if (sym === undefined || out[sym] !== undefined) continue;
       if (nativeOnly && t["blockchain"] !== "near") continue;
       const price = typeof t["price"] === "number" ? t["price"] : Number(t["price"]);
