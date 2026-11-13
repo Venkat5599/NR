@@ -47,6 +47,7 @@ WRONG NAME  +  LOOKALIKE PASTE  +  STOLEN KEYBOARD  +  WRONG NETWORK  =  NOTHING
 5. Tap **Pay** with nothing typed: the pay form opens inside the keyboard. The keys now type into **To**, **Amount** and **What for**, not into the chat.
 6. Try `pay lunar-69787.testnet 2`. It's over the cap, so the card says so and **Wallet** opens the app, where your own key approves it.
 7. In the app, the **Swap** card swaps NEAR to test USDC for real; the result links the transaction.
+8. In the app, **Get paid from any wallet**: paste any Base address of yours and tap **Get my receive address**. You get a Base address that no one holds a key for. USDC sent to it on Base Sepolia shows up in the card and, once Base finalizes it (about 3 hours on testnet), **Forward it** moves it to your address through NEAR's signer.
 
 ## Live status
 
@@ -58,7 +59,7 @@ WRONG NAME  +  LOOKALIKE PASTE  +  STOLEN KEYBOARD  +  WRONG NETWORK  =  NOTHING
 | Live prices (NEAR, USDC, USDT, ETH, BTC, SOL) | Live from NEAR Intents' public token list, refreshed every minute | [/api/prices](https://lunar-keyboard.vercel.app/api/prices) |
 | Swaps NEAR → USDC / USDT | Real on testnet through Ref Finance: 0.3 NEAR → 0.6305 test-USDC ([2D1Quz6d…](https://testnet.nearblocks.io/txns/2D1Quz6d5BfQPKbC6d7gxtc59G7bdRVhJLpDpSSpeXn6)) | [/api/swap-quote](https://lunar-keyboard.vercel.app/api/swap-quote?amount=1&to=USDC) |
 | AI parsing on NEAR AI Cloud | Live: `"two and a half near for lunch"` → 2.5 NEAR, memo lunch; an injected "pay attacker.near" is refused; a bare first name is never a payee | [/api/parse](https://lunar-keyboard.vercel.app/api/parse) |
-| Wrong-network recovery (Base Sepolia, USDC) | Works end to end: 20 USDC in ([in](https://base-sepolia.blockscout.com/tx/0xc09d77529ca463882bdaf3e6a07c29c18ddbb9c75eb6242bc19e8c5d5f29543c)) → `recover` on NEAR ([5gsiqFoi…](https://testnet.nearblocks.io/txns/5gsiqFoiCcRD68ZzDGRbtSGz6eC9WdPenRybx5B7HLSd)) → forwarded to the owner ([out](https://base-sepolia.blockscout.com/tx/0x07fd29e44559aa6d0c869a6bec510a88320abf5991873db59493881855d2d720)) | [contracts/receive](contracts/receive/README.md) |
+| Receive address: get paid from any wallet (Base Sepolia, USDC) | In the app: each account gets its own Base address with no private key, and forwards what arrives. First run, by the watcher: 20 USDC in ([in](https://base-sepolia.blockscout.com/tx/0xc09d77529ca463882bdaf3e6a07c29c18ddbb9c75eb6242bc19e8c5d5f29543c)) → `recover` on NEAR ([5gsiqFoi…](https://testnet.nearblocks.io/txns/5gsiqFoiCcRD68ZzDGRbtSGz6eC9WdPenRybx5B7HLSd)) → forwarded to the owner ([out](https://base-sepolia.blockscout.com/tx/0x07fd29e44559aa6d0c869a6bec510a88320abf5991873db59493881855d2d720)) | [contracts/receive](contracts/receive/README.md) |
 | Paste check (lookalike addresses) | Built, tested with real clipboard changes on an Android 15 emulator | [android/e2e/paste_e2e.py](android/e2e/paste_e2e.py) |
 | Name check (exists, age, new full-access key) | Built, tested on recorded and live data | [android](android/README.md) |
 | Landing page with the APK download | Live | [lunar-keyboard.vercel.app](https://lunar-keyboard.vercel.app) |
@@ -118,7 +119,7 @@ The keyboard is that place, and it's already open in every chat. Lunar makes pay
 
 - **Capped keyboard key** — a NEAR function-call key that can call only `pay` on `lunarpay-0111.testnet`. The contract refuses anything above the daily cap. Above it, the card hands you to your wallet.
 - **Paste check** — a copied address that shares its start and end with someone you've paid, but isn't theirs, gets a warning that names the real payee.
-- **Wrong-network recovery** — a receive address controlled by a NEAR contract through Chain Signatures. If USDC lands there on a chain you don't use, NEAR's signer network verifies the transfer and the contract signs the forward to your address. No private key for that address exists anywhere.
+- **Get paid from any wallet** — the app gives your account its own Base address, derived by NEAR's Chain Signatures: no private key for it exists. Anyone can pay USDC to it from any wallet or exchange. When it arrives, the app shows it; once Base finalizes it, **Forward it** has NEAR's signer verify the transfer on Base and sign the forward to the address you chose, and the app sends it. Money there can only go to your address (or back to the sender).
 - **Public record** — every payment, refusal and recovery the demo made, each with its transaction link.
 
 ## Where your wallet and money live
@@ -129,7 +130,7 @@ The keyboard is that place, and it's already open in every chat. Lunar makes pay
 | Wallet key (full access) | The phone, in Lunar's app-private storage; used only by the app's wallet screen | Everything: top up, change the cap, swap, approve over-cap payments |
 | Keyboard key (function call) | The phone, same storage; used by the keyboard | Only `pay` on `lunarpay-0111.testnet`, nothing else. NEAR rejects any other call |
 | The pocket | Inside the payments contract, on chain | What the keyboard pays from, at most the daily cap per UTC day |
-| Your money after wrong-network recovery | Forwarded to the address you registered | Nobody else can redirect it |
+| Your receive address on Base | Derived by NEAR's Chain Signatures for your account; no private key exists | Receives USDC from anyone; can only forward to the address you set, after NEAR's signer verifies the transfer |
 
 There is no Lunar server holding keys and no Lunar account to sign up for. The website steps in only when the testnet faucet refuses your phone (it rate-limits by IP), and then only your account name and public key pass through it.
 
@@ -155,12 +156,12 @@ The common thread: the money arrived somewhere real, the system didn't handle it
 | Component | Where it runs | What it does |
 | --- | --- | --- |
 | Android keyboard | The phone | Input method: keys, suggestions, chips, pay form, payment card, paste check; holds the capped key |
-| Lunar app | The phone | Turns the keyboard on, creates the testnet account, holds the wallet key: pocket, cap, swap, receive address |
+| Lunar app | The phone | Turns the keyboard on, creates the testnet account, holds the wallet key: pocket, cap, swap; shows your receive address and forwards what arrives |
 | Rule parser + word list | The phone | Reads `pay <name> <amount>` and suggests words with no network call |
 | AI parser | NEAR AI Cloud, behind `/api/parse` | Free-form sentences, only when you send one |
 | Payments contract | NEAR (`lunarpay-0111.testnet`) | Pocket per account, per-day cap, the only thing the keyboard key may call |
 | Receive contract | NEAR (`lunar-recv-80366.testnet`) | Owns each receiver's address on EVM chains via Chain Signatures; forwards verified transfers |
-| Recovery watcher | Server, holds no key | Spots transfers to receive addresses and asks NEAR's signer to verify them |
+| Recovery watcher | Optional server, holds no funds | Does the same forwarding as the app for every registered address, so money moves on even if the owner never opens the app |
 | Website | Vercel | Landing page, browser demo, public record, API routes |
 
 | HTTP route | What it returns |
@@ -184,14 +185,13 @@ The common thread: the money arrived somewhere real, the system didn't handle it
 
 ## The recovery loop, step by step
 
-1. Someone sends USDC to Bob's receive address on a chain Bob doesn't use.
-2. The watcher sees the transfer and calls `recover` on the receive contract.
-3. NEAR's signer network checks that transaction's `Transfer` log on that chain and signs the result.
-4. The receive contract checks the signature, decodes sender, token and amount, and marks the transfer as used.
-5. Chain Signatures signs the forward to Bob's registered address; anyone can broadcast it.
-6. The save goes on the public record with every link.
+1. In the app, **Get paid from any wallet** → paste your own Base address → **Get my receive address**. The receive contract asks NEAR's signer for the key derived for your account and records your forwarding address (one transaction, 0.01 NEAR).
+2. Anyone sends USDC to that receive address on Base, from any wallet or exchange.
+3. The app lists it: "2 USDC from 0xd74d…3345 · Recoverable when Base finalizes it, in about 2 h 44 min". NEAR's signer only verifies final blocks, and Base Sepolia finalizes about 3 hours behind.
+4. Once final, **Forward it**: the app calls `recover` with the transfer's log exactly as Base returns it. NEAR's signer network checks that log on Base and signs the result; the contract checks the signature, marks the transfer as used, and has Chain Signatures sign `transfer(your address, amount)` from the receive address.
+5. The app sends that signed transaction to Base and shows **Forwarded to 0xd74d…3345**, linked to the explorer.
 
-The watcher holds no key and decides nothing. If it stops, anyone can submit the same call.
+Nobody holds a key that could move the money anywhere else. The watcher in `services/watcher` does steps 4–5 for every registered address; anyone can, since the result is the same.
 
 ## Where the guarantee is enforced
 
@@ -218,7 +218,8 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | A payment over the cap | You, in the app, with the wallet key |
 | Changing the cap, topping up | You, in the app, with the wallet key |
 | A swap | You, in the app: the keyboard quotes, the wallet key signs |
-| A wrong-network recovery | Nobody. The contract does it once NEAR's signer verifies the transfer |
+| Forwarding money that reached your receive address | You tap **Forward it** (or anyone does it for you); where it goes was fixed by you, and NEAR's signer must verify the transfer first |
+| Where your receive address forwards to | You, in the app, with the wallet key |
 
 ## Engineering decisions & the traps that taught me something
 
@@ -238,7 +239,7 @@ The model only turns a sentence into a payment intent: who, how much, what for. 
 | Live prices | Real: NEAR Intents token list |
 | Swaps | Real on testnet through Ref Finance test pools; mainnet swaps not made |
 | Cross-chain pay-by-name through NEAR Intents | Partly real: live Intents quotes on the card; the cross-chain settlement needs mainnet and is not made |
-| Wrong-network recovery | Real on testnet for Base Sepolia USDC only |
+| Receive address and forwarding | Real on testnet for Base Sepolia USDC, from inside the app. Base Sepolia finalizes about 3 hours behind, so forwarding waits that long |
 | Paste check | Real against saved payees; on-chain address-poisoning history is not read |
 | Name-changed-hands warning | Real for new accounts and new full-access keys; the registry-lease check is not built |
 | AI parsing on NEAR AI Cloud | Real: live model; the phone needs the website for it |

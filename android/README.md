@@ -16,6 +16,7 @@ Everything below runs on NEAR **testnet**. Payments are real testnet transaction
 | Pay form in the keyboard: tap Pay with nothing typed (or hold Pay): To, Amount with its currency, What for, recent names as chips, the dollar value under the amount; keys type into the form, not the chat | Works, tested |
 | Live prices from NEAR Intents: the toolbar shows NEAR's price and what's left today; every card shows the dollar value | Works, tested |
 | Swap NEAR to test USDC/USDT on Ref Finance (testnet): the keyboard quotes it with the market price beside the pool's rate; the app's wallet key signs it | Works, tested with real swaps ([2D1Quz6d…](https://testnet.nearblocks.io/txns/2D1Quz6d5BfQPKbC6d7gxtc59G7bdRVhJLpDpSSpeXn6)) |
+| Get paid from any wallet: the app registers the account with the receive contract and shows its own Base address (derived by NEAR's Chain Signatures, no private key exists), with Copy and Share. USDC that arrives is listed with how long until Base finalizes it; **Forward it** has NEAR's signer verify the transfer and sign the forward, and the app sends it to Base | Works: registration and arrival tested on testnet; the forward runs once Base Sepolia finalizes (about 3 hours) |
 | Delete (held delete repeats); enter shows and runs the box's action (Next, Done, Send, Search, Go) | Works, tested |
 | Key preview, haptic tap, long press on space opens the keyboard picker; clear of the gesture bar on Android 15 | Works, checked by hand |
 | One-tap testnet account: the app creates `name.testnet`, adds a keyboard key that can only call `pay`, puts 3 NEAR in the pocket and sets a 1 NEAR daily cap | Works, tested (uses the public testnet faucet, which rate-limits after many accounts from one IP) |
@@ -31,7 +32,7 @@ Everything below runs on NEAR **testnet**. Payments are real testnet transaction
 ## Why the keyboard can't drain you
 
 - The keyboard holds a NEAR **function-call key** that can call only `pay` on the Lunar payments contract (`lunarpay-0111.testnet`).
-- NEAR does not let a function-call key attach a deposit. Changing the cap, withdrawing, and changing where you get paid all require 1 yoctoNEAR attached, so only the account's full-access key can do them.
+- NEAR does not let a function-call key attach a deposit. Changing the cap, withdrawing, and changing the mainnet receive preference all require 1 yoctoNEAR attached, so only the account's full-access key can do them.
 - `pay` spends from a pocket you topped up, and the contract checks the daily cap on every call. Over the cap it records a refusal and moves nothing.
 
 A live test signs with the same Kotlin code the keyboard uses ([`LiveTestnetTest.kt`](app/src/test/java/app/lunar/keyboard/near/LiveTestnetTest.kt)). Its first run:
@@ -89,6 +90,7 @@ python3 keyboard_e2e.py   # 24 checks: typing, caps and caps lock, symbols, dele
 python3 paste_e2e.py      # 5 checks: save a payee, then lookalike / real / unknown / plain-text clipboard
 python3 pay_e2e.py        # 13 checks: create a testnet account in the app, pay under the cap, over the cap → wallet approves,
                           #   then a swap: chip in the keyboard → live quote → wallet signs → test USDC arrives
+python3 recover_e2e.py --wait 75   # 4 checks: USDC paid to the account's receive address is forwarded from the app; checked on Base
 python3 create_e2e.py     # 5 checks: a taken name is flagged while typing, Create offers a free one, a new account is ready in under 15 s
 ```
 
@@ -105,4 +107,5 @@ Debug builds log key positions, the bar's chips, held-key options and the strip'
 - `near/` — Base58, Borsh, ed25519 signing, NEAR RPC, the payments-contract calls and the Ref Finance swap. Transactions are built and signed on the phone.
 - `data/` — name check, live Intents quotes and prices, the AI parser client, the account, payee and recent-name stores.
 - `assets/words_en.txt` — the 20,000 most common English words (from the MIT-licensed [FrequencyWords](https://github.com/hermitdave/FrequencyWords) list, profanity removed, contractions restored).
-- `setup/` — the app: turn on, switch to, try it, the testnet wallet (pocket, cap, swap, where you get paid), the people-you-pay list and the appearance switch. Laid out in one centred column up to 600dp wide, so it fits small phones, tall phones, tablets and landscape.
+- `setup/ReceiveSection.kt`, `near/{Evm,ReceiveContract,Stage}.kt` — the receive address on Base: registration, what arrived, how long until Base finalizes it, and the forward through NEAR's signer.
+- `setup/` — the app: turn on, switch to, try it, the testnet wallet (pocket, cap, swap, the receive address on Base), the people-you-pay list and the appearance switch. Laid out in one centred column up to 600dp wide, so it fits small phones, tall phones, tablets and landscape.
